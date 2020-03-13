@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>My Hakyll Blog - Numerical Methods with Haskell and Python</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+
+        <script type="text/x-mathjax-config"> 
+          MathJax.Hub.Config({
+            <!-- config: ["MMLorHTML.js"], -->
+            <!-- jax: ["input/TeX", "output/HTML-CSS", "output/PreviewHTML", ], -->
+
+            <!-- extensions: [ -->
+            <!--   "tex2jax.js", -->
+            <!--   "MathMenu.js","MathZoom.js", "fast-preview.js", --> 
+            <!--   "a11y/accessibility-menu.js" -->
+            <!-- ], -->
+
+            <!-- TeX: { -->
+            <!--   extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] -->
+            <!-- } -->
+
+            <!-- "HTML-CSS": { -->
+            <!--   fonts: ["STIX", "TeX"] -->
+            <!-- , scale: 95 -->
+            <!-- , avaliableFonts: ["STIX", "TeX"] -->
+            <!-- , preferredFont: "TeX" -->
+            <!-- , webFont: "TeX" -->
+            <!-- } -->
+          });
+        </script>
+
+        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML">
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/MathJax.js"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="../">My Hakyll Blog</a>
+            </div>
+            <div id="navigation">
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </div>
+        </div>
+
+        <div id="content">
+            <h1>Numerical Methods with Haskell and Python</h1>
+
+            <div class="info">
+    Posted on March  1, 2020
+    
+</div>
+
+<h1 id="appetizer-the-explicit-euler-method-for-the-solution-of-a-model-of-a-real-world-phenomenon">Appetizer: The Explicit Euler Method for the Solution of a Model of a Real-World Phenomenon</h1>
+<h2 id="a-numerical-method-the-explicit-euler-method">A Numerical Method: the Explicit Euler Method</h2>
+<p>Given such an IVP, we can solve it quite easily, albeit, generally speaking, the easier the method, the lower the quality of the solution that it yields. As usual, there is a trade-off between quality and complexity, akin the <a href="...">bias–variance trade-off</a>. The explicit Euler’s method is arguably the simplest approach to solving an IVP. We will first introduce and thereby justify the method and then provide the code. Feel free to skip any part you think you can’t comprehend instantly. Take another look at the IVP <span class="math inline">\(\dot{x}(t) = f\big(t,x(t)\big)\)</span> with <span class="math inline">\(x(0) = x_0\)</span>, and <span class="math inline">\(a=0\)</span>, <span class="math inline">\(b=1\)</span>, for brevity, <span class="math inline">\(f\)</span> uniformly Lipschitz. How do we numerically represent the quantity <span class="math inline">\(\dot{x}(t)\)</span>, for each <span class="math inline">\(t\)</span>? As we know from basic calculus, <span class="math display">\[\lim_{h \to 0} \frac{1}{h} \big( x(t+h) - x(t) \big) = \dot{x}(t) = f\big(t,x(t)\big).\]</span></p>
+<p>A <a href="..">Taylor’s expansion</a> of <span class="math inline">\(x(t+h)\)</span> in <span class="math inline">\(h\)</span> about <span class="math inline">\(h=0\)</span> gives <span class="math display">\[\lim_{h \to 0} \frac{1}{h} \big( x(t+h) - x(t) \big) = \dot{x}(t) + O(h^2), \quad \text{ as } h \to 0,\]</span> where <span class="math inline">\(O(h^2)\)</span> represents terms of the order at most <span class="math inline">\(h^2\)</span>, which means that in an approximation, as <span class="math inline">\(h \to 0\)</span>, such terms vanish quadratically in <span class="math inline">\(h\)</span>, i.e., if <span class="math inline">\(h \gets h/2\)</span> then such a term <span class="math inline">\(z \gets 2^{-2}z = z/4\)</span>. And so <span class="math display">\[x(t+h) \approx x(t) + hf\big(t,x(t)\big),\]</span> where the approximate equality is understood in the quadratic sense of approximation, as <span class="math inline">\(h \to 0\)</span>.</p>
+<p>Now consider a grid <span class="math inline">\(a = 0 = t_0 &lt; t_1 &lt; \dots &lt; t_n = 1 = b\)</span>, for an <span class="math inline">\(n \in \mathbb{N}\)</span>, and let <span class="math inline">\(\hat{x}_j := x(t_j)\)</span>, for <span class="math inline">\(j=0,1,\dots,n\)</span>. Then <span class="math display">\[\hat{x}_0 = x_0 \quad\text{and}\quad \frac{\hat{x}_{j+1} - \hat{x}_j}{h} = f(t_j, \hat{x}_j),\]</span> for <span class="math inline">\(j = 0,1,\dots,n-1\)</span>, that is, <span class="math display">\[\boxed{ \hat{x}_0 = x_0  \quad \text{and} \quad \hat{x}_{j+1} = \hat{x}_j + hf(t_j,\hat{x}_j)},\quad j=0,1,\dots,n-1,\]</span> which is pretty much it.</p>
+<p>This method of numerical integration (to solve an ODE is equivalent to integration, more on this later) computes the slant of the direction field <span class="math inline">\(f\)</span> defined by the ODE, in every approximation point <span class="math inline">\((t_j,\hat{x}_j)\)</span> in order to determine the subsequent approximate value <span class="math inline">\(\hat{x}_{j+1}\)</span>. This is a very crude method that requires very small step size <span class="math inline">\(h\)</span> to produce an acceptable result.</p>
+<h3 id="analysis-of-the-condition-of-the-problem">Analysis of the Condition of the Problem</h3>
+<p>TODO</p>
+<h2 id="algorithm">Algorithm</h2>
+<p>TODO</p>
+<h3 id="stability-rounding-error-analysis">Stability (Rounding Error) Analysis</h3>
+<p>TODO</p>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p>TODO</p>
+<h2 id="implementations">Implementations</h2>
+<p>TODO</p>
+<h3 id="c">C</h3>
+<h3 id="python">Python</h3>
+<h3 id="haskell">Haskell</h3>
+<p>In Haskell, there are many ways to implement imperative algorithms.</p>
+<ol type="1">
+<li>translate into a functional-style algorithm, with recursion substituted for loops</li>
+<li>sequence the pure computations in a monad, resembling the imperative paradigm</li>
+<li>IORef</li>
+<li>STM … TODO</li>
+</ol>
+<h2 id="benchmarking-implementation-performance">Benchmarking Implementation Performance</h2>
+<h2 id="solving-our-model-problem">Solving our <a href="2020-03-01-model-engineering-problem.html">Model Problem</a></h2>
+
+        </div>
+        <div id="footer">
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </div>
+    </body>
+</html>

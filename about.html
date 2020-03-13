@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>My Hakyll Blog - About</title>
+        <link rel="stylesheet" type="text/css" href="./css/default.css" />
+
+        <script type="text/x-mathjax-config"> 
+          MathJax.Hub.Config({
+            <!-- config: ["MMLorHTML.js"], -->
+            <!-- jax: ["input/TeX", "output/HTML-CSS", "output/PreviewHTML", ], -->
+
+            <!-- extensions: [ -->
+            <!--   "tex2jax.js", -->
+            <!--   "MathMenu.js","MathZoom.js", "fast-preview.js", --> 
+            <!--   "a11y/accessibility-menu.js" -->
+            <!-- ], -->
+
+            <!-- TeX: { -->
+            <!--   extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] -->
+            <!-- } -->
+
+            <!-- "HTML-CSS": { -->
+            <!--   fonts: ["STIX", "TeX"] -->
+            <!-- , scale: 95 -->
+            <!-- , avaliableFonts: ["STIX", "TeX"] -->
+            <!-- , preferredFont: "TeX" -->
+            <!-- , webFont: "TeX" -->
+            <!-- } -->
+          });
+        </script>
+
+        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML">
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/MathJax.js"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> -->
+                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="./">My Hakyll Blog</a>
+            </div>
+            <div id="navigation">
+                <a href="./">Home</a>
+                <a href="./about.html">About</a>
+                <a href="./contact.html">Contact</a>
+                <a href="./archive.html">Archive</a>
+            </div>
+        </div>
+
+        <div id="content">
+            <h1>About</h1>
+
+            <p>Hi, I’m Nick Demming, I studied both law and mathematics<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, and have eventually embraced data science, efficient computations and software architecture and development.</p>
+<p>I’ll be posting here my musings on numerical methods in Haskell as compared with mainstream imperative languages such as Java and C++, providing conditioning and stability analyses as well as benchmarks for different implementations of the respective algorithms.</p>
+<p>Another big series of topics in the making is on machine learning, deep learning, and Bayesian statistics — applied real-world data sets. We will see how to clean up the data while maintaining its integrity, draw inferences mathematically correctly on it (analysis, synthesis, and prediction), and how to consistently interpret the results.</p>
+<p>Another series will cover data science, Haskell, DevOps, and web development, in particular</p>
+<ul>
+<li>Haskell development workflow, with containerization, continuous integration and deployment, including Heroku, AWS, the Google cloud platform, and Azure.</li>
+<li>Vim and NeoVim, tmux, XMonad, and Mutt</li>
+<li>Functional software architecture and Domain-driven design,</li>
+<li>Functional reactive programming (FRP),</li>
+<li>Data Science with Haskell, R and Python,</li>
+<li>SQL-persistence with Postgres and TimeSeries DB, and SQLite,</li>
+<li>Interoperability between Haskell, Java (actually likely any JVM language, including the polyglot projects such as Vert.x), R, and Python,</li>
+<li>Web frameworks,</li>
+<li>Microservice orchestration,</li>
+<li>Concurrent, parallel and distributed computing,</li>
+<li>Build automation, continuous integration and deployment (CI/CD), resource provisioning, containerization, and virtualization — Docker, Vagrant, Ansible, Kubernetes (minikube), OpenShift (minishift),</li>
+<li>and a couple topics more</li>
+</ul>
+<p>As time goes by, I’ll also post on pure mathematics, mathematical physics, mathematical finance, stochastic processes and control, nonlinear optimization, and many other mathematical things applied to real-world problems.</p>
+<p>Moreover, I’m planning to post about my Haskell setup, workflow, and other things, as I know it can be hard to get everything working as desired. I hope this will help novice Haskell users to adapt more quickly to the new environment and get started with their own projects. This will be a humble contribution of mine to the Haskell community, to which I so much owe.</p>
+<p>I hope to keep the style of exposition more or less informal, at least as much as possible. My utmost goal is to point out the pragmatic usefulness of many abstract tools that sometimes stay aside in the rankings of popularity due to their high mental burden, which sometimes results simply from the lack of practical examples and consistent explanations of the theoretical background that are required to actually understand what is going on. In other words, I want to help everyone interested to learn fishing rather than give the fish. And, as a result, I hope to motivate the reader for a deeper study of these abstract concepts that I deal with in my day-to-day life.</p>
+<p>Haskell is actually notoriously hard for numerical work. This is an unfortunate sentiment. In fact, there are many ways at which Haskell as a platform excels at this.</p>
+<p>One of the major advantages of Haskell, as you can read in <a href="...">my comments on Reddit</a>, is that it enforces a minimum viable degree of correctness on the program by virtue of the type theory as implemented in the <a href="...">GHC</a> (Haskell’s de facto main compiler and de facto “language standard”).</p>
+<p>There are also downsides to using Haskell. … TODO</p>
+<p>I’m planning to develop <strong>several series of blog posts which I later might assemble in individual books</strong>. To regular readers of my blog I will certainly offer various <strong>discount</strong> coupons. You can also subscribe to my <a href="...">newsletter</a> (TODO) with exclusive content! (Looks like I’m into digital marketing EMOJI’) Since the scope of planned posts is pretty wide, I will adopt the LEAN/Agile practice of incremental extension of the posts, first building the skeleton of the series. The various sections or paragraphs marked with a “TODO” note will be completed hopefully soon. Just go with the flow of the posts. Many things are best understood when read multiple times with intermittent breaks, so as to view the problem from a different angle.</p>
+<p>I hope you enjoy this blog. Feel free to reach out to me via the <a href="...">contact form</a> TODO. I will also post a JS-obfuscated E-Mail address to reduce potential spam induced by the troves of various web crawlers. As this blog is hosted on <a href="...">GitHub pages</a>, you can also submit <strong>pull requests</strong> on GitHub against <a href="...">this repo</a>.</p>
+<p>I’m using the wonderful static site generator <a href="https://jaspervdj.be/hakyll/">Hakyll</a> by <a href="http://jaspervdj.be/">Jasper van der Jeugt</a>. As a sign of my gratitude, each page contains a link to his project, which also contains an instructive series of tutorial posts on how to setup, configure, and use it for your own blog. Give it a try, if you’re considering blogging.</p>
+<p>An RSS/Atom feed is on my checklist. Check.</p>
+<hr />
+<h1 id="todo">TODO</h1>
+<ul>
+<li>[ ] Enable Pandoc’s <code>taks_lists</code> extension to render this list correctly. This is non-trivial for Hakyll with Stack, requires just a bit tinkering.</li>
+<li>[x] RSS/Atom feed</li>
+<li>[ ] E-mail address</li>
+<li>[ ] Contact form</li>
+<li>[ ] Newsletter</li>
+<li>[ ] Sitemap</li>
+<li>[ ] Tags</li>
+<li>[ ] Word cloud</li>
+<li>[ ] Importance markers</li>
+<li>[ ] Medium-like reference markers</li>
+<li>[ ] Cross-posting?</li>
+<li>[ ] Add a CDN and embed the Roboto font family files as a fall-back solution</li>
+<li>[ ] An individual CSS/JS theme</li>
+<li>[ ] CSS+JS for code blocks</li>
+<li>[ ] …</li>
+<li>[ ] Many things I’m unaware of right now. But this should not become another framework!</li>
+</ul>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Note that there is also a discipline called “Law and Mathematics”. I haven’t had a chance to learn anything about it yet.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+        </div>
+        <div id="footer">
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </div>
+    </body>
+</html>
