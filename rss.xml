@@ -4,70 +4,693 @@
     <channel>
         <title>Nick Demming's blog</title>
         <link>https://demming.github.io</link>
-        <description><![CDATA[Musings on mathematics, Haskell, numerical analysis, data science, machine learning, and more. Stay tuned!]]></description>
+        <description><![CDATA[Musings on mathematics, finance and algotrading, Haskell, numerical analysis, data science, machine learning, and more. Stay tuned!]]></description>
         <atom:link href="https://demming.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Tue, 03 Mar 2020 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Tue, 31 Mar 2020 00:00:00 UT</lastBuildDate>
         <item>
-    <title>On Mathematical Modeling and Simulations for Solving Real-World Problems</title>
-    <link>localhost/posts/2020-03-03-mathematical-models-solve-problems.html</link>
+    <title>Functors in Haskell</title>
+    <link>localhost/posts/2020-03-31-haskell-functors.html</link>
     <description><![CDATA[<div class="info">
-    Posted on March  3, 2020
+    Posted on March 31, 2020
     
 </div>
 
-<hr />
-<ul>
-<li>[ ] TODO [2020-03-03 20:39]: accompanying flow chart</li>
-</ul>
-]]></description>
-    <pubDate>Tue, 03 Mar 2020 00:00:00 UT</pubDate>
-    <guid>localhost/posts/2020-03-03-mathematical-models-solve-problems.html</guid>
-    <dc:creator>Nick Demming</dc:creator>
-</item>
-<item>
-    <title>2020-03-01-model-problem</title>
-    <link>localhost/posts/2020-03-01-model-problem.html</link>
-    <description><![CDATA[<div class="info">
-    Posted on March  1, 2020
-    
-</div>
-
-
-]]></description>
-    <pubDate>Sun, 01 Mar 2020 00:00:00 UT</pubDate>
-    <guid>localhost/posts/2020-03-01-model-problem.html</guid>
-    <dc:creator>Nick Demming</dc:creator>
-</item>
-<item>
-    <title>Numerical Methods with Haskell and Python</title>
-    <link>localhost/posts/2020-03-01-model-engineering-problem.html</link>
-    <description><![CDATA[<div class="info">
-    Posted on March  1, 2020
-    
-</div>
-
-<h1 id="model-engineering-problem">Model Engineering Problem</h1>
-<p>As an appetizer, a simplistic real-world engineering problem. Imagine TODO harmonic oscillator …</p>
-<p>A very simple numerical method for solving an <em>initial value problem</em> (IVP), the explicit Euler’s method, can be invoked to solve our problem at hand.</p>
-<p>In terms of the symplectic Hamiltonian dynamics this problem can be formulated as … TODO</p>
-<p>This is a very simplified nonlinear TODO model neglecting any dissipative forces such as friction.</p>
-<p>The general solution is TODO</p>
-<p>A well-known exact solution is … TODO</p>
-<p>How would we deal with it had we not known the exact closed-form solution? Well, first of all, what do we want to learn about it? It could be, in principle,</p>
+<h1 id="functorial-structure">Functorial Structure</h1>
+<p>In category theory, a functor <span class="math inline">\(F: C \to D\)</span> between categories <span class="math inline">\(C\)</span> and <span class="math inline">\(D\)</span> is</p>
 <ol type="1">
-<li>the long-term behavior of the described mechanical system,</li>
-<li>the estimation of certain bounds in which the solution is still reasonable,</li>
-<li>the evaluation of the solution at particular points.</li>
+<li>an assignment
+<ol type="i">
+<li>to objects <span class="math inline">\(a\)</span> in <span class="math inline">\(C\)</span> of objects <span class="math inline">\(F a\)</span> in <span class="math inline">\(D\)</span> and</li>
+<li>to arrows <span class="math inline">\(f : a \to b\)</span> of arrows <span class="math inline">\(Ff : Fa \to Fb\)</span> in <span class="math inline">\(D\)</span>,</li>
+</ol></li>
+<li>such that the laws of
+<ol type="i">
+<li>identity: <span class="math inline">\(F : \operatorname{id}_a = \operatorname{id}_{Fa}\)</span>, for all objects <span class="math inline">\(a\)</span> in <span class="math inline">\(C\)</span>, and</li>
+<li>composition: <span class="math inline">\(F(g \circ f) = Fg \circ Ff\)</span>, for all (composable) morphisms <span class="math inline">\(f : a \to b\)</span> and <span class="math inline">\(g : b \to c\)</span> in <span class="math inline">\(C\)</span>,</li>
 </ol>
-<p>After all, we might be wrong with our model as applied to the real-world phenomenon.</p>
-<p>A large issue is the quality of the numerical solution, i.e., it’s adherence to the exact solution, if the problem is well-posed in the first place. In reality, when we don’t know the exact solution, how do we know that the numerical solution actually represents well the exact one? What if there are many wild fluctuations or any other sorts of behavior of the exact solution that may make the numerical result seem questionable? As noted, in most cases we don’t have an easily computable representation for the exact solution. So we must find a way to assert the quality of the numerical solution, in general!</p>
-<p>Using this mechanical system as our epitome, we will step-by-step develop an entire family of composite numerical schemes, of whose quality we can be certain, at the same time being very efficient!</p>
-<p>In this case the known exact solution will be our guiding benchmark. Regardless, we will establish theorems that guarantee the high quality of the solution and efficiency of the method. Our <strong>goal</strong> hence will be to get as close to the exact solution from the data as possible, within an acceptable margin of error, while maintaining overall computational efficiency.</p>
-<p>Here’s a comparison with the benchmark. [ ] TODO: plots of several methods for the computation of the orbit.</p>
+are satisfied.</li>
+</ol>
+<p>Functors can also be considered as objects or as morphisms between objects. Indeed, in the category of categories, functors are morphisms, while in the category of functors, functors are objects, with natural transformations between them as the morphisms.</p>
+<p>This categorical notion carries over to Haskell and justifies the choice of the name of the corresponding typeclass. Indeed,</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">class</span> <span class="dt">Functor</span> {<span class="ot">f ::</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span>} <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="ot">  fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> f b)</a></code></pre></div>
+<p>which means that <code>f</code> is a type constructor of kind <code>* -&gt; *</code> or <code>TYPE -&gt; TYPE</code> and where the parentheses in <code>(f a -&gt; f b)</code> are syntactically superfluous due to right-associativity of the arrow <code>-&gt;</code> (it’s <code>infixr 0 -&gt;</code>), and which is such that the identity law</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="fu">fmap</span> <span class="fu">id</span> <span class="fu">==</span> <span class="fu">id</span></a></code></pre></div>
+<p>and the composition law</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f <span class="fu">==</span> <span class="fu">fmap</span> (g <span class="fu">.</span> f)</a></code></pre></div>
+<p>are satisfied. This must be verified manually but can be automated by black-box (structural or property) testing with, e.g., QuickCheck.</p>
+<p>The essence of the <code>Functor</code> typeclass is that its <code>fmap</code> functor preserves the structure of the functorial value <code>a :: f</code> it acts on. From the type signature of <code>fmap</code> it is obvious that it does not know anything about <code>f</code> as such. All it gets as input is an arbitrary functorial value <code>a</code> of type <code>f</code>. To be more precise, with the GHC extension <code>ExplicitForAll</code>, we can correctly write</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">  fmap ::</span> <span class="kw">forall</span> f a b<span class="fu">.</span> (<span class="dt">Functor</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> f b)</a></code></pre></div>
+<p>The identity law gives us the consistent assignment of objects to objects.</p>
+<p>In other words, <code>fmap</code> can be considered as structure-preserving lifting. It even must preserve the length of a list, <code>[a]</code>, which also is a <code>Functor</code>. Just note that those types <code>a</code> and <code>b</code> can be functorial, too. In other words, <code>fmap</code> would take a function (morphism in one category) <code>f a -&gt; f b</code> and map it to a function (morphism in another category) <code>g (f a) -&gt; g (f b)</code>. Let’s get a bit deeper into this nesting of functorial structures that we’ve just discovered.</p>
+<p>As a remark, <code>&lt;$&gt; = fmap</code> with <code>infixl 4 &lt;$&gt;</code>, i.e., <code>&lt;$&gt;</code> is the infix synonym for <code>fmap</code>, associative to the left of precedence order <code>4</code>. Another side note is the regular confusion that arises due to the use of the letter <code>f</code> for the functorial type constructor and for the function argument to <code>fmap</code>. They live on different levels of syntax, the former on the type level (types have kinds, akin “types of types”), whereas the latter on the term level (terms inhabit types).</p>
+<h1 id="composition-or-superposition-of-functorial-structures">Composition or Superposition of Functorial Structures</h1>
+<p>As usual, given an abstract notion, different perspectives let us discover new applications. Nesting of functorial structure is just one application of the categorical notion carried over to Haskell. Now, how do we express that nested <code>fmap</code> above? By just giving <code>a ~ f c</code> and <code>b f d</code>, where <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> are arbitrary types and <code>f</code> is a functorial type constructor<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>But how can we go a step further and lift a function <code>j :: a -&gt; b</code> to a function of type <code>g (f a) -&gt; g (f b)</code> or even <code>k (h (g (f a))) -&gt; k (h (g (f a)))</code>. It turns out, by composition of <code>fmap</code>s. Here’s how we do this.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="ot">(.)         ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="fu">fmap</span> <span class="fu">.</span><span class="ot"> fmap ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
+<a class="sourceLine" id="cb5-3" title="3">            <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f b))</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.fmap</span><span class="ot"> ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h) </a>
+<a class="sourceLine" id="cb5-5" title="5">            <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (h (g (f a)) <span class="ot">-&gt;</span> h( g (f b)))</a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.fmap</span> <span class="fu">.</span><span class="ot"> fmap ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h, <span class="dt">Functor</span> k) </a>
+<a class="sourceLine" id="cb5-7" title="7">            <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (k (h (g (f a))) <span class="ot">-&gt;</span> k (h( g (f b))))</a></code></pre></div>
+<p>Another question: when would we need this? Let’s take two of the simplest <code>Functor</code> instances, <code>Maybe</code> (free structure<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> on computations that can fail) and <code>[]</code> (non-deterministic computations<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>). Imagine we have a pure function <code>j :: a -&gt; b</code> that performs a trivial transformation, say <code>j = const 'j'</code>, where <code>const :: a -&gt; b -&gt; a</code> can do only one thing, namely take a value of type <code>a</code>, ignore the second argument of type <code>b</code>, and result in that same first argument; indeed this is completely encoded in the type signature: <code>const</code> expects a value of an arbitrary type <code>a</code>, it doesn’t know which type <code>a</code> is, so it can’t use any class methods, and it must result in a value of that same type <code>a</code>, hence it can only act as <code>id :: a -&gt; a</code> on the first argument and cannot process the second one of type <code>b</code>.</p>
+<p>Now imagine we have a value <code>x :: [Maybe Char]</code> such as <code>[Just 'c', Nothing]</code>. First note that both <code>[] :: * -&gt; *</code> and <code>Maybe :: * -&gt; *</code> are Functor instances. We have therefore a nested functorial structure here, which we can write as <code>g (f a)</code> where <code>g ~ []</code> and <code>f ~ Maybe</code>. So there are two levels of nesting. How about a value <code>y :: [Maybe String]</code> such as <code>[Just &quot;cd&quot;, Nothing]</code>? It’s different now, since <code>type String = [Char]</code> by definition, which gives one deeper level of functorial nesting and is a structure <code>g (f (h a))</code> where <code>h ~ []</code>. And if we add a <code>Maybe</code> encapsulation, say, to obtain a value <code>z = Just y</code>, we’ll end up with <code>k (g (f (h a)))</code> where <code>k ~ Maybe</code>. Let’s see how this plays out.</p>
+<p>So now we have</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;c&#39;</span>,  <span class="dt">Nothing</span>]<span class="ot"> ::</span> [<span class="dt">Maybe</span> <span class="dt">Char</span>]</a>
+<a class="sourceLine" id="cb6-2" title="2">y <span class="fu">=</span> [<span class="dt">Just</span> <span class="st">&quot;cd&quot;</span>, <span class="dt">Nothing</span>]<span class="ot"> ::</span> [<span class="dt">Maybe</span> <span class="dt">String</span>] <span class="fu">~</span> [<span class="dt">Maybe</span> [<span class="dt">Char</span>]]</a>
+<a class="sourceLine" id="cb6-3" title="3">z <span class="fu">=</span> <span class="dt">Just</span><span class="ot"> y               ::</span> <span class="dt">Maybe</span> [<span class="dt">Maybe</span> <span class="dt">String</span>]</a></code></pre></div>
+<p>We first apply our constant <code>j :: a -&gt; Char</code> directly to each of the three values. In the comments I specify the concrete type of <code>j</code> and what this <code>a</code> is, for each of those three values, <code>x</code>, <code>y</code> and <code>z</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1">j x <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ [Maybe Char]         -&gt; Char</span></a>
+<a class="sourceLine" id="cb7-2" title="2">j y <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ [Maybe String]       -&gt; Char</span></a>
+<a class="sourceLine" id="cb7-3" title="3">j z <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ Maybe [Maybe String] -&gt; Char</span></a></code></pre></div>
+<p>Now, let’s lift <code>j</code> to the context of the first level of the nesting.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="fu">fmap</span> j x <span class="fu">=</span> [<span class="ch">&#39;j&#39;</span>, <span class="ch">&#39;j&#39;</span>]        <span class="co">-- j :: a ~ Maybe Char     -&gt; Char</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="fu">fmap</span> j y <span class="fu">=</span> [<span class="ch">&#39;j&#39;</span>, <span class="ch">&#39;j&#39;</span>]        <span class="co">-- j :: a ~ Maybe String   -&gt; Char</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="fu">fmap</span> j z <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>          <span class="co">-- j :: a ~ [Maybe String] -&gt; Char</span></a></code></pre></div>
+<p>Let’s go one level deeper,</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">ff <span class="fu">=</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span></a>
+<a class="sourceLine" id="cb9-2" title="2">ff j x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ Char         -&gt; Char</span></a>
+<a class="sourceLine" id="cb9-3" title="3">ff j y <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ String       -&gt; Char</span></a>
+<a class="sourceLine" id="cb9-4" title="4">ff j z <span class="fu">=</span> <span class="dt">Just</span> <span class="st">&quot;jj&quot;</span>            <span class="co">-- j :: a ~ Maybe String -&gt; Char, so ff j :: </span></a></code></pre></div>
+<p>The pattern is apparent: for <code>j</code>, we peel off one outer layer after another. This is because</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">ff <span class="fu">=</span> <span class="fu">fmap</span> <span class="fu">.</span><span class="ot"> fmap ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f b))</a></code></pre></div>
+<p>whereby if <code>j :: a -&gt; b</code>, where <code>b ~ Char</code>, and</p>
+<ul>
+<li><p><code>x :: g (f a) ~ [Maybe Char]</code>, then necessarily <code>g ~ []</code> and <code>f ~ Maybe</code>, and hence <code>a ~ Char</code>, and therefore <code>j :: Char -&gt; Char</code>, and the curried application of <code>fmap . fmap</code> to <code>j</code> results in a function of type <code>Char -&gt; g (f b) ~ [Maybe Char]</code>;</p></li>
+<li><p><code>y :: g (f a) ~ [Maybe String]</code>, then necessarily <code>g ~ []</code> and <code>f Maybe</code>, and hence <code>a ~ String</code>, and therefore we must have <code>j :: String -&gt; Char</code> and <code>fmap . fmap $ j :: String -&gt; g (f b) ~ [Maybe Char]</code>;</p></li>
+<li><p><code>z :: g (f a) ~ Maybe [Maybe String]</code>, then necessarily <code>g ~ Maybe</code>, <code>f ~ []</code> and <code>a ~ Maybe String</code>, whereby <code>j :: Maybe String -&gt; Char</code> and <code>fmap .fmap $ j :: Maybe [Maybe String] -&gt; g (f b) ~ Maybe [Char] = Maybe String</code>.</p></li>
+</ul>
+<p>Such a proof can be referred to as manual or explicit <strong>type inference</strong>. This is one of Haskell and its compilers’ strengths. We never need to do this, that’s the compiler’s job. But we may want to do this to justify a refactorization, the introduction of a new abstraction to our code, or the correctness of an instance definition for a type constructor (including nullary type constructors which are equivalent to concrete or proper types). The more experience we gain with explicit type inference, the more easily can we reason about our code. So this is an excellent exercise. As a suggestion, try using pen and paper, the academic way, it’s an illuminating experience if you’re not yet used to it.</p>
+<p>To understand better why this works out this way, consider the result of lifting <code>j</code>, multiple times in a row. I’ll explicitly include some syntactic peculiarities that functional programmers keep in their mind. So our basic setup is delineated in the following code block, where we go one level deep.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1"><span class="ot">j               ::</span> a <span class="ot">-&gt;</span> <span class="dt">Char</span>    <span class="co">-- b ~ Char</span></a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="fu">fmap</span><span class="ot">            ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> f b)</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="fu">fmap</span><span class="ot"> j          ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f <span class="dt">Char</span></a></code></pre></div>
+<p>Let’s descend another level deeper or lift another level higher. Note the remark on the syntactic precedence of function application, also denoted by the infix operator <code>($) :: (a -&gt; b) -&gt; a -&gt; b</code> with <code>infixr 0 $</code>, over the composition operator <code>(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)</code> with <code>infixl 9 .</code> which means that function application as in <code>fmap j</code> takes precedence over composition as in <code>fmap . fmap j</code>, which is in contrast to the desired composition <code>(fmap . fmap)</code> applied to <code>j</code>. I’ll specify the corresponding types explicitly, so as to immediate recognize that it’s a different object.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="fu">fmap</span> <span class="fu">.</span><span class="ot"> fmap     ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
+<a class="sourceLine" id="cb12-2" title="2">                <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f b))</a>
+<a class="sourceLine" id="cb12-3" title="3">(<span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span>)<span class="ot"> j ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
+<a class="sourceLine" id="cb12-4" title="4">                <span class="ot">=&gt;</span> g (f a) <span class="ot">-&gt;</span> g (f <span class="dt">Char</span>)</a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> j   <span class="co">-- Precedence of application: &#39;infixr 9 .&#39; vs &#39;infixr 0 $&#39;.</span></a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="fu">==</span> <span class="fu">fmap</span> <span class="fu">.</span> (<span class="fu">fmap</span> j)<span class="ot">   ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
+<a class="sourceLine" id="cb12-7" title="7">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> f <span class="dt">Char</span>)</a></code></pre></div>
+<p>Good, next level.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span><span class="ot"> fmap     ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h)</a>
+<a class="sourceLine" id="cb13-2" title="2">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (h (g (f a)) <span class="ot">-&gt;</span> h (g (f b)))</a>
+<a class="sourceLine" id="cb13-3" title="3">(<span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span>)<span class="ot"> j ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h)</a>
+<a class="sourceLine" id="cb13-4" title="4">                       <span class="ot">=&gt;</span> (h (g (f a)) <span class="ot">-&gt;</span> h (g (f b)))</a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> j </a>
+<a class="sourceLine" id="cb13-6" title="6">  <span class="fu">==</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> (<span class="fu">fmap</span> j)<span class="ot"> ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g)</a>
+<a class="sourceLine" id="cb13-7" title="7">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f <span class="dt">Char</span>))</a></code></pre></div>
+<p>And finally the fourth.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" title="1"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.fmap</span><span class="ot">       ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h, <span class="dt">Functor</span> k)</a>
+<a class="sourceLine" id="cb14-2" title="2">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (k (h (g (f a))) <span class="ot">-&gt;</span> k (h (g (f b))))</a>
+<a class="sourceLine" id="cb14-3" title="3">(<span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> )<span class="ot"> j ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h, <span class="dt">Functor</span> k)</a>
+<a class="sourceLine" id="cb14-4" title="4">                       <span class="ot">=&gt;</span> (k (h (g (f a))) <span class="ot">-&gt;</span> k (h (g (f b))))</a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> j </a>
+<a class="sourceLine" id="cb14-6" title="6">  <span class="fu">==</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> <span class="fu">.</span> (<span class="fu">fmap</span> j)<span class="ot"> ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g, <span class="dt">Functor</span> h)</a>
+<a class="sourceLine" id="cb14-7" title="7">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (h (g (f a)) <span class="ot">-&gt;</span> h (g (f <span class="dt">Char</span>)))</a></code></pre></div>
+<!-- As we saw above for the type inference -->
+<p>This way we now can access nested levels of functorial superstructures such as <code>k (h (g (f a)))</code>, which could be more complex, such as <code>k (h (g a) (f b))</code>, where <code>h</code> is a <code>Bifunctor</code> instance<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>, any tree nesting basically, and with recursive, linear, or dependent types it goes much farther than this. We will leave these abstractions for later. This idea will come in handy when we deal with lifting monadic values in the context of monad transformers.</p>
+<h1 id="implementations-for-maybe-and">Implementations for <code>Maybe</code> and <code>[]</code></h1>
+<p>Let’s implement the <code>Functor</code> type class for the <code>Maybe</code> and the <code>[]</code> type constructors. For correctness, enable the <code>InstanceSigs</code> language extension in GHC, otherwise comment out the type signature inside.</p>
+<h2 id="a-functor-instance-for-maybe">A <code>Functor</code> instance for <code>Maybe</code></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span>  <span class="co">-- Recall: f ~ Maybe :: * -&gt; *</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="ot">  fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</a>
+<a class="sourceLine" id="cb15-3" title="3">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb15-4" title="4">  <span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> (f x)</a></code></pre></div>
+<ol type="1">
+<li>identity law:</li>
+</ol>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1"><span class="fu">fmap</span> <span class="fu">id</span> <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span>               <span class="fu">==</span>  <span class="fu">id</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="fu">fmap</span> <span class="fu">id</span> (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> (<span class="fu">id</span> x) <span class="fu">=</span> <span class="dt">Just</span> x  <span class="fu">==</span>  <span class="fu">id</span> (<span class="dt">Just</span> x)</a></code></pre></div>
+<ol start="2" type="1">
+<li>composition law:</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1"><span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f <span class="fu">$</span> <span class="dt">Nothing</span> <span class="fu">=</span> <span class="fu">fmap</span> g <span class="dt">Nothing</span>    <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb17-2" title="2">  <span class="fu">==</span>  <span class="fu">fmap</span> (g <span class="fu">.</span> f) <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f <span class="fu">$</span> <span class="dt">Just</span> x  <span class="fu">=</span> <span class="fu">fmap</span> g (<span class="dt">Just</span> f x) <span class="fu">=</span> <span class="dt">Just</span> ((g <span class="fu">.</span> f) x)</a>
+<a class="sourceLine" id="cb17-4" title="4">  <span class="fu">==</span>  <span class="fu">fmap</span> (g <span class="fu">.</span> f) (<span class="dt">Just</span> x)</a></code></pre></div>
+<p>This instance makes <code>Maybe</code> a functor: a <code>Maybe</code> value can now be mapped over with <code>fmap</code>, it now conforms to the essence of the functor. And here you can see how our instance preserves the <code>Maybe</code> structure:</p>
+<ul>
+<li>a <code>Nothing</code> becomes a <code>Nothing</code>, and</li>
+<li>a <code>Just x</code> value, where <code>x :: a</code> and <code>a</code> is an arbitrary type, becomes a <code>Just (f x)</code> value.</li>
+</ul>
+<p>This consistency is crucial. Our mapped function needs not and cannot know anything about the particular <code>Functor</code> instance <code>f</code>. If this feels tedious, feel free to skip such proofs on first reading. But they are essential. Here’s why. Let’s write an incorrect instance which the compiler won’t raise a red flag on.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb18-3" title="3">  <span class="fu">fmap</span> _ (<span class="dt">Just</span> _) <span class="fu">=</span> <span class="dt">Nothing</span></a></code></pre></div>
+<p>which is equivalent to simply</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb19-2" title="2">  <span class="fu">fmap</span> _ _ <span class="fu">=</span> <span class="dt">Nothing</span></a></code></pre></div>
+<p>This instance already fails even the identity law. Indeed, in this case, <code>fmap id (Just 'x') = Nothing /= Just 'x' = id (Just 'x')</code>.</p>
+<p>Alternatively, we can fix some arbitrary value.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb20-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">&#39;x&#39;</span></a>
+<a class="sourceLine" id="cb20-3" title="3">  <span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> (f x)</a></code></pre></div>
+<p>This instance also violates the identity law. Indeed, in this case, <code>fmap id Nothing = Just 'x' /= Nothing = id Nothing</code>.</p>
+<p>But we could also define <code>Maybe</code> to be the <strong>identity functor</strong>, which regardless of the mapped function always gives back the input values.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb21-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb21-3" title="3">  <span class="fu">fmap</span> _ (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> x</a></code></pre></div>
+<p>This instance now seems to preserve the structure. Indeed, it seems to satisfy both</p>
+<ul>
+<li>the identity law, for
+<ul>
+<li><code>fmap id Nothing = Nothing == id Nothing</code> and</li>
+<li><code>fmap id (Just x) = Just x == id (Just x)</code>, for any <code>x</code>,</li>
+</ul></li>
+<li>and the composition law, for
+<ul>
+<li><code>fmap g . fmap f $ Nothing = fmap g Nothing = Nothing = fmap (g . f) Nothing</code>, and</li>
+<li><code>fmap g . fmap f $ Just x = fmap g (Just x) = Just x = fmap (g . f) (Just x)</code>, for any composable <code>g</code> and <code>f</code> and every <code>x</code>.</li>
+</ul></li>
+</ul>
+<p>But it doesn’t in fact type-check! Recall that <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code>. So what if <code>a ~ Int</code> and <code>b ~ Char</code>, so that the argument function <code>f :: Int -&gt; Char</code>? Then the first pattern on <code>Nothing</code> would type-check flawlessly, but the second on <code>Just x</code> would not if <code>x</code> is not both <code>Int</code> and <code>Char</code> at the same time. But <code>Int</code> and <code>Char</code> are distinct! This is a contradiction. All would be well if only we could assume that <code>b ~ a</code> so we could have taken <code>f = id</code>, but we cannot. In other words, we <em>must</em> incorporate the transformation <code>a -&gt; b</code> somehow in the instance definition. I can’t express in words how much I appreciate that GHC is so incredibly smart! <span class="redHeart">♥</span> It turns out, this was actually not the identity functor in the first place!</p>
+<p>And now an example where everything type-checks and the identity law is satisfied but the law of composition is violated. Is it even possible? We need to try to fail the fourth identity above. Can we?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb22-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb22-3" title="3">  <span class="fu">fmap</span> _ (<span class="dt">Just</span> _) <span class="fu">=</span> <span class="fu">undefined</span>  <span class="co">-- The bottom value, which inhabits every type.</span></a></code></pre></div>
+<p>This type-checks flawlessly. But, is <code>undefined == undefined</code>? Let’s see what we need to assert.</p>
+<ul>
+<li><code>fmap id Nothing = Nothing    == id Nothing</code>, this is correct.</li>
+<li><code>fmap id (Just x) = undefined == id undefined</code>, this is questionable.</li>
+<li><code>fmap g . fmap f $ Nothing = fmap g Nothing = Nothing   == fmap (g . f) Nothing</code>, which is correct.</li>
+<li><code>fmap g . fmap f $ Just x = fmap g undefined = undefined == fmap (g . f) (Just x)</code>, which also is questionable.</li>
+</ul>
+<p>Anyway, this is a pathological corner case, one which we must be aware of, nonetheless. As noted, <code>undefined</code> is the bottom value, which inhabits every type. In other words, this is the only value that can take on any type, exactly as we need here. Due to Haskell’s lazy evaluation strategy, it’s harmless as long it is not evaluated and sits as a placeholder essentially, that makes our programs type-check and compile, as long as we have not yet filled the space it occupies with good code. But <em>if it is evaluated</em>, the program exits with a runtime error. In fact, <code>undefined = error &quot;Prelude.undefined&quot;</code>. And <code>length [undefined, undefined] == 2</code> since no evaluation of the values inside the list takes place. When we type-check we force an evaluation up to the weak-head normal form (WHNF), which is the evaluation up to the outermost constructor.</p>
+<!--
+An alternative hence is
+
+```haskell
+instance Functor Maybe where
+  fmap _ Nothing  = Nothing
+  fmap _ (Just _) = undefined
+```
+
+
+or equivalently
+
+```haskell
+instance Functor Maybe where
+  fmap _ Nothing  = Nothing
+  fmap _ ~(Just _) = undefined  -- The bottom value, which inhabits every type.
+```
+
+where the tilde `~` in the pattern matching expression represents an infallible pattern (TODO), which instructs to stops the evaluation at the constructor preceding the outermost constructor. TESTME
+-->
+<p>As a side note, we cannot instantiate <code>Maybe</code> more than once, for a given type class. To overcome this limitation, <code>newtype</code>s are introduced that are transparent wrappers at compile time so as to facilitate type checking, and are discarded in the binary code. For each new type, such as <code>newtype Maybe' a = Maybe' {runMaybe' :: Maybe a}</code>, a new instance of the same class can be defined, e.g., <code>instance Functor Maybe' where</code>, which describes a different behavior — that nonetheless must be law-abiding!</p>
+<h2 id="a-functor-instance-for-lists">A <code>Functor</code> instance for lists, <code>[]</code></h2>
+<p>Our second concrete type of (linked) lists, <code>[]</code>, is a functor too (and also so much more!) and its instance is also relatively straightforward to specify. Recall I said earlier that the length of a list is its inherent property and that functorial mapping <code>fmap</code> is guaranteed to preserve the structure of a functorial value. Granted, lift extension or shrinkage is trivial, but it is not a functorial action! So our basic tenet for the instantiation of <code>[]</code> as a <code>Functor</code> will be maintenance of the structure. For comparison, first our <code>Maybe</code> instance.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> [] <span class="kw">where</span>  <span class="co">-- Recall: f ~ Maybe :: * -&gt; *</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="ot">  fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="fu">~</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> f b <span class="fu">~</span> <span class="dt">Maybe</span> b</a>
+<a class="sourceLine" id="cb23-3" title="3">  <span class="fu">fmap</span> f <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb23-4" title="4">  <span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> (f x)</a></code></pre></div>
+<p>We ensured its correctness above by performing type-inference for the identity and the composition laws that are part of the definition of a functor, both in category theory and in Haskell. So if you are reading this and want to implement a functor in your language of choice, then make sure your instance also satisfies the laws, it is an overarching, language-independent inherent part of the notion.</p>
+<p>Now, let’s look at our list instance.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> [] <span class="kw">where</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="ot">  fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="fu">~</span> [a] <span class="ot">-&gt;</span> f b <span class="fu">~</span> [b]</a>
+<a class="sourceLine" id="cb24-3" title="3">  <span class="fu">fmap</span> f []     <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb24-4" title="4">  <span class="fu">fmap</span> f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> <span class="fu">fmap</span> f xs  <span class="co">-- Recursive!</span></a></code></pre></div>
+<p>We now need to verify the functorial laws.</p>
+<ol type="1">
+<li><p>identity law: <code>fmap id [] = [] = id []</code> and <code>fmap id xs'@(x:xs) = x : fmap id xs = ... = xs = id xs'</code>, for any list <code>xs' :: [a]</code>.</p></li>
+<li>composition law: for this we will invoke the method of proof by structural induction<!--, which reads TODO-->
+<ul>
+<li>induction basis: <code>fmap (g . f) [] = [] = fmap g [] = fmap g (fmap f []) = (fmap g . fmap f) []</code></li>
+<li>induction hypothesis: suppose <code>xs'@(x:xs)</code> are such that <code>fmap (g . f) xs = (fmap g . fmap f) xs</code>, and we need to show that, given this assumption, <code>fmap (g . f) xs' = (fmap g . fmap f) xs</code>:</li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="fu">fmap</span> (g <span class="fu">.</span> f) xs&#39;<span class="fu">@</span>(x<span class="fu">:</span>xs) <span class="fu">=</span> (g <span class="fu">.</span> f) x <span class="fu">:</span> <span class="fu">fmap</span> (g <span class="fu">.</span> f) xs </a>
+<a class="sourceLine" id="cb25-2" title="2">                        <span class="fu">=</span> g (f x) <span class="fu">:</span> (<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs</a></code></pre></div>
+<p>where we used the hypothesis in the last equality. And, conversely,</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb26-1" title="1">(<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs&#39; <span class="fu">=</span> <span class="fu">fmap</span> g (<span class="fu">fmap</span> f xs&#39;) <span class="fu">=</span> <span class="fu">fmap</span> g (f x <span class="fu">:</span> <span class="fu">fmap</span> f xs) </a>
+<a class="sourceLine" id="cb26-2" title="2">                                            <span class="fu">=</span> g (f x) <span class="fu">:</span> <span class="fu">fmap</span> g (<span class="fu">fmap</span> f xs) </a>
+<a class="sourceLine" id="cb26-3" title="3">                                            <span class="fu">=</span> g (f x) <span class="fu">:</span> (<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs</a></code></pre></div></li>
+</ol>
+That’s it. One important nit-pick: ellipses <code>...</code> in proofs are, well, kinda acceptable on this informal level of discourse as we are maintaining here, but if you wanted to do it formally correct, you would have to express them as a complete induction with induction basis and induction hypothesis. In future, this will be an exercise for you. So if you feel you didn’t get it from this particular example, just read up on it on Wikipedia, it’s wonderful.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>
+<div class="redHeart">
+♥
+</div>
+<h1 id="other-standard-data-types">Other Standard Data Types</h1>
+<h2 id="sum-and-product-types">Sum and Product Types</h2>
+<p>Let’s look at the type constructor <code>Either</code> that generalizes <code>Maybe</code> and the type constructor tuple <code>(,)</code>. They are defined as</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">data</span> <span class="dt">Either</span> a b <span class="fu">=</span> <span class="dt">Left</span> a <span class="fu">|</span> <span class="dt">Right</span> b</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">data</span> (,)    a b <span class="fu">=</span> (a,b)</a></code></pre></div>
+<p>The most fundamental notion that they represent is that of sum types and product types, respectively. I mean, we can write equivalently</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">data</span> <span class="dt">Sum&#39;</span>    a b  <span class="fu">=</span> <span class="dt">One</span> a <span class="fu">|</span> <span class="dt">Two</span> b</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="kw">data</span> <span class="dt">Product&#39;</span> a b <span class="fu">=</span> <span class="dt">Product&#39;</span> a b</a></code></pre></div>
+<p>A sum type represents alternatives and has multiple constructors, here <code>Left</code> and <code>Right</code> or <code>One</code> and <code>Two</code>; logically this corresponds to <code>OR</code>. A product type represents conjunction and has but one constructor, here <code>(,)</code> or <code>Product'</code>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<p>A propositional logical system can be well-defined with just negation and either of conjunction or disjunction. Indeed, the implication <span class="math display">\[p \to q \equiv \neg (p \wedge q) \equiv \neg p \vee q).\]</span></p>
+<p>For predicate logics Haskell offers explicit and implicit <code>forall</code>s. Existential quantification can be given in terms of the universal quantification by means of negation. We will not go as far yet. But note that GHC offers rank-<span class="math inline">\(n\)</span> types and existential types.</p>
+<p><em>Exercise</em>: Do you see in how what sense <code>Either</code> generalizes <code>Maybe</code> and <code>Maybe</code> specifies <code>Either</code>? Work this out.</p>
+<p>By induction, sum and product types are well-defined for any finite natural number <span class="math inline">\(n\)</span>. This basic idea is crucial for dependent types, too.</p>
+<p><em>Exercise</em>: If <span class="math inline">\(\sigma \in \Sigma\)</span> is a sum type, and <span class="math inline">\(\pi \in \Pi\)</span> a product type, where the capital letters represent sets of sum and product types, respectively, then what types belong to the sum set <span class="math display">\[\Sigma + \Pi := \left\{ \sigma + \pi \;\mid\; \sigma \in \Sigma,\; \pi \in \Pi \right\}\]</span> and the product sets <span class="math display">\[\Pi\Sigma \quad \text{and} \quad \Sigma \Pi := \left\{ \sigma \pi \;\mid\; \sigma \in \Sigma,\; \pi \in \Pi \right\}\]</span> respectively, where we define <span class="math inline">\(\sigma + \pi = \sigma | \pi\)</span> and <span class="math inline">\(\sigma\pi = \sigma\, \pi\)</span> as above in terms of Haskell?</p>
+<!-- Functor instances TODO -->
+<h3 id="functor-instance-for-either">Functor Instance for <code>Either</code></h3>
+<p>Let’s define our instance. There is only one difference from <code>Maybe</code>, and this is the “arity” of <code>Either</code>, i.e., its kidn is <code>* -&gt; * -&gt; *</code> whereas <code>Maybe :: * -&gt; *</code>, and a <code>Functor</code> can be any type constructor <code>f :: * -&gt; *</code>. So we need to make <code>Either</code> a binary type constructor. In Haskell, kinds are also curried, so we can simply bind the first type variable. In short: <code>Maybe</code> is a unary wheres <code>Either</code> is a binary type constructor.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Either</span> a) <span class="kw">where</span>  <span class="co">-- f :: * -&gt; * whereas Either :: * -&gt; * -&gt; *</span></a>
+<a class="sourceLine" id="cb29-2" title="2">  <span class="fu">fmap</span> _ (<span class="dt">Left</span> x)  <span class="fu">=</span> <span class="dt">Left</span> x</a>
+<a class="sourceLine" id="cb29-3" title="3">  <span class="fu">fmap</span> f (<span class="dt">Right</span> x) <span class="fu">=</span> <span class="dt">Right</span> (f x)</a></code></pre></div>
+<ol type="1">
+<li>identity law: <code>fmap id (Left x) = Left x = id (Left x)</code> and <code>fmap if (Right x) = Right x = id (Right x)</code>.</li>
+<li>composition law: <code>fmap (g . f) (Left x) = Left x = fmap g (fmap f (Left x)) = fmap g . fmap f $ Left x</code>.</li>
+</ol>
+<p><em>Exercise</em>: Make sure you can follow these lines. Write out on paper if you don’t understand every single step here.</p>
+<p>Why did we choose to bind the first subtype and not the second? Well, in Haskell we don’t have kind-level <span class="math inline">\(\lambda\)</span>-expressions. Other than this I’m not aware of any technical or formal reason, so it seems to be a bit arbitrary. We can, if necessary, define another sum type like <code>Either' a b = Left' b | Right' b</code> in which we flip the order manually.</p>
+<p><em>Remark</em>. Recall, by induction, this is valid for any finite natural number of subtypes in a sum type.</p>
+<h3 id="functor-instance-for">Functor Instance for <code>(,)</code></h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> ((,) a) <span class="kw">where</span>  <span class="co">-- (,) :: * -&gt; * -&gt; *, and (,) a = (a,) :: * -&gt; *</span></a>
+<a class="sourceLine" id="cb30-2" title="2">  <span class="fu">fmap</span> g (x,y) <span class="fu">=</span> (x, g y)</a></code></pre></div>
+<ol type="1">
+<li>identity law: <code>fmap id (x,y) = (x, y) = id (x,y)</code></li>
+<li>composition law: <code>fmap (g . f) (x,y) = (x, (g.f) y)</code> and <code>fmap g (fmap f (x,y)) = fmap g (x, f y) = fmap g (x, g (f y))</code>.</li>
+</ol>
+<p><em>Exercise</em>: I’ve shortened the notation a bit here. Check whether this was indeed admissible.</p>
+<p>Again, why did we choose to bind the first subtype and not the second? Same reason: no kind-level <span class="math inline">\(\lambda\)</span>-expressions.</p>
+<p><em>Exercise</em>: If you’re wondering why we didn’t take <code>(g x, g y)</code>, then look at the types.<br />
+(<em>Hint</em>: the functorial type constructor here <code>f ~ (t,)</code>, for a fixed arbitrary type <code>t</code>, and <code>fmap :: (a -&gt; b) -&gt; f a ~ (t,a) -&gt; f b ~ (t,b)</code>. So <code>(g x, g y) :: (b, b)</code> instead of <code>f b ~ (a,b)</code> !)</p>
+<p><em>Remark</em>. Recall, by induction, this is valid for any finite natural number of subtypes in a product type.</p>
+<h2 id="function-type--">Function Type <code>(-&gt;)</code></h2>
+<p>Now this is where it gets mind boggling. Spoiler: it turns out <code>fmap</code>ping over a function is just function composition! And it <em>has to be</em>! Wonder why? Let’s take a look! First, as always, our instance definition. Again, since the function type constructor is <code>(-&gt;) :: * -&gt; * -&gt; *</code>, we need to bind its first type argument.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> ((<span class="ot">-&gt;</span>) a) <span class="kw">where</span>  <span class="co">-- f ~ (-&gt;) a = (a -&gt;) :: * -&gt; *</span></a>
+<a class="sourceLine" id="cb31-2" title="2">  <span class="fu">fmap</span> g <span class="fu">...</span></a></code></pre></div>
+<p>… erm, now we’re stuck… How do we even refer to a function here? Let’s go backwards. Let’s first analyze the types and see how we can meet our requirements. Okay, so <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code> and <code>f ~ (t -&gt;)</code> here, for a fixed arbitrary type <code>t</code>. So <code>fmap :: (a -&gt; b) -&gt; (t -&gt; a) -&gt; (t -&gt; b)</code>. But that’s exactly the signature of function composition <code>(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)</code>. So in order to simply type-check, we can try using function composition. This is by no means an exhaustive, at most a heuristic, approach to finding the definition. But it works here just perfectly. When we deal below with the two functorial laws, we’ll see why this definition is sufficient and necessary! Let’s now finish our definition.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> ((<span class="ot">-&gt;</span>) a) <span class="kw">where</span>  <span class="co">-- f ~ (-&gt;) a = (a -&gt;) :: * -&gt; *</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="co">--fmap = (.)         -- For brevity.</span></a>
+<a class="sourceLine" id="cb32-3" title="3">  <span class="fu">fmap</span> g f <span class="fu">=</span> g <span class="fu">.</span> f   <span class="co">-- For clarity.</span></a></code></pre></div>
+<p>Now, the functorial laws.</p>
+<ol type="1">
+<li>Identity law: <code>fmap id f = id . f = f</code> — now that was easy.</li>
+<li><p>Composition law:<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> for this we will need to assert <strong>associativity of composition</strong><a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>,</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb34-1" title="1">(<span class="fu">fmap</span> h <span class="fu">.</span> <span class="fu">fmap</span> g) f <span class="fu">=</span> <span class="fu">fmap</span> h (<span class="fu">fmap</span> g f) <span class="fu">=</span> <span class="fu">fmap</span> h (g <span class="fu">.</span> f) <span class="fu">=</span> h <span class="fu">.</span> (g <span class="fu">.</span> f) </a>
+<a class="sourceLine" id="cb34-2" title="2">  <span class="fu">=</span> h <span class="fu">.</span> g <span class="fu">.</span> f <span class="fu">=</span> (h <span class="fu">.</span> g) <span class="fu">.</span> f <span class="fu">=</span> <span class="fu">fmap</span> (h <span class="fu">.</span> g) f</a></code></pre></div></li>
+</ol>
+<p><em>Exercise</em>: Make sure you understand this. Write this out otherwise.</p>
+<p>Now, why is <code>(.)</code> the only right way here? What if we had other functions with the same signature? Now do we actually? Let’s see… a function <code>x :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)</code>, for arbitrary types <code>a</code>, <code>b</code>, and <code>c</code>… Let’s just use Hoogle! Well, there are a few, but they all are just the same composition! What if this is theoretically justified? Note that there are no constraints on the types <code>a</code>, <code>b</code> or <code>c</code>, which means that <code>x</code> must be able to deal with any type! What was special about <code>id :: a -&gt; a</code>? It knows nothing about <code>a</code>, so it can’t process <code>a</code> in any way, as there’s no way to know <em>just how</em> to it <em>could</em> process <code>a</code> in the first place. This situation is in fact not unique. We will encounter it later in the context of <strong>existential types</strong> that formalize separation of concerns by taking transferring specification of argument types from the callee to the caller.</p>
+<p>And here, <code>x</code> must take two functions of arbitrary arguments, of which it only knows that they are coherent by ordering and repetition — the only actual bit of knowledge about them is that <code>b</code> is input to the first and output to the second argument. Now given this information alone (number of arguments, their types (function types), and the type <code>b</code>), we have to somehow fill in the gap here. On the other hand, we have the two functorial laws, but as you see they are trivial for function composition. So it’s really that consistency about <code>b</code>.</p>
+<p><em>Exercise</em>: Work this out.</p>
+<p>Just kidding! Look, we want to understand why only <code>(.)</code> fits that type signature. We have to make this type-check. Let’s just spell it out according to the type signature alone.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb35-1" title="1"><span class="ot">x ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c</a>
+<a class="sourceLine" id="cb35-2" title="2">x g f a <span class="fu">=</span> <span class="kw">let</span> b <span class="fu">=</span> f a <span class="kw">in</span> g b</a></code></pre></div>
+<p>Wooh! But that’s just <code>g (f a)</code>, i.e., the function composition <code>(g . f) a</code>. So indeed <code>x = (.)</code>. This was a bit more tedious that it should be, but I hope it’s clear enough to be able to follow the lines of the argument, even if you’re not yet comfortable enough with this form of reasoning. In mathematics, the higher the degree of formal maturity, the shorter simple arguments become, but the more complex are the constructions. The complexity of expression shifts somewhat.</p>
+<p><em>Exercise</em>: This is still a bit hand-wavy. Figure out how to fill the blanks. Not kidding this time. It isn’t hard. Just repeat the argument and see what may be missing.</p>
+<h2 id="reader-writer-and-state-monads">Reader, Writer, and State Monads</h2>
+<p>You might be wondering what the point of the above academic “nonsense” was. Good question! Look, in Haskell and functional programming in general, we make use of such academic abstractions to ensure correctness of our code. This is not much different from the object-oriented design patterns most developers are used to. Here we have a strong theoretic background to ensure correctness. And we will use it where it makes sense and is reasonable.</p>
+<p>The abstract take above paved the road, for example, for the Reader, Writer, and State monads. They all express how an effectful computation interacts with its environment. Computations in the context of Reader can only access read-only values stored in the environment, in the Writer monad, they can only write to the environment, and in the State context, a computation can both read from and write to its particular environment. This is separation of concerns at its foundations. From these building blocks we will go further and rise higher.</p>
+<p>But first, let’s implement their <code>Functor</code> instances.</p>
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+<!-- [ ] TODO [2020-03-31 13:02]: # Real-world Application -->
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+<p><em>Exercise</em>: Retrace each step. Soon we will see how such seemingly complex expressions turn out to be very useful in certain circumstances. You certaintly don’t need to use them always. Most people don’t understand them. To write excellent Haskell, you don’t need this!</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>There are many ways to express verbally what <code>f</code> is. We use “<strong>functorial type <em>constructor</em></strong>” for “<strong>instance of the type class <code>Functor</code></strong>” (short: “<strong>Functor instance</strong>”), which it is since <code>f :: * -&gt; *</code>; one can also say that <code>f</code> is a <code>Functor</code> or a “functor,” which would arguably be a bit less precise. This disambiguation is not really important if your audience understands what exactly you are referring to. A <strong>functorial value</strong> is any value <code>x</code> of type <code>f a</code>, where <code>f a</code> is a functorial type.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>In a category <span class="math inline">\(C\)</span>, a <strong>free object</strong> is the image of a <strong>free functor</strong> <span class="math inline">\(F : \mathbf{Set} \to C\)</span>, which assigns any set <span class="math inline">\(a\)</span> the object <span class="math inline">\(Fa\)</span> in <span class="math inline">\(C\)</span> that represents the minimal structure on the set that it must carry to be qualified to be an object in <span class="math inline">\(C\)</span>. For example, given a set <span class="math inline">\(a\)</span>, a free semigroup <span class="math inline">\(Fa\)</span> of <span class="math inline">\(a\)</span> is a semigroup structure superimposed on <span class="math inline">\(a\)</span>, which may require that some elements have to be discarded in order to satisfy the associativity of the semigroup operation as given by the functor <span class="math inline">\(F\)</span>, where also a choice between elements may have to be made. So this is not as trivial as it might seem on the surface.<br />
+The <em>dual notion</em> is that of a <strong>forgetful functor</strong> <span class="math inline">\(U : C \to \mathbf{Set}\)</span>, which strips all structure of <span class="math inline">\(C\)</span> from an object <span class="math inline">\(a\)</span> to produce a set <span class="math inline">\(Ua\)</span>, e.g., if <span class="math inline">\(a\)</span> is a semigroup, then <span class="math inline">\(Ua\)</span> is its carrier with exactly the same elements but without the semigroup operation.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>A computation is said to be <strong>nondeterministic</strong> if given the same input, in produces different output, which doesn’t necessarily mean that it is a random variable, a deterministic list of values is enough because it leaves the choice of a single element open and so provides a branching decision tree. Admittedly, it’s a bit contrived. Moreover, the notion of nondeterminism in science is quite broad. In dynamical systems, nondeterminism can be modeled stochastically. Essentially nondeterminism means that multiple outcomes are possible.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>A <strong>bifunctor</strong> is essentially a bivariate functor, functorial in each argument. There are also contravariant functors and combinations with contravariance, which we need not be concerned with now.<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p><!--TODO--> This will become crucial for recursive data types, where the induction takes the form of <strong>structural induction</strong>, which we actually also are doing here. Moreover, in Haskell, lists are “infinite” types. The complete induction is only valid for any finite natural number, e.g., when you want to prove some assertion like “<em>for all <span class="math inline">\(n \in \mathbb{N}\)</span>, …</em>” but not directly for an assertion like “<em>the cardinality of this set is an infinite cardinal number…</em>”. For <span class="math inline">\(\mathbb{N}\)</span>, depending on the axioms you choose, say Peano’s, you can invoke <em>tertium non datur</em> and derive the result from a contradiction, whereas in intuitionistic formulations it’s a bit harder. However, this is not my field of expertise. So for infinities, you’ll need the <strong>transfinite induction</strong> over the ordinals (the complete induction goes only over the naturals, and structural induction goes by the construction).<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>I’m using apostrophe suffixes here to distinguish them from the corresponding <code>newtype</code>s in Prelude for <code>Monoid</code> instances.<a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>There is an important difference between a <strong>type constructor</strong> and a <strong>data (or value) constructor</strong>. In an expression like <code>data T a = C a</code>, <code>T</code> is a type constructor, <code>T a</code> is a type, whereas <code>C</code> is a data (or value) constructor, and <code>x :: T a</code> is a value of type <code>T a</code> that was constructed by the constructor <code>C</code>, which we can use in pattern matching when we write <code>x@(C y)</code> to extract the value <code>y :: a</code> from the <code>C</code> context. Recall that in Haskell, type variables are written lowercase, whereas concrete types are capital.<a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Wait… <strong>composition of composition</strong>? Yes! This works too! Look (no obscenities intended) the <em>reflexivity</em> is a bit hard to grasp, just follow the types:<br />
+</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb33-1" title="1"><span class="ot">(.)       ::</span>     (s <span class="ot">-&gt;</span> t)       <span class="ot">-&gt;</span>     ((a <span class="ot">-&gt;</span> s) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> t))</a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="ot">(.)       ::</span> s <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)       <span class="ot">-&gt;</span> t <span class="fu">~</span> ((d <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c))</a>
+<a class="sourceLine" id="cb33-3" title="3">((<span class="fu">.</span>) <span class="fu">.</span>)<span class="ot">   ::</span> (a <span class="ot">-&gt;</span> s) <span class="fu">~</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) </a>
+<a class="sourceLine" id="cb33-4" title="4">          <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> t) <span class="fu">~</span> a <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="ot">(.)       ::</span> a&#39; <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)      <span class="ot">-&gt;</span> b&#39; <span class="fu">~</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> c&#39; <span class="fu">~</span> (a <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb33-6" title="6">(<span class="fu">.</span>) <span class="fu">.</span><span class="ot"> (.) ::</span> a&#39;        <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb33-7" title="7">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> b&#39;) <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b)</a>
+<a class="sourceLine" id="cb33-8" title="8">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c&#39;) <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c)</a></code></pre></div>
+<a href="#fnref8" class="footnote-back">↩</a></li>
+<li id="fn9"><p>But associativity of function composition is <em>the</em> basic tenet of almost everything we do. Semigroups need this, and by extension categories.<a href="#fnref9" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
 ]]></description>
-    <pubDate>Sun, 01 Mar 2020 00:00:00 UT</pubDate>
-    <guid>localhost/posts/2020-03-01-model-engineering-problem.html</guid>
+    <pubDate>Tue, 31 Mar 2020 00:00:00 UT</pubDate>
+    <guid>localhost/posts/2020-03-31-haskell-functors.html</guid>
+    <dc:creator>Nick Demming</dc:creator>
+</item>
+<item>
+    <title>Testing and Benchmarking Software in Haskell</title>
+    <link>localhost/posts/2020-03-26-haskell-testing-benchmarking.html</link>
+    <description><![CDATA[<div class="info">
+    Posted on March 26, 2020
+    
+</div>
+
+<h1 id="the-setting">The Setting</h1>
+<p>Haskell is renowned for its <a href="https://hackage.haskell.org/packages/#cat:Testing">testing facilities</a>.</p>
+<p>There is an ambiguity in the usage of the term “framework,” related to different contexts and scopes of the notion. For our purposes, we will call libraries such as HUnit and QuickCheck, but also HSpec, that provide an idiosyncratic formalism for the expression of tests, a “<strong>testing library</strong>,” whereas test-framewok, HTF, and tasty, but also HSpec, that introduce a unifying interface to more than one testing library, a “<strong>testing framework</strong>.” Apparently, HSpec belongs to both categories, for it comprises other testing libraries and at the same time provides own formalism for expressing tests.</p>
+<p>Some major popular testing libraries (also call themselves “frameworks”, in which case the next group can be termed “meta-frameworks”):</p>
+<ul>
+<li>doctest</li>
+<li>HSpec (cf. RSpec, Mocha, etc.; a peculiar test formalism in its own right, but also a framework unifying HUnit, QuickCheck, SmallCheck)</li>
+<li>HUnit</li>
+<li>QuickCheck</li>
+<li>SmallCheck</li>
+<li>Hedgehog:</li>
+</ul>
+<p>Some major testing frameworks that provide a unifying layer or interface atop of the testing libraries:</p>
+<ul>
+<li>HSpec: …
+<ul>
+<li>hspec-hedgehog</li>
+<li>hspec-laws:</li>
+<li>hspec-smallcheck</li>
+<li>hspec-leancheck</li>
+<li>hspec-slow</li>
+<li>hspec-test-framework (and hspec-test-framework-th)</li>
+<li>hspec-multicheck</li>
+<li>hspec-wai and -wai-json</li>
+<li>hspec-megaparsec, -parsec, -attoparsec</li>
+</ul></li>
+<li>test-framework: comprises HUnit tests and QuickCheck properties in a single interface.
+<ul>
+<li>relatively actively maintained, as of writing this.</li>
+<li>test-generator (aka test-framework-th) was last updated in 2012.</li>
+</ul></li>
+<li>HTF (Haskell Testing Framework): automatically collects individual unit tests (hspec-discover only finds modules)
+<ul>
+<li>unit tests (HUnit)</li>
+<li>QuickCheck properties</li>
+<li>black-box tests</li>
+<li>custom preprocessor gathering test definitions automatically; failure with exact file name and line number.</li>
+</ul></li>
+<li>tasty (tasty-discover: TODO, archived??)
+<ul>
+<li>tasty-laws</li>
+<li>tasty-lens</li>
+<li>tasty-th</li>
+<li>tasty-tmux</li>
+<li>tasty-wai</li>
+<li>tasty-travis</li>
+<li>tasty-stats</li>
+<li>tasty-hunit</li>
+<li>tasty-hspec</li>
+<li>tasty-hedgehog and -hedgehog-coverage</li>
+</ul></li>
+</ul>
+<p>Essentially, HSpec and Tasty are the two major frameworks.</p>
+<p>Benchmarking:</p>
+<ul>
+<li>Criterion</li>
+<li>…</li>
+</ul>
+<p>We first will investigate unit testing with HUnit and property testing with QuickCheck. After this, we will cover the frameworks that comprise both approaches.</p>
+<h1 id="testing-and-quality-assurance">Testing and Quality Assurance</h1>
+<h2 id="fundamental-definitionstermsjargonlingo">Fundamental Definitions/Terms/Jargon/Lingo</h2>
+<p>Test-driven design (TDD) of software: TODO</p>
+<ul>
+<li>Unit test (HUnit, tasty-hunit):</li>
+<li>Golden test (tasty-golden): unit tests whose results are stored in files.</li>
+<li>Property test (QuickCheck, SmallCheck, Hedgehog, LeanCheck): specify a property a function must adhere to, and test whether this is the case.</li>
+<li>Regression test:</li>
+</ul>
+<p>A framework is aimed at gathering these individual groups of tests in a single uniform test expression that the compiler will evaluate for us, to inform us whether everything’s fine. It is crucial especially when introducing changes to pristine code. Anything could go wrong. Recall that Haskell’s advanced type system makes most bugs travel back in time and emerge at compile-time rather than the runtime, at which our users make their experience with our software. We want to make them happy and solve their problems, make their lives easier. Any runtime bug is an encumbrance on a user.</p>
+<h2 id="typical-workflow">Typical Workflow</h2>
+<p>So we have a two-step approach to ensuring this high quality of our products and services:</p>
+<ol type="1">
+<li>use Haskell to impose a high level of mandatory consistency, soundness, and correctness of our programs — nothing will compile that doesn’t meet that requirement (this imposes syntactic and logical correctness as expressed by types); and then additionally</li>
+<li>test our programs thoroughly to ensure that we translated our ideas correctly into code — the compiler, GHC, will alert us whenever we specify that we want something different than what actually gets computed as a result (this imposes semantic and translational correctness as expressed by our test specifications).</li>
+</ol>
+<p>The Haskell ecosystem provides top-notch world-class quality assurance and testing facilities. It comes closest to formal verification, without the excessive burden and cost. It is a pragmatic gold standard of great quality of software. And should we indeed need to formally verify critical pieces of code, we’ve set the stage for it already. With Template Haskell, we can even attain automated test generation, including all the boilerplate potentially necessary. Moreover, we can use Haskell’s testing frameworks for other languages and platforms. We can also embed other languages in Haskell code and use it as our glue.</p>
+<h2 id="examples">Examples</h2>
+<!-- - embedded gists -->
+<!-- - embedded binder instance cells -->
+]]></description>
+    <pubDate>Thu, 26 Mar 2020 00:00:00 UT</pubDate>
+    <guid>localhost/posts/2020-03-26-haskell-testing-benchmarking.html</guid>
+    <dc:creator>Nick Demming</dc:creator>
+</item>
+<item>
+    <title>Databases in Haskell</title>
+    <link>localhost/posts/2020-03-26-haskell-persistent-sql-database.html</link>
+    <description><![CDATA[<div class="info">
+    Posted on March 26, 2020
+    
+</div>
+
+<!-- -------------------------------------------------------------------------------- -->
+<h1 id="introduction">Introduction</h1>
+<p>In Haskell, we have many database libraries. <a href="http://www.stackage.org/package/persistent">Persistent</a> is a layer atop, using some of them as its backends, that imposes type safety and seamless integration with Haskell code. With <a href="TODO"><code>persistent-odbc</code></a> many more DBMSs can be attached. Own drivers can be written. Whenever Persistent turns out to be insufficient, we can fall back to the raw driver or its Haskell wrapper, and write a Persistent ORM ourselves. The framework is wonderful, but as everything has its caveats. We will discuss some them in the course of this series of posts here.</p>
+<p>In other words, Persistent is a seamless marshalling or serialization library that removes most boilerplate code<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>This marshalling or object-relational mapping (ORM) imposes type-safety onto the conventional untyped database drivers, which may be written in an arcane dialect of C (macros!), such as the <a href="TODO"><code>pgsql</code> driver</a>, notorious for its undocumented features. We thereby can employ Haskell’s type system and GHC’s facilities to ensure that we don’t make mistakes in our queries and that the data remains consistent throughout our data transformations. The key point here is that any errors that might occur are pulled back from runtime to compile-time, where we can fix it proactively. In particular, type-safety prevents SQL injection attacks.</p>
+<p>There are basically four different approaches to dealing with databases in Haskell:</p>
+<ol type="1">
+<li>use the existing drivers provided as backends and create a layer atop that imposes Haskell types on the level of Haskell code — this is the approach of serialization, marshalling, or ORM taken by Persistent and <a href="https://hackage.haskell.org/package/esqueleto">Esqueleto</a> (more later);</li>
+<li>use the existing drivers via foreign-function interfaces (FFIs) by introducing a thin wrapper around them, and run direct textual queries, hoping for consistency — this is what <a href="TODO"><code>sqlite-simple</code></a> and <a href="TODO"><code>postgres-simple</code></a> among others do;</li>
+<li>run third-party database drivers as subprocesses — this is very crude but may turn out to be necessary in some situations;</li>
+<li>rewrite the existing driver directly in Haskell, which enables us to introduce category-theoretic abstractions that can simplify code and improve performance — this is what <a href="TODO">Nikita Volkov</a>’s <a href="TODO"><code>hasql</code></a> library for Postgres does, and in Rust there’s a similar story with <a href="TODO">…</a>.</li>
+</ol>
+<p>Some other persistence libraries:</p>
+<ul>
+<li><a href="https://github.com/jcristovao/migrationplus">Triggers for SQL</a></li>
+<li><a href="https://github.com/gbwey/persistent-odbc">Persistent-ODBC</a></li>
+<li><a href="https://hackage.haskell.org/package/persistent-zookeeper">Persistent-Zookeeper</a></li>
+<li><a href="https://hackage.haskell.org/package/vault"><code>vault</code></a> (a persistent storage of values of arbitrary types).</li>
+</ul>
+<!-- -------------------------------------------------------------------------------- -->
+<h1 id="limitations-in-persistent-that-can-be-overcome-with-esqueleto">Limitations in Persistent that can be overcome with Esqueleto</h1>
+<p>So when do we use which of these two libraries?</p>
+<ul>
+<li>Persistent provides type-safe serialization of data. It allows for type-safe filtered storage and retrieval of data from a database (remote-resource, local resource, file, or in-memory databases). It does not support type-safe <code>JOIN</code>s, but we can fall back to explicit-string queries.</li>
+<li>Esqueleto: provides an embedded domain-specific language (EDSL) for SQL and superposes type-safe <code>JOIN</code>s atop of Persistent SQL backends. As of writing this, Esqueleto supports only type-safe <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>, and <code>DELETE</code> queries. It does not provide for all SQL features. So we can either implement them by hand whenever necessary, which is relatively easy, or switch to the fall-back mode of explicit-string queries.</li>
+</ul>
+<p>We can use both libraries in the same module, in which case we would have to import at least one of them qualified, so as to avoid identifier conflicts.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="co">-- For a module that mostly uses esqueleto.</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">import</span> <span class="dt">Database.Esqueleto</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Database.Persistent</span> <span class="kw">as</span> <span class="dt">P</span></a></code></pre></div>
+<p>or import <code>esqueleto</code> itself qualified:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="co">-- For a module that uses esqueleto just on some queries.</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">import</span> <span class="dt">Database.Persistent</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Database.Esqueleto</span> <span class="kw">as</span> <span class="dt">E</span></a></code></pre></div>
+<p>Our plan is to first learn to use Persistent, and then extend it with Esqueleto.</p>
+<!-- -------------------------------------------------------------------------------- -->
+<h1 id="fundamental-definitions">Fundamental Definitions</h1>
+<p>Here is the fundamental correspondence<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>SQL DBMS</th>
+<th>Persistent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data types</td>
+<td><code>PersistValue</code></td>
+</tr>
+<tr class="even">
+<td>Column</td>
+<td><code>PersistField</code></td>
+</tr>
+<tr class="odd">
+<td>Table</td>
+<td><code>PersistEntity</code></td>
+</tr>
+</tbody>
+</table>
+<p>Also consider this migrations (conversions) table for marshalling<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Haskell</th>
+<th>PostgreSQL</th>
+<th>MySQL</th>
+<th>MongoDB</th>
+<th>SQLite</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Text</code> |</td>
+<td><code>VARCHAR</code></td>
+<td><code>TEXT</code></td>
+<td><code>String</code></td>
+<td><code>VARCHAR</code></td>
+</tr>
+<tr class="even">
+<td><code>ByteString</code></td>
+<td><code>BYTEA</code></td>
+<td><code>BLOB</code></td>
+<td><code>BinData</code></td>
+<td><code>BLOB</code></td>
+</tr>
+<tr class="odd">
+<td><code>Int</code></td>
+<td><code>INT8</code></td>
+<td><code>BIGINT(20)</code></td>
+<td><code>NumberLong</code></td>
+<td><code>INTEGER</code></td>
+</tr>
+<tr class="even">
+<td><code>Double</code></td>
+<td><code>DOUBLE PRECISION</code></td>
+<td><code>DOUBLE</code></td>
+<td><code>Double</code></td>
+<td><code>REAL</code></td>
+</tr>
+<tr class="odd">
+<td><code>Rational</code></td>
+<td><code>NUMERIC(22,12)</code></td>
+<td><code>DECIMAL(32,20)</code></td>
+<td><em>unsupported</em></td>
+<td><code>NUMERIC(32,20)</code></td>
+</tr>
+<tr class="even">
+<td><code>Bool</code></td>
+<td><code>BOOLEAN</code></td>
+<td><code>TINYINT(1)</code></td>
+<td><code>Boolean</code></td>
+<td><code>BOOLEAN</code></td>
+</tr>
+<tr class="odd">
+<td><code>Day</code></td>
+<td><code>DATE</code></td>
+<td><code>DATE</code></td>
+<td><code>NumberLong</code></td>
+<td><code>DATE</code></td>
+</tr>
+<tr class="even">
+<td><code>TimeOfDay</code></td>
+<td><code>TIME</code></td>
+<td><code>TIME</code><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
+<td><em>unsupported</em></td>
+<td><code>TIME</code></td>
+</tr>
+<tr class="odd">
+<td><code>UTCTime</code><a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
+<td><code>TIMESTAMP</code></td>
+<td><code>DATETIME</code><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></td>
+<td><code>Date</code></td>
+<td><code>TIMESTAMP</code></td>
+</tr>
+</tbody>
+</table>
+<p>And, in particular, for MySQL and MariaDB:</p>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Haskell type</th>
+<th>Compatible MySQL types</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Bool</code></td>
+<td><code>Tiny</code></td>
+</tr>
+<tr class="even">
+<td><code>Int8</code></td>
+<td><code>Tiny</code></td>
+</tr>
+<tr class="odd">
+<td><code>Int16</code></td>
+<td><code>Tiny</code>, <code>Short</code></td>
+</tr>
+<tr class="even">
+<td><code>Int32</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
+</tr>
+<tr class="odd">
+<td><code>Int</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code><a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></td>
+</tr>
+<tr class="even">
+<td><code>Int64</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
+</tr>
+<tr class="odd">
+<td><code>Integer</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
+</tr>
+<tr class="even">
+<td><code>Word8</code></td>
+<td><code>Tiny</code></td>
+</tr>
+<tr class="odd">
+<td><code>Word16</code></td>
+<td><code>Tiny</code>, <code>Short</code></td>
+</tr>
+<tr class="even">
+<td><code>Word32</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
+</tr>
+<tr class="odd">
+<td><code>Word64</code></td>
+<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
+</tr>
+<tr class="even">
+<td><code>Double</code></td>
+<td><code>Float</code>, <code>Double</code>, <code>Decimal</code>, <code>NewDecimal</code>, <code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
+</tr>
+<tr class="odd">
+<td><code>Ratio Integer</code></td>
+<td><code>Float</code>, <code>Double</code>, <code>Decimal</code>, <code>NewDecimal</code>, <code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
+</tr>
+<tr class="even">
+<td><code>ByteString</code></td>
+<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
+</tr>
+<tr class="odd">
+<td><code>Lazy.ByteString</code></td>
+<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
+</tr>
+<tr class="even">
+<td><code>Encoding.Text</code><a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></td>
+<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
+</tr>
+<tr class="odd">
+<td><code>Lazy.Text</code></td>
+<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
+</tr>
+<tr class="even">
+<td><code>[Char]</code>, <code>String</code></td>
+<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
+</tr>
+<tr class="odd">
+<td><code>UTCTime</code></td>
+<td><code>DateTime</code>,<code>Timestamp</code></td>
+</tr>
+<tr class="even">
+<td><code>Day</code></td>
+<td><code>Year</code>, <code>Date</code>, <code>NewDate</code></td>
+</tr>
+<tr class="odd">
+<td><code>TimeOfDay</code></td>
+<td><code>Time</code></td>
+</tr>
+</tbody>
+</table>
+<p>As of writing, there is no support for <code>Word</code>, <code>Float</code>, or <code>Scientific</code> yet.</p>
+<!-- -------------------------------------------------------------------------------- -->
+<h1 id="entity-syntax">Entity Syntax</h1>
+<!-- ======================================================================================================================== -->
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://github.com/yesodweb/persistent#learn-more-httpwwwyesodwebcombookpersistent"><code>Persistent</code> project page on GitHub</a>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><a href="https://github.com/bitemyapp/esqueleto#setup">Esqueleto docs</a>.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p><a href="https://www.yesodweb.com/book/persistent">The chapter on <code>Persistent</code> in Yesod Book</a>.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p><a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md">Persistent docs</a>.<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>“The default resolution for <code>TIME</code> and <code>DATETIME</code> in MySQL is one second. As of MySQL version 5.6.4, and persistent-mysql-2.6.2, fractional seconds are handled correctly if you declare an explicit precision by using <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#sqltype"><code>sqltype</code></a>. For example, appending <code>sqltype=TIME(6)</code> to a <code>TimeOfDay</code> field definition will give microsecond resolution.”<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>“Support for <code>ZonedTime</code> was dropped in persistent 2.0. <code>UTCTime</code> can be used with <code>timestamp without timezone</code> and <code>timestamp with timezone</code> in PostgreSQL. See also <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#times-with-timezones">the section below about timezone support</a>.”<a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>“The default resolution for <code>TIME</code> and <code>DATETIME</code> in MySQL is one second. As of MySQL version 5.6.4, and persistent-mysql-2.6.2, fractional seconds are handled correctly if you declare an explicit precision by using <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#sqltype"><code>sqltype</code></a>. For example, appending <code>sqltype=TIME(6)</code> to a <code>TimeOfDay</code> field definition will give microsecond resolution.”<a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>“When <code>Word</code> size is 64bit.”<a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>“Utf8 only.”<a href="#fnref9" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+]]></description>
+    <pubDate>Thu, 26 Mar 2020 00:00:00 UT</pubDate>
+    <guid>localhost/posts/2020-03-26-haskell-persistent-sql-database.html</guid>
     <dc:creator>Nick Demming</dc:creator>
 </item>
 <item>
@@ -208,25 +831,10 @@
 <p>Our starting point is thus the <strong>numerical solution of initial-value and boundary-value problems</strong>. We will show that <strong>they reduce to standard problems of numerical linear algebra and nonlinear optimization</strong>.</p>
 <p>We will conclude this series with <strong>deep learning methods applied to ODE models</strong>.</p>
 <hr />
-<p>As a general note valid for all my posts here, even trying hard to stay correct, but as is usual in life, mistakes are TODO hinterhältig, they залазят в самые неожиданные места, Correctness of my words is important to me. So I will greatly appreciate if you send me your corrections. Simply pointing out a potential mistake is already greatly appreciated!</p>
+<p>As a general note valid for all my posts here, even trying hard to stay correct, but as is usual in life, mistakes are hideous, they emerge at the least expected spots. Correctness of my words is important to me. So I will greatly appreciate if you send me your corrections. Simply pointing out a potential mistake is already greatly appreciated!</p>
 ]]></description>
     <pubDate>Fri, 28 Feb 2020 00:00:00 UT</pubDate>
     <guid>localhost/posts/2020-02-28-numerical-haskell-python.html</guid>
-    <dc:creator>Nick Demming</dc:creator>
-</item>
-<item>
-    <title>example post</title>
-    <link>localhost/posts/2015-08-23-example.html</link>
-    <description><![CDATA[<div class="info">
-    Posted on August 23, 2015
-    
-</div>
-
-<p>Mauris in lorem nisl. Maecenas tempus facilisis ante, eget viverra nisl tincidunt et. Donec turpis lectus, mattis ac malesuada a, accumsan eu libero. Morbi condimentum, tortor et tincidunt ullamcorper, sem quam pretium nulla, id convallis lectus libero nec turpis. Proin dapibus nisi id est sodales nec ultrices tortor pellentesque.</p>
-<p>Vivamus vel nisi ac lacus sollicitudin vulputate ac ut ligula. Nullam feugiat risus eget eros gravida in molestie sapien euismod. Nunc sed hendrerit orci. Nulla mollis consequat lorem ac blandit. Ut et turpis mauris. Nulla est odio, posuere id ullamcorper sit amet, tincidunt vel justo. Curabitur placerat tincidunt varius. Nulla vulputate, ipsum eu consectetur mollis, dui nibh aliquam neque, at ultricies leo ligula et arcu.</p>
-]]></description>
-    <pubDate>Sun, 23 Aug 2015 00:00:00 UT</pubDate>
-    <guid>localhost/posts/2015-08-23-example.html</guid>
     <dc:creator>Nick Demming</dc:creator>
 </item>
 

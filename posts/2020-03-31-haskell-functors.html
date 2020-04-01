@@ -1,21 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <title>Nick Demming's blog</title>
-    <link href="https://demming.github.io/atom.xml" rel="self" />
-    <link href="https://demming.github.io" />
-    <id>https://demming.github.io/atom.xml</id>
-    <author>
-        <name>Nick Demming</name>
-        <email>nick.demming@gmail.com</email>
-    </author>
-    <updated>2020-03-31T00:00:00Z</updated>
-    <entry>
-    <title>Functors in Haskell</title>
-    <link href="localhost/posts/2020-03-31-haskell-functors.html" />
-    <id>localhost/posts/2020-03-31-haskell-functors.html</id>
-    <published>2020-03-31T00:00:00Z</published>
-    <updated>2020-03-31T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Nick Demming -> Functors in Haskell @</title>
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+
+    <script type="text/x-mathjax-config"> 
+      MathJax.Hub.Config({
+      <!-- config: ["MMLorHTML.js"], -->
+      <!-- jax: ["input/TeX", "output/HTML-CSS", "output/PreviewHTML", ], -->
+
+      <!-- extensions: [ -->
+      <!--   "tex2jax.js", -->
+      <!--   "MathMenu.js","MathZoom.js", "fast-preview.js", --> 
+      <!--   "a11y/accessibility-menu.js" -->
+      <!-- ], -->
+
+      <!-- TeX: { -->
+      <!--   extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] -->
+      <!-- } -->
+
+      <!-- "HTML-CSS": { -->
+      <!--   fonts: ["STIX", "TeX"] -->
+      <!-- , scale: 95 -->
+      <!-- , avaliableFonts: ["STIX", "TeX"] -->
+      <!-- , preferredFont: "TeX" -->
+      <!-- , webFont: "TeX" -->
+      <!-- } -->
+      });
+    </script>
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML">
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/MathJax.js"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+    </script>
+  </head>
+
+  <body>
+    <div id="header">
+
+      <div id="logo">
+        <a href="../">Nick Demming</a>
+      </div>
+
+      <div id="navigation">
+        <a href="../">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../archive.html">Archive</a>
+
+        <a href="../rss.xml">RSS</a>
+        <a href="../atom.xml">Atom</a>
+      </div>
+    </div>
+
+    <div id="content">
+      <h1>Functors in Haskell</h1>
+
+      <div class="info">
     Posted on March 31, 2020
     
 </div>
@@ -62,21 +109,21 @@ are satisfied.</li>
 <p>Another question: when would we need this? Let’s take two of the simplest <code>Functor</code> instances, <code>Maybe</code> (free structure<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> on computations that can fail) and <code>[]</code> (non-deterministic computations<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>). Imagine we have a pure function <code>j :: a -&gt; b</code> that performs a trivial transformation, say <code>j = const 'j'</code>, where <code>const :: a -&gt; b -&gt; a</code> can do only one thing, namely take a value of type <code>a</code>, ignore the second argument of type <code>b</code>, and result in that same first argument; indeed this is completely encoded in the type signature: <code>const</code> expects a value of an arbitrary type <code>a</code>, it doesn’t know which type <code>a</code> is, so it can’t use any class methods, and it must result in a value of that same type <code>a</code>, hence it can only act as <code>id :: a -&gt; a</code> on the first argument and cannot process the second one of type <code>b</code>.</p>
 <p>Now imagine we have a value <code>x :: [Maybe Char]</code> such as <code>[Just 'c', Nothing]</code>. First note that both <code>[] :: * -&gt; *</code> and <code>Maybe :: * -&gt; *</code> are Functor instances. We have therefore a nested functorial structure here, which we can write as <code>g (f a)</code> where <code>g ~ []</code> and <code>f ~ Maybe</code>. So there are two levels of nesting. How about a value <code>y :: [Maybe String]</code> such as <code>[Just &quot;cd&quot;, Nothing]</code>? It’s different now, since <code>type String = [Char]</code> by definition, which gives one deeper level of functorial nesting and is a structure <code>g (f (h a))</code> where <code>h ~ []</code>. And if we add a <code>Maybe</code> encapsulation, say, to obtain a value <code>z = Just y</code>, we’ll end up with <code>k (g (f (h a)))</code> where <code>k ~ Maybe</code>. Let’s see how this plays out.</p>
 <p>So now we have</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;c&#39;</span>,  <span class="dt">Nothing</span>]<span class="ot"> ::</span> [<span class="dt">Maybe</span> <span class="dt">Char</span>]</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">'c'</span>,  <span class="dt">Nothing</span>]<span class="ot"> ::</span> [<span class="dt">Maybe</span> <span class="dt">Char</span>]</a>
 <a class="sourceLine" id="cb6-2" title="2">y <span class="fu">=</span> [<span class="dt">Just</span> <span class="st">&quot;cd&quot;</span>, <span class="dt">Nothing</span>]<span class="ot"> ::</span> [<span class="dt">Maybe</span> <span class="dt">String</span>] <span class="fu">~</span> [<span class="dt">Maybe</span> [<span class="dt">Char</span>]]</a>
 <a class="sourceLine" id="cb6-3" title="3">z <span class="fu">=</span> <span class="dt">Just</span><span class="ot"> y               ::</span> <span class="dt">Maybe</span> [<span class="dt">Maybe</span> <span class="dt">String</span>]</a></code></pre></div>
 <p>We first apply our constant <code>j :: a -&gt; Char</code> directly to each of the three values. In the comments I specify the concrete type of <code>j</code> and what this <code>a</code> is, for each of those three values, <code>x</code>, <code>y</code> and <code>z</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1">j x <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ [Maybe Char]         -&gt; Char</span></a>
-<a class="sourceLine" id="cb7-2" title="2">j y <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ [Maybe String]       -&gt; Char</span></a>
-<a class="sourceLine" id="cb7-3" title="3">j z <span class="fu">=</span> <span class="ch">&#39;j&#39;</span>                    <span class="co">-- j :: a ~ Maybe [Maybe String] -&gt; Char</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1">j x <span class="fu">=</span> <span class="ch">'j'</span>                    <span class="co">-- j :: a ~ [Maybe Char]         -&gt; Char</span></a>
+<a class="sourceLine" id="cb7-2" title="2">j y <span class="fu">=</span> <span class="ch">'j'</span>                    <span class="co">-- j :: a ~ [Maybe String]       -&gt; Char</span></a>
+<a class="sourceLine" id="cb7-3" title="3">j z <span class="fu">=</span> <span class="ch">'j'</span>                    <span class="co">-- j :: a ~ Maybe [Maybe String] -&gt; Char</span></a></code></pre></div>
 <p>Now, let’s lift <code>j</code> to the context of the first level of the nesting.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="fu">fmap</span> j x <span class="fu">=</span> [<span class="ch">&#39;j&#39;</span>, <span class="ch">&#39;j&#39;</span>]        <span class="co">-- j :: a ~ Maybe Char     -&gt; Char</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="fu">fmap</span> j y <span class="fu">=</span> [<span class="ch">&#39;j&#39;</span>, <span class="ch">&#39;j&#39;</span>]        <span class="co">-- j :: a ~ Maybe String   -&gt; Char</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="fu">fmap</span> j z <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>          <span class="co">-- j :: a ~ [Maybe String] -&gt; Char</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="fu">fmap</span> j x <span class="fu">=</span> [<span class="ch">'j'</span>, <span class="ch">'j'</span>]        <span class="co">-- j :: a ~ Maybe Char     -&gt; Char</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="fu">fmap</span> j y <span class="fu">=</span> [<span class="ch">'j'</span>, <span class="ch">'j'</span>]        <span class="co">-- j :: a ~ Maybe String   -&gt; Char</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="fu">fmap</span> j z <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">'j'</span>          <span class="co">-- j :: a ~ [Maybe String] -&gt; Char</span></a></code></pre></div>
 <p>Let’s go one level deeper,</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">ff <span class="fu">=</span> <span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span></a>
-<a class="sourceLine" id="cb9-2" title="2">ff j x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ Char         -&gt; Char</span></a>
-<a class="sourceLine" id="cb9-3" title="3">ff j y <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">&#39;j&#39;</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ String       -&gt; Char</span></a>
+<a class="sourceLine" id="cb9-2" title="2">ff j x <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">'j'</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ Char         -&gt; Char</span></a>
+<a class="sourceLine" id="cb9-3" title="3">ff j y <span class="fu">=</span> [<span class="dt">Just</span> <span class="ch">'j'</span>, <span class="dt">Nothing</span>]  <span class="co">-- j :: a ~ String       -&gt; Char</span></a>
 <a class="sourceLine" id="cb9-4" title="4">ff j z <span class="fu">=</span> <span class="dt">Just</span> <span class="st">&quot;jj&quot;</span>            <span class="co">-- j :: a ~ Maybe String -&gt; Char, so ff j :: </span></a></code></pre></div>
 <p>The pattern is apparent: for <code>j</code>, we peel off one outer layer after another. This is because</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">ff <span class="fu">=</span> <span class="fu">fmap</span> <span class="fu">.</span><span class="ot"> fmap ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f b))</a></code></pre></div>
@@ -97,7 +144,7 @@ are satisfied.</li>
 <a class="sourceLine" id="cb12-2" title="2">                <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (g (f a) <span class="ot">-&gt;</span> g (f b))</a>
 <a class="sourceLine" id="cb12-3" title="3">(<span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span>)<span class="ot"> j ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
 <a class="sourceLine" id="cb12-4" title="4">                <span class="ot">=&gt;</span> g (f a) <span class="ot">-&gt;</span> g (f <span class="dt">Char</span>)</a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> j   <span class="co">-- Precedence of application: &#39;infixr 9 .&#39; vs &#39;infixr 0 $&#39;.</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="fu">fmap</span> <span class="fu">.</span> <span class="fu">fmap</span> j   <span class="co">-- Precedence of application: 'infixr 9 .' vs 'infixr 0 $'.</span></a>
 <a class="sourceLine" id="cb12-6" title="6">  <span class="fu">==</span> <span class="fu">fmap</span> <span class="fu">.</span> (<span class="fu">fmap</span> j)<span class="ot">   ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g) </a>
 <a class="sourceLine" id="cb12-7" title="7">                       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (f a <span class="ot">-&gt;</span> f <span class="dt">Char</span>)</a></code></pre></div>
 <p>Good, next level.</p>
@@ -152,7 +199,7 @@ are satisfied.</li>
 <p>This instance already fails even the identity law. Indeed, in this case, <code>fmap id (Just 'x') = Nothing /= Just 'x' = id (Just 'x')</code>.</p>
 <p>Alternatively, we can fix some arbitrary value.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb20-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">&#39;x&#39;</span></a>
+<a class="sourceLine" id="cb20-2" title="2">  <span class="fu">fmap</span> _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Just</span> <span class="ch">'x'</span></a>
 <a class="sourceLine" id="cb20-3" title="3">  <span class="fu">fmap</span> f (<span class="dt">Just</span> x) <span class="fu">=</span> <span class="dt">Just</span> (f x)</a></code></pre></div>
 <p>This instance also violates the identity law. Indeed, in this case, <code>fmap id Nothing = Just 'x' /= Nothing = id Nothing</code>.</p>
 <p>But we could also define <code>Maybe</code> to be the <strong>identity functor</strong>, which regardless of the mapped function always gives back the input values.</p>
@@ -226,10 +273,10 @@ where the tilde `~` in the pattern matching expression represents an infallible 
 <li>induction basis: <code>fmap (g . f) [] = [] = fmap g [] = fmap g (fmap f []) = (fmap g . fmap f) []</code></li>
 <li>induction hypothesis: suppose <code>xs'@(x:xs)</code> are such that <code>fmap (g . f) xs = (fmap g . fmap f) xs</code>, and we need to show that, given this assumption, <code>fmap (g . f) xs' = (fmap g . fmap f) xs</code>:</li>
 </ul>
-<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="fu">fmap</span> (g <span class="fu">.</span> f) xs&#39;<span class="fu">@</span>(x<span class="fu">:</span>xs) <span class="fu">=</span> (g <span class="fu">.</span> f) x <span class="fu">:</span> <span class="fu">fmap</span> (g <span class="fu">.</span> f) xs </a>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="fu">fmap</span> (g <span class="fu">.</span> f) xs'<span class="fu">@</span>(x<span class="fu">:</span>xs) <span class="fu">=</span> (g <span class="fu">.</span> f) x <span class="fu">:</span> <span class="fu">fmap</span> (g <span class="fu">.</span> f) xs </a>
 <a class="sourceLine" id="cb25-2" title="2">                        <span class="fu">=</span> g (f x) <span class="fu">:</span> (<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs</a></code></pre></div>
 <p>where we used the hypothesis in the last equality. And, conversely,</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb26-1" title="1">(<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs&#39; <span class="fu">=</span> <span class="fu">fmap</span> g (<span class="fu">fmap</span> f xs&#39;) <span class="fu">=</span> <span class="fu">fmap</span> g (f x <span class="fu">:</span> <span class="fu">fmap</span> f xs) </a>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb26-1" title="1">(<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs' <span class="fu">=</span> <span class="fu">fmap</span> g (<span class="fu">fmap</span> f xs') <span class="fu">=</span> <span class="fu">fmap</span> g (f x <span class="fu">:</span> <span class="fu">fmap</span> f xs) </a>
 <a class="sourceLine" id="cb26-2" title="2">                                            <span class="fu">=</span> g (f x) <span class="fu">:</span> <span class="fu">fmap</span> g (<span class="fu">fmap</span> f xs) </a>
 <a class="sourceLine" id="cb26-3" title="3">                                            <span class="fu">=</span> g (f x) <span class="fu">:</span> (<span class="fu">fmap</span> g <span class="fu">.</span> <span class="fu">fmap</span> f) xs</a></code></pre></div></li>
 </ol>
@@ -243,8 +290,8 @@ That’s it. One important nit-pick: ellipses <code>...</code> in proofs are, we
 <div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">data</span> <span class="dt">Either</span> a b <span class="fu">=</span> <span class="dt">Left</span> a <span class="fu">|</span> <span class="dt">Right</span> b</a>
 <a class="sourceLine" id="cb27-2" title="2"><span class="kw">data</span> (,)    a b <span class="fu">=</span> (a,b)</a></code></pre></div>
 <p>The most fundamental notion that they represent is that of sum types and product types, respectively. I mean, we can write equivalently</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">data</span> <span class="dt">Sum&#39;</span>    a b  <span class="fu">=</span> <span class="dt">One</span> a <span class="fu">|</span> <span class="dt">Two</span> b</a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="kw">data</span> <span class="dt">Product&#39;</span> a b <span class="fu">=</span> <span class="dt">Product&#39;</span> a b</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">data</span> <span class="dt">Sum'</span>    a b  <span class="fu">=</span> <span class="dt">One</span> a <span class="fu">|</span> <span class="dt">Two</span> b</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="kw">data</span> <span class="dt">Product'</span> a b <span class="fu">=</span> <span class="dt">Product'</span> a b</a></code></pre></div>
 <p>A sum type represents alternatives and has multiple constructors, here <code>Left</code> and <code>Right</code> or <code>One</code> and <code>Two</code>; logically this corresponds to <code>OR</code>. A product type represents conjunction and has but one constructor, here <code>(,)</code> or <code>Product'</code>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <p>A propositional logical system can be well-defined with just negation and either of conjunction or disjunction. Indeed, the implication <span class="math display">\[p \to q \equiv \neg (p \wedge q) \equiv \neg p \vee q).\]</span></p>
 <p>For predicate logics Haskell offers explicit and implicit <code>forall</code>s. Existential quantification can be given in terms of the universal quantification by means of negation. We will not go as far yet. But note that GHC offers rank-<span class="math inline">\(n\)</span> types and existential types.</p>
@@ -325,518 +372,19 @@ The <em>dual notion</em> is that of a <strong>forgetful functor</strong> <span c
 <a class="sourceLine" id="cb33-2" title="2"><span class="ot">(.)       ::</span> s <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)       <span class="ot">-&gt;</span> t <span class="fu">~</span> ((d <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c))</a>
 <a class="sourceLine" id="cb33-3" title="3">((<span class="fu">.</span>) <span class="fu">.</span>)<span class="ot">   ::</span> (a <span class="ot">-&gt;</span> s) <span class="fu">~</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) </a>
 <a class="sourceLine" id="cb33-4" title="4">          <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> t) <span class="fu">~</span> a <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c)</a>
-<a class="sourceLine" id="cb33-5" title="5"><span class="ot">(.)       ::</span> a&#39; <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)      <span class="ot">-&gt;</span> b&#39; <span class="fu">~</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> c&#39; <span class="fu">~</span> (a <span class="ot">-&gt;</span> c)</a>
-<a class="sourceLine" id="cb33-6" title="6">(<span class="fu">.</span>) <span class="fu">.</span><span class="ot"> (.) ::</span> a&#39;        <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)</a>
-<a class="sourceLine" id="cb33-7" title="7">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> b&#39;) <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b)</a>
-<a class="sourceLine" id="cb33-8" title="8">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c&#39;) <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c)</a></code></pre></div>
+<a class="sourceLine" id="cb33-5" title="5"><span class="ot">(.)       ::</span> a' <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)      <span class="ot">-&gt;</span> b' <span class="fu">~</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> c' <span class="fu">~</span> (a <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb33-6" title="6">(<span class="fu">.</span>) <span class="fu">.</span><span class="ot"> (.) ::</span> a'        <span class="fu">~</span> (b <span class="ot">-&gt;</span> c)</a>
+<a class="sourceLine" id="cb33-7" title="7">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> b') <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b)</a>
+<a class="sourceLine" id="cb33-8" title="8">          <span class="ot">-&gt;</span> (d <span class="ot">-&gt;</span> c') <span class="fu">~</span> (d <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c)</a></code></pre></div>
 <a href="#fnref8" class="footnote-back">↩</a></li>
 <li id="fn9"><p>But associativity of function composition is <em>the</em> basic tenet of almost everything we do. Semigroups need this, and by extension categories.<a href="#fnref9" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
-]]></summary>
-</entry>
-<entry>
-    <title>Testing and Benchmarking Software in Haskell</title>
-    <link href="localhost/posts/2020-03-26-haskell-testing-benchmarking.html" />
-    <id>localhost/posts/2020-03-26-haskell-testing-benchmarking.html</id>
-    <published>2020-03-26T00:00:00Z</published>
-    <updated>2020-03-26T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on March 26, 2020
-    
-</div>
 
-<h1 id="the-setting">The Setting</h1>
-<p>Haskell is renowned for its <a href="https://hackage.haskell.org/packages/#cat:Testing">testing facilities</a>.</p>
-<p>There is an ambiguity in the usage of the term “framework,” related to different contexts and scopes of the notion. For our purposes, we will call libraries such as HUnit and QuickCheck, but also HSpec, that provide an idiosyncratic formalism for the expression of tests, a “<strong>testing library</strong>,” whereas test-framewok, HTF, and tasty, but also HSpec, that introduce a unifying interface to more than one testing library, a “<strong>testing framework</strong>.” Apparently, HSpec belongs to both categories, for it comprises other testing libraries and at the same time provides own formalism for expressing tests.</p>
-<p>Some major popular testing libraries (also call themselves “frameworks”, in which case the next group can be termed “meta-frameworks”):</p>
-<ul>
-<li>doctest</li>
-<li>HSpec (cf. RSpec, Mocha, etc.; a peculiar test formalism in its own right, but also a framework unifying HUnit, QuickCheck, SmallCheck)</li>
-<li>HUnit</li>
-<li>QuickCheck</li>
-<li>SmallCheck</li>
-<li>Hedgehog:</li>
-</ul>
-<p>Some major testing frameworks that provide a unifying layer or interface atop of the testing libraries:</p>
-<ul>
-<li>HSpec: …
-<ul>
-<li>hspec-hedgehog</li>
-<li>hspec-laws:</li>
-<li>hspec-smallcheck</li>
-<li>hspec-leancheck</li>
-<li>hspec-slow</li>
-<li>hspec-test-framework (and hspec-test-framework-th)</li>
-<li>hspec-multicheck</li>
-<li>hspec-wai and -wai-json</li>
-<li>hspec-megaparsec, -parsec, -attoparsec</li>
-</ul></li>
-<li>test-framework: comprises HUnit tests and QuickCheck properties in a single interface.
-<ul>
-<li>relatively actively maintained, as of writing this.</li>
-<li>test-generator (aka test-framework-th) was last updated in 2012.</li>
-</ul></li>
-<li>HTF (Haskell Testing Framework): automatically collects individual unit tests (hspec-discover only finds modules)
-<ul>
-<li>unit tests (HUnit)</li>
-<li>QuickCheck properties</li>
-<li>black-box tests</li>
-<li>custom preprocessor gathering test definitions automatically; failure with exact file name and line number.</li>
-</ul></li>
-<li>tasty (tasty-discover: TODO, archived??)
-<ul>
-<li>tasty-laws</li>
-<li>tasty-lens</li>
-<li>tasty-th</li>
-<li>tasty-tmux</li>
-<li>tasty-wai</li>
-<li>tasty-travis</li>
-<li>tasty-stats</li>
-<li>tasty-hunit</li>
-<li>tasty-hspec</li>
-<li>tasty-hedgehog and -hedgehog-coverage</li>
-</ul></li>
-</ul>
-<p>Essentially, HSpec and Tasty are the two major frameworks.</p>
-<p>Benchmarking:</p>
-<ul>
-<li>Criterion</li>
-<li>…</li>
-</ul>
-<p>We first will investigate unit testing with HUnit and property testing with QuickCheck. After this, we will cover the frameworks that comprise both approaches.</p>
-<h1 id="testing-and-quality-assurance">Testing and Quality Assurance</h1>
-<h2 id="fundamental-definitionstermsjargonlingo">Fundamental Definitions/Terms/Jargon/Lingo</h2>
-<p>Test-driven design (TDD) of software: TODO</p>
-<ul>
-<li>Unit test (HUnit, tasty-hunit):</li>
-<li>Golden test (tasty-golden): unit tests whose results are stored in files.</li>
-<li>Property test (QuickCheck, SmallCheck, Hedgehog, LeanCheck): specify a property a function must adhere to, and test whether this is the case.</li>
-<li>Regression test:</li>
-</ul>
-<p>A framework is aimed at gathering these individual groups of tests in a single uniform test expression that the compiler will evaluate for us, to inform us whether everything’s fine. It is crucial especially when introducing changes to pristine code. Anything could go wrong. Recall that Haskell’s advanced type system makes most bugs travel back in time and emerge at compile-time rather than the runtime, at which our users make their experience with our software. We want to make them happy and solve their problems, make their lives easier. Any runtime bug is an encumbrance on a user.</p>
-<h2 id="typical-workflow">Typical Workflow</h2>
-<p>So we have a two-step approach to ensuring this high quality of our products and services:</p>
-<ol type="1">
-<li>use Haskell to impose a high level of mandatory consistency, soundness, and correctness of our programs — nothing will compile that doesn’t meet that requirement (this imposes syntactic and logical correctness as expressed by types); and then additionally</li>
-<li>test our programs thoroughly to ensure that we translated our ideas correctly into code — the compiler, GHC, will alert us whenever we specify that we want something different than what actually gets computed as a result (this imposes semantic and translational correctness as expressed by our test specifications).</li>
-</ol>
-<p>The Haskell ecosystem provides top-notch world-class quality assurance and testing facilities. It comes closest to formal verification, without the excessive burden and cost. It is a pragmatic gold standard of great quality of software. And should we indeed need to formally verify critical pieces of code, we’ve set the stage for it already. With Template Haskell, we can even attain automated test generation, including all the boilerplate potentially necessary. Moreover, we can use Haskell’s testing frameworks for other languages and platforms. We can also embed other languages in Haskell code and use it as our glue.</p>
-<h2 id="examples">Examples</h2>
-<!-- - embedded gists -->
-<!-- - embedded binder instance cells -->
-]]></summary>
-</entry>
-<entry>
-    <title>Databases in Haskell</title>
-    <link href="localhost/posts/2020-03-26-haskell-persistent-sql-database.html" />
-    <id>localhost/posts/2020-03-26-haskell-persistent-sql-database.html</id>
-    <published>2020-03-26T00:00:00Z</published>
-    <updated>2020-03-26T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on March 26, 2020
-    
-</div>
-
-<!-- -------------------------------------------------------------------------------- -->
-<h1 id="introduction">Introduction</h1>
-<p>In Haskell, we have many database libraries. <a href="http://www.stackage.org/package/persistent">Persistent</a> is a layer atop, using some of them as its backends, that imposes type safety and seamless integration with Haskell code. With <a href="TODO"><code>persistent-odbc</code></a> many more DBMSs can be attached. Own drivers can be written. Whenever Persistent turns out to be insufficient, we can fall back to the raw driver or its Haskell wrapper, and write a Persistent ORM ourselves. The framework is wonderful, but as everything has its caveats. We will discuss some them in the course of this series of posts here.</p>
-<p>In other words, Persistent is a seamless marshalling or serialization library that removes most boilerplate code<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
-<p>This marshalling or object-relational mapping (ORM) imposes type-safety onto the conventional untyped database drivers, which may be written in an arcane dialect of C (macros!), such as the <a href="TODO"><code>pgsql</code> driver</a>, notorious for its undocumented features. We thereby can employ Haskell’s type system and GHC’s facilities to ensure that we don’t make mistakes in our queries and that the data remains consistent throughout our data transformations. The key point here is that any errors that might occur are pulled back from runtime to compile-time, where we can fix it proactively. In particular, type-safety prevents SQL injection attacks.</p>
-<p>There are basically four different approaches to dealing with databases in Haskell:</p>
-<ol type="1">
-<li>use the existing drivers provided as backends and create a layer atop that imposes Haskell types on the level of Haskell code — this is the approach of serialization, marshalling, or ORM taken by Persistent and <a href="https://hackage.haskell.org/package/esqueleto">Esqueleto</a> (more later);</li>
-<li>use the existing drivers via foreign-function interfaces (FFIs) by introducing a thin wrapper around them, and run direct textual queries, hoping for consistency — this is what <a href="TODO"><code>sqlite-simple</code></a> and <a href="TODO"><code>postgres-simple</code></a> among others do;</li>
-<li>run third-party database drivers as subprocesses — this is very crude but may turn out to be necessary in some situations;</li>
-<li>rewrite the existing driver directly in Haskell, which enables us to introduce category-theoretic abstractions that can simplify code and improve performance — this is what <a href="TODO">Nikita Volkov</a>’s <a href="TODO"><code>hasql</code></a> library for Postgres does, and in Rust there’s a similar story with <a href="TODO">…</a>.</li>
-</ol>
-<p>Some other persistence libraries:</p>
-<ul>
-<li><a href="https://github.com/jcristovao/migrationplus">Triggers for SQL</a></li>
-<li><a href="https://github.com/gbwey/persistent-odbc">Persistent-ODBC</a></li>
-<li><a href="https://hackage.haskell.org/package/persistent-zookeeper">Persistent-Zookeeper</a></li>
-<li><a href="https://hackage.haskell.org/package/vault"><code>vault</code></a> (a persistent storage of values of arbitrary types).</li>
-</ul>
-<!-- -------------------------------------------------------------------------------- -->
-<h1 id="limitations-in-persistent-that-can-be-overcome-with-esqueleto">Limitations in Persistent that can be overcome with Esqueleto</h1>
-<p>So when do we use which of these two libraries?</p>
-<ul>
-<li>Persistent provides type-safe serialization of data. It allows for type-safe filtered storage and retrieval of data from a database (remote-resource, local resource, file, or in-memory databases). It does not support type-safe <code>JOIN</code>s, but we can fall back to explicit-string queries.</li>
-<li>Esqueleto: provides an embedded domain-specific language (EDSL) for SQL and superposes type-safe <code>JOIN</code>s atop of Persistent SQL backends. As of writing this, Esqueleto supports only type-safe <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>, and <code>DELETE</code> queries. It does not provide for all SQL features. So we can either implement them by hand whenever necessary, which is relatively easy, or switch to the fall-back mode of explicit-string queries.</li>
-</ul>
-<p>We can use both libraries in the same module, in which case we would have to import at least one of them qualified, so as to avoid identifier conflicts.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="co">-- For a module that mostly uses esqueleto.</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">import</span> <span class="dt">Database.Esqueleto</span></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Database.Persistent</span> <span class="kw">as</span> <span class="dt">P</span></a></code></pre></div>
-<p>or import <code>esqueleto</code> itself qualified:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="co">-- For a module that uses esqueleto just on some queries.</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">import</span> <span class="dt">Database.Persistent</span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Database.Esqueleto</span> <span class="kw">as</span> <span class="dt">E</span></a></code></pre></div>
-<p>Our plan is to first learn to use Persistent, and then extend it with Esqueleto.</p>
-<!-- -------------------------------------------------------------------------------- -->
-<h1 id="fundamental-definitions">Fundamental Definitions</h1>
-<p>Here is the fundamental correspondence<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>:</p>
-<table>
-<thead>
-<tr class="header">
-<th>SQL DBMS</th>
-<th>Persistent</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Data types</td>
-<td><code>PersistValue</code></td>
-</tr>
-<tr class="even">
-<td>Column</td>
-<td><code>PersistField</code></td>
-</tr>
-<tr class="odd">
-<td>Table</td>
-<td><code>PersistEntity</code></td>
-</tr>
-</tbody>
-</table>
-<p>Also consider this migrations (conversions) table for marshalling<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>:</p>
-<table>
-<thead>
-<tr class="header">
-<th>Haskell</th>
-<th>PostgreSQL</th>
-<th>MySQL</th>
-<th>MongoDB</th>
-<th>SQLite</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Text</code> |</td>
-<td><code>VARCHAR</code></td>
-<td><code>TEXT</code></td>
-<td><code>String</code></td>
-<td><code>VARCHAR</code></td>
-</tr>
-<tr class="even">
-<td><code>ByteString</code></td>
-<td><code>BYTEA</code></td>
-<td><code>BLOB</code></td>
-<td><code>BinData</code></td>
-<td><code>BLOB</code></td>
-</tr>
-<tr class="odd">
-<td><code>Int</code></td>
-<td><code>INT8</code></td>
-<td><code>BIGINT(20)</code></td>
-<td><code>NumberLong</code></td>
-<td><code>INTEGER</code></td>
-</tr>
-<tr class="even">
-<td><code>Double</code></td>
-<td><code>DOUBLE PRECISION</code></td>
-<td><code>DOUBLE</code></td>
-<td><code>Double</code></td>
-<td><code>REAL</code></td>
-</tr>
-<tr class="odd">
-<td><code>Rational</code></td>
-<td><code>NUMERIC(22,12)</code></td>
-<td><code>DECIMAL(32,20)</code></td>
-<td><em>unsupported</em></td>
-<td><code>NUMERIC(32,20)</code></td>
-</tr>
-<tr class="even">
-<td><code>Bool</code></td>
-<td><code>BOOLEAN</code></td>
-<td><code>TINYINT(1)</code></td>
-<td><code>Boolean</code></td>
-<td><code>BOOLEAN</code></td>
-</tr>
-<tr class="odd">
-<td><code>Day</code></td>
-<td><code>DATE</code></td>
-<td><code>DATE</code></td>
-<td><code>NumberLong</code></td>
-<td><code>DATE</code></td>
-</tr>
-<tr class="even">
-<td><code>TimeOfDay</code></td>
-<td><code>TIME</code></td>
-<td><code>TIME</code><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
-<td><em>unsupported</em></td>
-<td><code>TIME</code></td>
-</tr>
-<tr class="odd">
-<td><code>UTCTime</code><a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
-<td><code>TIMESTAMP</code></td>
-<td><code>DATETIME</code><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></td>
-<td><code>Date</code></td>
-<td><code>TIMESTAMP</code></td>
-</tr>
-</tbody>
-</table>
-<p>And, in particular, for MySQL and MariaDB:</p>
-<table>
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 57%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Haskell type</th>
-<th>Compatible MySQL types</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Bool</code></td>
-<td><code>Tiny</code></td>
-</tr>
-<tr class="even">
-<td><code>Int8</code></td>
-<td><code>Tiny</code></td>
-</tr>
-<tr class="odd">
-<td><code>Int16</code></td>
-<td><code>Tiny</code>, <code>Short</code></td>
-</tr>
-<tr class="even">
-<td><code>Int32</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
-</tr>
-<tr class="odd">
-<td><code>Int</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code><a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></td>
-</tr>
-<tr class="even">
-<td><code>Int64</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
-</tr>
-<tr class="odd">
-<td><code>Integer</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
-</tr>
-<tr class="even">
-<td><code>Word8</code></td>
-<td><code>Tiny</code></td>
-</tr>
-<tr class="odd">
-<td><code>Word16</code></td>
-<td><code>Tiny</code>, <code>Short</code></td>
-</tr>
-<tr class="even">
-<td><code>Word32</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
-</tr>
-<tr class="odd">
-<td><code>Word64</code></td>
-<td><code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
-</tr>
-<tr class="even">
-<td><code>Double</code></td>
-<td><code>Float</code>, <code>Double</code>, <code>Decimal</code>, <code>NewDecimal</code>, <code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code></td>
-</tr>
-<tr class="odd">
-<td><code>Ratio Integer</code></td>
-<td><code>Float</code>, <code>Double</code>, <code>Decimal</code>, <code>NewDecimal</code>, <code>Tiny</code>, <code>Short</code>, <code>Int24</code>, <code>Long</code>, <code>LongLong</code></td>
-</tr>
-<tr class="even">
-<td><code>ByteString</code></td>
-<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
-</tr>
-<tr class="odd">
-<td><code>Lazy.ByteString</code></td>
-<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
-</tr>
-<tr class="even">
-<td><code>Encoding.Text</code><a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></td>
-<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
-</tr>
-<tr class="odd">
-<td><code>Lazy.Text</code></td>
-<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
-</tr>
-<tr class="even">
-<td><code>[Char]</code>, <code>String</code></td>
-<td><code>VarChar</code>, <code>TinyBlob</code>, <code>MediumBlob</code>, <code>LongBlob</code>, <code>Blob</code>, <code>VarString</code>, <code>String</code>, <code>Set</code>, <code>Enum</code></td>
-</tr>
-<tr class="odd">
-<td><code>UTCTime</code></td>
-<td><code>DateTime</code>,<code>Timestamp</code></td>
-</tr>
-<tr class="even">
-<td><code>Day</code></td>
-<td><code>Year</code>, <code>Date</code>, <code>NewDate</code></td>
-</tr>
-<tr class="odd">
-<td><code>TimeOfDay</code></td>
-<td><code>Time</code></td>
-</tr>
-</tbody>
-</table>
-<p>As of writing, there is no support for <code>Word</code>, <code>Float</code>, or <code>Scientific</code> yet.</p>
-<!-- -------------------------------------------------------------------------------- -->
-<h1 id="entity-syntax">Entity Syntax</h1>
-<!-- ======================================================================================================================== -->
-<section class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p><a href="https://github.com/yesodweb/persistent#learn-more-httpwwwyesodwebcombookpersistent"><code>Persistent</code> project page on GitHub</a>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p><a href="https://github.com/bitemyapp/esqueleto#setup">Esqueleto docs</a>.<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p><a href="https://www.yesodweb.com/book/persistent">The chapter on <code>Persistent</code> in Yesod Book</a>.<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p><a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md">Persistent docs</a>.<a href="#fnref4" class="footnote-back">↩</a></p></li>
-<li id="fn5"><p>“The default resolution for <code>TIME</code> and <code>DATETIME</code> in MySQL is one second. As of MySQL version 5.6.4, and persistent-mysql-2.6.2, fractional seconds are handled correctly if you declare an explicit precision by using <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#sqltype"><code>sqltype</code></a>. For example, appending <code>sqltype=TIME(6)</code> to a <code>TimeOfDay</code> field definition will give microsecond resolution.”<a href="#fnref5" class="footnote-back">↩</a></p></li>
-<li id="fn6"><p>“Support for <code>ZonedTime</code> was dropped in persistent 2.0. <code>UTCTime</code> can be used with <code>timestamp without timezone</code> and <code>timestamp with timezone</code> in PostgreSQL. See also <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#times-with-timezones">the section below about timezone support</a>.”<a href="#fnref6" class="footnote-back">↩</a></p></li>
-<li id="fn7"><p>“The default resolution for <code>TIME</code> and <code>DATETIME</code> in MySQL is one second. As of MySQL version 5.6.4, and persistent-mysql-2.6.2, fractional seconds are handled correctly if you declare an explicit precision by using <a href="https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md#sqltype"><code>sqltype</code></a>. For example, appending <code>sqltype=TIME(6)</code> to a <code>TimeOfDay</code> field definition will give microsecond resolution.”<a href="#fnref7" class="footnote-back">↩</a></p></li>
-<li id="fn8"><p>“When <code>Word</code> size is 64bit.”<a href="#fnref8" class="footnote-back">↩</a></p></li>
-<li id="fn9"><p>“Utf8 only.”<a href="#fnref9" class="footnote-back">↩</a></p></li>
-</ol>
-</section>
-]]></summary>
-</entry>
-<entry>
-    <title>Numerical Methods with Haskell and Python</title>
-    <link href="localhost/posts/2020-03-01-initial-value-problems.html" />
-    <id>localhost/posts/2020-03-01-initial-value-problems.html</id>
-    <published>2020-03-01T00:00:00Z</published>
-    <updated>2020-03-01T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on March  1, 2020
-    
-</div>
-
-<h1 id="differential-equations">Differential Equations</h1>
-<p>A general note on differential equations. There are three classical approaches to differential equations:</p>
-<ol type="1">
-<li>geometric or qualitative for the study of long-term behavior of a system modeled by such an equation (mathematical physics),</li>
-<li>analytic of quantitative for the solution of the equation and estimation of the solutions (functional analysis),</li>
-<li>numerical for evaluation, approximation, and interpolation of solutions (numerical analysis).</li>
-</ol>
-<p>In practice, only a handful of differential equations admit an analytic solution, i.e., an exact closed-form solution, i.e., expressible in terms of simple functions. Thus, for actual computations with differential equations we need numerical methods. For the study of long-term behavior of the solutions, differential geometry provides us with an extraordinarily rich set of tools, which are usually used for the purpose of dimensionality reduction of the problem. All three are intertwined. <a href="...">Partial differential equations</a> (PDE) are much harder. We will constrain ourselves first to the deterministic <a href="...">ordinary differential equations</a> (ODE), as opposed to <a href="...">stochastic differential equations</a> (SDE, SPDE). More on this later.</p>
-<p>We first consider only the simplest case of continuous real-valued solutions <span class="math inline">\(x : \mathbb{T} \to \mathbb{R}\)</span> defined on compact intervals <span class="math inline">\(\mathbb{T} := [a,b]\)</span> of the real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
-<p>An exact solution is the solution without rounding errors, otherwise it is called an approximate solution. Each initial value gives rise to another solution. The vector field <span class="math inline">\(f\)</span> defines the flow in the phase space of the problem.</p>
-<h1 id="initial-value-problems">Initial-value problems</h1>
-<p>As a side-note, an IVP is just an ODE with an initial-value condition such as <span class="math inline">\(x(a) = x_0\)</span> for a number <span class="math inline">\(x_0 \in \mathbb{R}\)</span>. The reason for considering such a constraint is that for the problem to be <a href="...">well-posed in the sense of Hadamard</a>, it must admit a unique solution that continuously depends on the data. And the “data” is everything that is “given” as the input to the problem. In its simplest general form, an IVP is stated as <span class="math display">\[\dot{x}(t) = f\big(t, x(t)\big), \quad x(a) = x_0\]</span> for <span class="math inline">\(t \in \mathbb{T}\)</span> and some <span class="math inline">\(x_0 \in X\)</span>, where <span class="math inline">\(\mathbb{T} := [a,b]\)</span> with <span class="math inline">\(a &lt; b\)</span> and <span class="math inline">\(a,b \in \mathbb{R}\)</span>, often <span class="math inline">\(a=0\)</span> and <span class="math inline">\(b=T\)</span>, for some <span class="math inline">\(T \in \mathbb{R}\)</span>, and where <span class="math inline">\(f : \mathbb{T} \times X \to \mathbb{R}\)</span> is “<em>suitably smooth</em>” and <span class="math inline">\(X \subseteq \mathbb{R}^\mathbb{T}\)</span> is a vector space of functions <span class="math inline">\(x : \mathbb{T} \to \mathbb{R}\)</span>. The notion of “suitable smoothness” refers here to the existence and uniqueness theorems guaranteeing continuous depends of the solution on the data, e.g., <a href="...">Picard–Lindelöf</a> theorems. We simply assume that <span class="math inline">\(f\)</span> is <em>uniformly Lipschitz</em>, which means that, there exists a number <span class="math inline">\(L &gt; 0\)</span> such that for all <span class="math inline">\(t \in \mathbb{T}\)</span> and for all <span class="math inline">\(x,y \in X\)</span>, <span class="math display">\[\left| f(t,x) - f(t,y) \right| \le L \lVert x - y\rVert,\]</span> where the norm on the right-hand side is understood.</p>
-<p>There are also weaker and stronger conditions. We don’t need to be concerned with these details right now, though.</p>
-<h1 id="boundary-value-problems">Boundary-value problems</h1>
-<p>The distinctive characteristic of an initial-value condition is that it is taken at some point of the domain of the solution that is considered “initial”, i.e., such that all other points in the domain are ordered in sequence after it. A <a href="...">directed set</a> would suffice to capture this notion, and each interval of <span class="math inline">\(\mathbb{R}\)</span> is a directed set.</p>
-<p>A boundary-value condition differs in that the values constraining the problem so as to enable the existence of a unique solution, are prescribed on the boundary of the domain of solutions, which in our simplified case are the two boundary points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> of an interval <span class="math inline">\([a,b]\)</span>, with real <span class="math inline">\(a &lt; b\)</span>.</p>
-<p>This is a more general case. Indeed, we can specify various boundary-value conditions. For example,</p>
-<ol type="1">
-<li>… — for the values of the solution, on both ends of the interval;</li>
-<li>… — for the derivative of the solution;</li>
-<li>… — mixed (value and derivative);</li>
-<li>… Robin — TODO</li>
-</ol>
-<p>In the case of PDEs the conditions are specified as directional derivatives with respect to a normal vector. In fact, in <span class="math inline">\(\mathbb{R}^d\)</span>, a normal space at a point <span class="math inline">\(p\)</span> is the orthogonal complement of a tangent space at <span class="math inline">\(p\)</span>, which leads to a minimization problem. More on this later.</p>
-<h1 id="integral-equations">Integral Equations</h1>
-<p>Each IVP <span class="math inline">\(\dot{x}(t) = f\big(t,x(t)\big)\)</span> with <span class="math inline">\(x(a) = x_0\)</span> can be written in form of an integral equation <span class="math display">\[x(t) = x_0 + \int_a^b f\big(t,x(t)\big) dt.\]</span></p>
-<p>By … theorem TODO, both equations are equivalent, i.e., admit the same solution.</p>
-<h1 id="stochastic-differential-equations">Stochastic Differential Equations</h1>
-<p>This flavor of differential equations involves a stochastic component. Indeed, a differential equation as stated above is determined completely by the vector field <span class="math inline">\(f\)</span>. The vector field <span class="math inline">\(f\)</span> gives rise to a differential geometric quantity known as the vector flow of the equation, which describes in dependence on the initial data <span class="math inline">\(x_0\)</span> the behavior of the solution. More specifically, TODO</p>
-<p>Any component of this constellation can be randomized. The equation can be given a stochastic additive term, the vector flow can be made stochastic, and so on. In other words, just make any of the components to the IVP dependent on an <span class="math inline">\(\omega \in \Omega\)</span>, where <span class="math inline">\((\Omega, \mathfrak{A}, \mathsf{P})\)</span> is a probability space, and the differential equation becomes essentially a stochastic differential equation.</p>
-<p>So far this is only an heuristic manipulation of syntax. To make sense, such equations have different theories in which they can be given semantics. Two major compatible approaches are the Ito and the Stratanovich calculi, the former more widespread in mathematical finance, while the latter more widespread in (mathematical) physics.</p>
-<p>We will tough this topic sometime later. This requires an introduction to stochastic calculus. A wonderful blog-style exposition is given by … Gowers TODO. Have a look if you’re curious.</p>
-<p>SDEs are semantically correctly stated in the integral form but are often written heuristically in the differential form. Consider for instance the Ito diffusion process that models … TODO geometric Brownian motion used often in some popular formulations of theories in mathematical finance. <span class="math display">\[TODO\]</span></p>
-<p>SDEs are used to model real-world phenomena where the influence of certain factors remains unknown, cannot be captured in detail, and is assumed to be “random”, whatever this word may mean. The idea is that the random influence is considered to be “noise” and due to lack of information on the precise evolution of such behavior, we simply average out the fluctuations, i.e., we take them into account but, depending on the admissible probability model, we average them out (by integrating against the model measure). This is a good approach in general, justified whenever we have no access to more detailed information or the details observable would make the problem too complex to solve in reasonable time (intractable). Much more on this later.</p>
-<h1 id="applications-of-differential-equations">Applications of Differential Equations</h1>
-<p>The theory of differential equations is widely applied throughout all fields of science. They are used to model real-world phenomena in terms of the rates of change of the quantities of interest in a given scientific problem. Such quantities are modeled as the so-called “features” in machine learning.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
-<p>Given a set of data points from a series of observations, a scientist tries to establish equational relations between the studied quantities that are deemed to explain their rates of change, where the quantities may depend on each other and even reflexively on themselves, maybe at different points in time.</p>
-<p>In a next step, the researcher needs to verify the model. Does it conform to the data? In-sample and out-of-sample data. In machine learning, a family of models is given, and the task of choosing the model is reduced to automatically fitting the data. In conventional frequentist statistics, a model is a family of probability distributions or maybe some more general measures, depending on a parameter <span class="math inline">\(\vartheta\)</span> is given, and the task is to determine the specific distribution, i.e., the specific value, range of values of the parameter or a statistic, such that the result best fits the data. In Bayesian statistics, we are given a prior distribution and … TODO, the task is then to optimize such that … TODO. In fact, the maximum likelihood estimator amounts to an optimization problem by definition.</p>
-<p>In many cases of Bayesian statistics, for instance, the computation of the integral in the denominator that is used to marginalize the joint density, is a hard problem. One therefore uses alternative methods, such as the Monte Carlo sampling methods, which amount to simulations of the distribution. And even though we can compute such integrals efficiently numerically, the problem becomes intractable as soon as we have to do this for too large a set of points! So simulation may be in fact our only hope in such a case.</p>
-<p>In general, simulations are a very significant tool serving as an indicator for the consistency of the assumptions. If the simulated behavior fits well with the observed, the model may be right. We will never really know, unless the system at hand is contrived. But in the scope of our findings and our human mind, this may be just enough. Certain implicit assumptions should only be made explicit by noting that this resulting model and all predictions based upon it, depend on the observed behavior, while the phenomenon of interest may exhibit different behavior under different ambient conditions, on which it intrinsically depends. In other words, there is only so much that we can observe, assert, and analyze; and there is usually no continuity to be expected, i.e., tiny shifts may make the results contrary to the prediction. A good expert will know how to deal with such limitations of predictions. This is why we need numerical, analytical, and stochastic estimates.</p>
-<p>This is studied in terms of so-called hidden or latent variables in the model. A well-known model is the hidden Markov model. TODO</p>
-<p>Now, my plan is to link this all together in an exposition that is aimed to elucidate the applications of pure mathematics by means of applied mathematics to real-world problems, such as</p>
-<ul>
-<li>the modeling of real-estate markets,</li>
-<li>the modeling of financial securities,</li>
-<li>the modeling of biological systems,</li>
-<li>… TODO</li>
-</ul>
-<p>We will even write a few trading algorithms. Algotrading ahoy!</p>
-<p>As I’m also interested in natural language processing (NLP), we will develop chatbots with language models based on differential equations.</p>
-<p>But first of all, this should be fun!</p>
-<section class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>The term “feature” stems from the literature on pattern recognition in images: features of an object pictured in an image.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
-</section>
-]]></summary>
-</entry>
-<entry>
-    <title>Numerical Methods with Haskell and Python</title>
-    <link href="localhost/posts/2020-03-01-explicit-euler-appetizer.html" />
-    <id>localhost/posts/2020-03-01-explicit-euler-appetizer.html</id>
-    <published>2020-03-01T00:00:00Z</published>
-    <updated>2020-03-01T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on March  1, 2020
-    
-</div>
-
-<h1 id="appetizer-the-explicit-euler-method-for-the-solution-of-a-model-of-a-real-world-phenomenon">Appetizer: The Explicit Euler Method for the Solution of a Model of a Real-World Phenomenon</h1>
-<h2 id="a-numerical-method-the-explicit-euler-method">A Numerical Method: the Explicit Euler Method</h2>
-<p>Given such an IVP, we can solve it quite easily, albeit, generally speaking, the easier the method, the lower the quality of the solution that it yields. As usual, there is a trade-off between quality and complexity, akin the <a href="...">bias–variance trade-off</a>. The explicit Euler’s method is arguably the simplest approach to solving an IVP. We will first introduce and thereby justify the method and then provide the code. Feel free to skip any part you think you can’t comprehend instantly. Take another look at the IVP <span class="math inline">\(\dot{x}(t) = f\big(t,x(t)\big)\)</span> with <span class="math inline">\(x(0) = x_0\)</span>, and <span class="math inline">\(a=0\)</span>, <span class="math inline">\(b=1\)</span>, for brevity, <span class="math inline">\(f\)</span> uniformly Lipschitz. How do we numerically represent the quantity <span class="math inline">\(\dot{x}(t)\)</span>, for each <span class="math inline">\(t\)</span>? As we know from basic calculus, <span class="math display">\[\lim_{h \to 0} \frac{1}{h} \big( x(t+h) - x(t) \big) = \dot{x}(t) = f\big(t,x(t)\big).\]</span></p>
-<p>A <a href="..">Taylor’s expansion</a> of <span class="math inline">\(x(t+h)\)</span> in <span class="math inline">\(h\)</span> about <span class="math inline">\(h=0\)</span> gives <span class="math display">\[\lim_{h \to 0} \frac{1}{h} \big( x(t+h) - x(t) \big) = \dot{x}(t) + O(h^2), \quad \text{ as } h \to 0,\]</span> where <span class="math inline">\(O(h^2)\)</span> represents terms of the order at most <span class="math inline">\(h^2\)</span>, which means that in an approximation, as <span class="math inline">\(h \to 0\)</span>, such terms vanish quadratically in <span class="math inline">\(h\)</span>, i.e., if <span class="math inline">\(h \gets h/2\)</span> then such a term <span class="math inline">\(z \gets 2^{-2}z = z/4\)</span>. And so <span class="math display">\[x(t+h) \approx x(t) + hf\big(t,x(t)\big),\]</span> where the approximate equality is understood in the quadratic sense of approximation, as <span class="math inline">\(h \to 0\)</span>.</p>
-<p>Now consider a grid <span class="math inline">\(a = 0 = t_0 &lt; t_1 &lt; \dots &lt; t_n = 1 = b\)</span>, for an <span class="math inline">\(n \in \mathbb{N}\)</span>, and let <span class="math inline">\(\hat{x}_j := x(t_j)\)</span>, for <span class="math inline">\(j=0,1,\dots,n\)</span>. Then <span class="math display">\[\hat{x}_0 = x_0 \quad\text{and}\quad \frac{\hat{x}_{j+1} - \hat{x}_j}{h} = f(t_j, \hat{x}_j),\]</span> for <span class="math inline">\(j = 0,1,\dots,n-1\)</span>, that is, <span class="math display">\[\boxed{ \hat{x}_0 = x_0  \quad \text{and} \quad \hat{x}_{j+1} = \hat{x}_j + hf(t_j,\hat{x}_j)},\quad j=0,1,\dots,n-1,\]</span> which is pretty much it.</p>
-<p>This method of numerical integration (to solve an ODE is equivalent to integration, more on this later) computes the slant of the direction field <span class="math inline">\(f\)</span> defined by the ODE, in every approximation point <span class="math inline">\((t_j,\hat{x}_j)\)</span> in order to determine the subsequent approximate value <span class="math inline">\(\hat{x}_{j+1}\)</span>. This is a very crude method that requires very small step size <span class="math inline">\(h\)</span> to produce an acceptable result.</p>
-<h3 id="analysis-of-the-condition-of-the-problem">Analysis of the Condition of the Problem</h3>
-<p>TODO</p>
-<h2 id="algorithm">Algorithm</h2>
-<p>TODO</p>
-<h3 id="stability-rounding-error-analysis">Stability (Rounding Error) Analysis</h3>
-<p>TODO</p>
-<h3 id="complexity-analysis">Complexity Analysis</h3>
-<p>TODO</p>
-<h2 id="implementations">Implementations</h2>
-<p>TODO</p>
-<h3 id="c">C</h3>
-<h3 id="python">Python</h3>
-<h3 id="haskell">Haskell</h3>
-<p>In Haskell, there are many ways to implement imperative algorithms.</p>
-<ol type="1">
-<li>translate into a functional-style algorithm, with recursion substituted for loops</li>
-<li>sequence the pure computations in a monad, resembling the imperative paradigm</li>
-<li>IORef</li>
-<li>STM … TODO</li>
-</ol>
-<h2 id="benchmarking-implementation-performance">Benchmarking Implementation Performance</h2>
-<h2 id="solving-our-model-problem">Solving our <a href="2020-03-01-model-engineering-problem.html">Model Problem</a></h2>
-]]></summary>
-</entry>
-<entry>
-    <title>Numerical Methods with Haskell and Python</title>
-    <link href="localhost/posts/2020-02-28-numerical-haskell-python.html" />
-    <id>localhost/posts/2020-02-28-numerical-haskell-python.html</id>
-    <published>2020-02-28T00:00:00Z</published>
-    <updated>2020-02-28T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on February 28, 2020
-    
-</div>
-
-<h1 id="introduction">Introduction</h1>
-<p>This blog post will initiate a series of tutorial posts on formulations of numerical methods of linear algebra and analysis, and perhaps stochastics, in Haskell in comparison with Python. In the process, we will also analyze the algorithms and run benchmarks to evaluate the</p>
-<ul>
-<li><p>performance overhead introduced by these high-level programming languages, as compared with the standard libraries,</p></li>
-<li><p>performance overhead of embedding third-party numerical libraries via the FFI, subprocess calls, and bindings — with calls directly to the original numerical libraries such as LAPACK as our benchmark.</p></li>
-<li><p>ease of expression of the algorithms in terms of the number of lines of code (LOC) and the mental burden, particularly in Haskell;</p>
-<p>in this regard a short note: most algorithms as formulated in books are best suited for being expressed in imperative languages such as FORTRAN, C, or Python; their translation into a purely functional language is what constituted the mental burden; once you’re used to the functional paradigm, it becomes easier; the functional paradigm fits best within a functional or modular software architecture.</p></li>
-</ul>
-<p>Due to the complexity of this approach, I will adopt the LEAN/Agile style of publishing here, incrementally extending the posts. If all goes well, I might <strong>publish this as a book</strong> on numerical Haskell subsequently, which I was pondering on for a while now. Of course, with the usual early-bird <strong>discounts</strong>, so stay tuned!</p>
-<p>I plan to introduce an interface for comments and maybe integrate it with the most popular discussion boards such as Reddit by monitoring them for references to my domain name.</p>
-<p>Moreover, a conventional blog post is usually intended to bring across the major ideas in a more or less colloquial way. In fact, it is hard to write informally about formal topics. I will try to manage a good balance between the scope of exposition and depth of formal information, without unnecessarily overburdening the reader with sometimes indeed important details, whose explanation might require an extra series of posts. So I’ll just have to gloss over them but will try to remark on their importance and point to a reference material for the interested reader. Many things therein would remain subjective. Feel free to point out any incomprehensible pieces. I will try to adopt a Medium-like marker tool to reference and comment on passages, or simply cross-post over there if it is permitted by their ToC (I haven’t consulted it just yet).</p>
-<p>And as a last side-note, since I speak three languages daily, I might just mix up some idioms or other stylistic idiosyncrasies. Don’t hesitate to point it out, I’m eager to improve the clarity of expression. I know how it can “brush one against the …” (German: …), unless you’re used to it.</p>
-<h1 id="plan-for-this-series">Plan for This Series</h1>
-<p><strong>Numerical linear algebra</strong> is the working horse of virtually all numerical methods. As most problems are reduced to a linear algebra problem. Which may seem boring to an uninitiated, efficient methods of solution of the problems of linear algebra in fact are crucial to the overall efficiency of almost all numerical methods. In fact, simple post-iteration schemes can improve the quality of a solution dramatically. Similarly, the low-quality but simple explicit Euler method can be modified into the implicit Euler method that yields a dramatically better quality of the solution, by having to solve a system of linear equations in every iteration step; so if we manage to solve this linear system efficiently, we may be able to justify the use of this more complex method of significantly greater quality!</p>
-<p>In fact, it may get a bit tedious and boring to be introduced to it directly, lacking relevant motivation. So we will sparingly mix it in in pieces and justify its overarching importance to our modern world.</p>
-<p>We could start outright with partial differential equations, but this may seem overwhelming.</p>
-<p>Our starting point is thus the <strong>numerical solution of initial-value and boundary-value problems</strong>. We will show that <strong>they reduce to standard problems of numerical linear algebra and nonlinear optimization</strong>.</p>
-<p>We will conclude this series with <strong>deep learning methods applied to ODE models</strong>.</p>
-<hr />
-<p>As a general note valid for all my posts here, even trying hard to stay correct, but as is usual in life, mistakes are hideous, they emerge at the least expected spots. Correctness of my words is important to me. So I will greatly appreciate if you send me your corrections. Simply pointing out a potential mistake is already greatly appreciated!</p>
-]]></summary>
-</entry>
-
-</feed>
+    </div>
+    <div id="footer">
+      <div id="hakyllReference">Compiled with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </div>
+  </body>
+</html>

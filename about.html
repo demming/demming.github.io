@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - About</title>
-        <link rel="stylesheet" type="text/css" href="./css/default.css" />
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Nick Demming -> About @</title>
+    <link rel="stylesheet" type="text/css" href="./css/default.css" />
 
-        <script type="text/x-mathjax-config"> 
-          MathJax.Hub.Config({
-            <!-- config: ["MMLorHTML.js"], -->
-            <!-- jax: ["input/TeX", "output/HTML-CSS", "output/PreviewHTML", ], -->
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
 
-            <!-- extensions: [ -->
-            <!--   "tex2jax.js", -->
-            <!--   "MathMenu.js","MathZoom.js", "fast-preview.js", --> 
-            <!--   "a11y/accessibility-menu.js" -->
-            <!-- ], -->
+    <script type="text/x-mathjax-config"> 
+      MathJax.Hub.Config({
+      <!-- config: ["MMLorHTML.js"], -->
+      <!-- jax: ["input/TeX", "output/HTML-CSS", "output/PreviewHTML", ], -->
 
-            <!-- TeX: { -->
-            <!--   extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] -->
-            <!-- } -->
+      <!-- extensions: [ -->
+      <!--   "tex2jax.js", -->
+      <!--   "MathMenu.js","MathZoom.js", "fast-preview.js", --> 
+      <!--   "a11y/accessibility-menu.js" -->
+      <!-- ], -->
 
-            <!-- "HTML-CSS": { -->
-            <!--   fonts: ["STIX", "TeX"] -->
-            <!-- , scale: 95 -->
-            <!-- , avaliableFonts: ["STIX", "TeX"] -->
-            <!-- , preferredFont: "TeX" -->
-            <!-- , webFont: "TeX" -->
-            <!-- } -->
-          });
-        </script>
+      <!-- TeX: { -->
+      <!--   extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] -->
+      <!-- } -->
 
-        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML">
-                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/MathJax.js"> -->
-                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"> -->
-                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> -->
-                <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> -->
-        </script>
-    </head>
+      <!-- "HTML-CSS": { -->
+      <!--   fonts: ["STIX", "TeX"] -->
+      <!-- , scale: 95 -->
+      <!-- , avaliableFonts: ["STIX", "TeX"] -->
+      <!-- , preferredFont: "TeX" -->
+      <!-- , webFont: "TeX" -->
+      <!-- } -->
+      });
+    </script>
 
-    <body>
-        <div id="header">
-            <div id="logo">
-                <a href="./">My Hakyll Blog</a>
-            </div>
-            <div id="navigation">
-                <a href="./">Home</a>
-                <a href="./about.html">About</a>
-                <a href="./contact.html">Contact</a>
-                <a href="./archive.html">Archive</a>
-            </div>
-        </div>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML">
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/MathJax.js"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> -->
+        <!-- src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+    </script>
+  </head>
 
-        <div id="content">
-            <h1>About</h1>
+  <body>
+    <div id="header">
 
-            <p>Hi, I’m Nick Demming, I studied both law and mathematics<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, and have eventually embraced data science, efficient computations and software architecture and development.</p>
+      <div id="logo">
+        <a href="./">Nick Demming</a>
+      </div>
+
+      <div id="navigation">
+        <a href="./">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./contact.html">Contact</a>
+        <a href="./archive.html">Archive</a>
+
+        <a href="./rss.xml">RSS</a>
+        <a href="./atom.xml">Atom</a>
+      </div>
+    </div>
+
+    <div id="content">
+      <h1>About</h1>
+
+      <p>Hi, I’m Nick Demming, I studied both law and mathematics<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, and have eventually embraced data science, efficient computations and software architecture and development.</p>
 <p>I’ll be posting here my musings on numerical methods in Haskell as compared with mainstream imperative languages such as Java and C++, providing conditioning and stability analyses as well as benchmarks for different implementations of the respective algorithms.</p>
 <p>Another big series of topics in the making is on machine learning, deep learning, and Bayesian statistics — applied real-world data sets. We will see how to clean up the data while maintaining its integrity, draw inferences mathematically correctly on it (analysis, synthesis, and prediction), and how to consistently interpret the results.</p>
 <p>Another series will cover data science, Haskell, DevOps, and web development, in particular</p>
@@ -86,33 +93,38 @@
 <hr />
 <h1 id="todo">TODO</h1>
 <ul>
-<li>[ ] Enable Pandoc’s <code>taks_lists</code> extension to render this list correctly. This is non-trivial for Hakyll with Stack, requires just a bit tinkering.</li>
+<li>[ ] Enable Pandoc’s <code>taks_lists</code> extension to render this list correctly. This is non-trivial for Hakyll with Stack at the moment, requires some tinkering.</li>
 <li>[x] RSS/Atom feed</li>
 <li>[ ] E-mail address</li>
 <li>[ ] Contact form</li>
 <li>[ ] Newsletter</li>
-<li>[ ] Sitemap</li>
+<li>[x] Sitemap</li>
 <li>[ ] Tags</li>
 <li>[ ] Word cloud</li>
 <li>[ ] Importance markers</li>
 <li>[ ] Medium-like reference markers</li>
-<li>[ ] Cross-posting?</li>
+<li>[ ] Cross-posting? Integration with blogging platforms.</li>
 <li>[ ] Add a CDN and embed the Roboto font family files as a fall-back solution</li>
 <li>[ ] An individual CSS/JS theme</li>
 <li>[ ] CSS+JS for code blocks</li>
+<li>[ ] Code highlighting</li>
 <li>[ ] …</li>
 <li>[ ] Many things I’m unaware of right now. But this should not become another framework!</li>
 </ul>
+<h1 id="on-javascript-cdns">On JavaScript CDNs</h1>
+<p>Some JavaScript libraries can be hosted locally with this blog front-end, while others are hosted remotely on content delivery networks (CDNs). I will try to host locally all files essential for your visual experience. But to automate security updates, CDNs are a good alternative.</p>
+<p>For now, embedded remote JavaScript files hosted on remote CDNs are MathJax on Cloudflare and Fontawesome on Fontawesome.com. I’m planning on embedding React components, hosted on Cloudflare too. If you use AdBlockers, you only need to whitelist or graylist <code>cdnjs.cloudflare.com</code> for MathJax and later React components, and <code>kit.fontawesome.com</code> or <code>kit-free.fontawesome.com</code> for some font elements, which, however, are not essential.</p>
+<p>The main font used for texts belongs to Google’s Roboto OTT type family. For inline code and code blocks I’m using the Monoid NerdFont with ligatures, and Roboto Mono as fallback.</p>
 <section class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Note that there is also a discipline called “Law and Mathematics”. I haven’t had a chance to learn anything about it yet.<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
-        </div>
-        <div id="footer">
-            Site proudly generated by
-            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
-        </div>
-    </body>
+    </div>
+    <div id="footer">
+      <div id="hakyllReference">Compiled with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </div>
+  </body>
 </html>
