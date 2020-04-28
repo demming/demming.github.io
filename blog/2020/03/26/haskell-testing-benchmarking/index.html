@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="canonical" href="https://demming.github.io/blog/2020/03/26/haskell-testing-benchmarking/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    <!-- Open Graph Protocol Metadata for Sharing. Understood across the board: LinkedIn, Twitter, Facebook. -->
+    <meta property="og:url" content="https://demming.github.io/blog/2020/03/26/haskell-testing-benchmarking/index.html" />
+    <meta property="og:site_name" content="Nick Demming's Blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Testing and Benchmarking Software in Haskell" />
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="March 26, 2020" />
+    
+    
+    
+    
+    <meta property="og:article:tag" content="test" />
+    <meta property="og:article:tag" content="benchmark" />
+    <meta property="og:article:tag" content="haskell" />
+    <meta property="og:article:tag" content="framework" />
+    <meta property="og:article:tag" content="verification" />
+    <meta property="og:article:tag" content="tasty" />
+    <meta property="og:article:tag" content="HTF" />
+    <meta property="og:article:tag" content="testing-framework" />
+    <meta property="og:article:tag" content="criterion" />
+    
+
+    <!-- Twitter Card Protocol Metadata for Sharing on Twitter. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://demming.github.io/blog/2020/03/26/haskell-testing-benchmarking/index.html" />
+    <meta name="twitter:title" content="Testing and Benchmarking Software in Haskell" />
+    <meta name="twitter:site" content="@_demming_" />
+    <meta name="twitter:creator" content="@_demming_" />
+
+    
+
+    
+
+    <title>Nick Demming :: Testing and Benchmarking Software in Haskell</title>
+
+    <link rel="manifest" href="../../../../../manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="../../../../../favicon.ico" />
+		<link rel="shortcut icon" href="../../../../../favicon.ico">
+
+    <link rel="icon" sizes="16x16" href="../../../../../favicon-16.png">
+    <link rel="icon" sizes="32x32" href="../../../../../favicon-32.png">
+    <link rel="icon" sizes="48x48" href="../../../../../favicon-48.png">
+    <link rel="icon" sizes="96x96" href="../../../../../favicon-96.png">
+    <link rel="icon" sizes="144x144" href="../../../../../favicon-144.png">
+    <link rel="icon" sizes="192x192" href="../../../../../favicon-192.png">
+    <link rel="icon" sizes="256x256" href="../../../../../favicon-256.png">
+    <link rel="icon" sizes="384x384" href="../../../../../favicon-384.png">
+    <link rel="icon" sizes="512x512" href="../../../../../favicon-512.png">
+
+    <link rel="/apple-touch-icon" sizes="57x57" href="../../../../../apple-touch-favicon-57.png">
+    <link rel="/apple-touch-icon" sizes="60x60" href="../../../../../apple-touch-favicon-60.png">
+    <link rel="/apple-touch-icon" sizes="72x72" href="../../../../../apple-touch-favicon-72.png">
+    <link rel="/apple-touch-icon" sizes="76x76" href="../../../../../apple-touch-favicon-76.png">
+    <link rel="/apple-touch-icon" sizes="114x114" href="../../../../../apple-touch-favicon-114.png">
+    <link rel="/apple-touch-icon" sizes="120x120" href="../../../../../apple-touch-favicon-120.png">
+    <link rel="/apple-touch-icon" sizes="152x152" href="../../../../../apple-touch-favicon-152.png">
+    <link rel="/apple-touch-icon" sizes="167x167" href="../../../../../apple-touch-favicon-167.png">
+    <link rel="/apple-touch-icon" sizes="180x180" href="../../../../../apple-touch-favicon-180.png">
+
+    <link rel="mask-icon" href="../../../../../safari-pinned-tab.svg" color="#ff0000">
+<link rel="mask-icon" href="../../../../../safari-pinned-tab.svg?v=yyQjLdz8jG" color="#5bbad5">
+
+    <meta name="msapplication-TileColor" content="#fefefe" />
+<meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-square70x70logo" content="/favicon-128.png" />
+    <meta name="msapplication-square150x150logo" content="/favicon-270.png" />
+    <meta name="msapplication-TileImage" content="/favicon-270.png" />
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=yyQjLdz8jG">
+    <meta name="msapplication-config" content="none" />
+
+<meta name="theme-color" content="#fefefe">
+
+		<link rel="alternate" type="application/rss+xml" title="Nick Demming's Blog Feed" href="../../../../../rss.xml" />
+		<link rel="alternate" type="application/atom+xml" title="Nick Demming's Blog Feed" href="../../../../../atom.xml" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../css/main.css" />
+
+    <!-- <script type="module" src="/js/conf/conf.js"></script> -->
+    <!-- <script type="module" src="/js/darkmode.js"></script> -->
+    <!-- <script type="module" src="/js/navbar.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/loadScripts.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/0975ece72a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_HTMLorMML">
+    </script>
+
+    <!-- <script type="text/javascript" async -->
+    <!--     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"> -->
+    <!-- </script> -->
+
+    <!-- <script type="application/javascript" async src="/js/bundle.js"></script> -->
+    <script type="application/javascript" defer src="../../../../../js/parcel.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <!-- TODO -->
+      <!-- <div class="left" id="sidebar"> -->
+      <!--   <a id="toggle-sidebar" href="javascript:void(0);"><i class="fa fa-bars"></i></a> -->
+        <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+      <!-- </div> -->
+      <!--   <div class="theme-switch-wrapper"> -->
+      <!--     <label class="theme-switch" for="checkbox"> -->
+      <!--       <input type="checkbox" id="checkbox"/> -->
+      <!--       <div class="slider round"></div> -->
+      <!--     </label> -->
+      <!--     <em>Dark Mode</em> -->
+      <!--   </div> -->
+      <!-- </div> -->
+      <div id="progress-bar-container"><div id="progress-bar-progress"></div></div>
+    </header>
+
+    <aside id="mySidenav">
+      
+      <span id="button-home">
+        <a href="../../../../../" title="Home"><i class="fa fa-home" aria-hidden="true"></i></a>
+      </span>
+      
+
+      <a id="sidebarToggle" href="javascript:void(0)" class="fas toggleButton"></a>
+
+      <section class="about">
+        <a href="../../../../../">
+          <img id="profile-photo" src="../../../../../images/profile-img.jpg" alt="Nick Demming's Profile photo" />
+          <h1 id="name" alt="Nick Demming">Nick Demming</h1>
+          <h2 id="titles">
+            <span id="mathematician" alt="Mathematician"></span><br />
+            <span id="software-architect" alt="Software Architect"></span><br />
+            <span id="data-scientist" alt="Data Scientist"></span>
+          </h2>
+        </a>
+      </section>
+
+      <section class="social-links">
+        <ul>
+          <li><a href="../../../../../rss.xml"><i class="fas fa-rss feed-rss"></i></a></li>
+          <!-- <li><a href="/atom.xml"><i class="fas fa-rss feed-atom"></i></a> </li> -->
+          <li><a href="https://github.com/demming" target="_blank" id="social-link-github"><i class="fa fa-github-square"></i></a></li>
+          <li><a href="https://www.twitter.com/_demming_" target="_blank" id="social-link-twitter"><i class="fa fa-twitter"></i></a>
+          <li><a href="https://www.instagram.com/nick.demming" target="_blank" id="social-link-instagram"><i class="fa fa-instagram"></i></a>
+          <li><a href="https://www.linkedin.com/in/demming" target="_blank" id="social-link-linkedin"><i class="fa fa-linkedin-square"></i></a></li>
+          </li>
+        </ul>
+      </section>
+
+      <nav>
+        <ul>
+          <li><a class="active" href="../../../../../blog/" id="nav-link-blog">blog</a></li>
+          <li><a href="../../../../../blog/archive/" id="nav-link-archive">archive</a></li>
+          <li><a href="../../../../../about/" id="nav-link-about">about</a></li>
+          <li><a href="../../../../../contact/" id="nav-link-contact">contact</a></li>
+          <!-- <li><a  href="/tags/" id="nav-link-tags">tags</a></li> -->
+        </ul>
+      </nav>
+
+      <section class="tag-cloud"><ul><li><a style="font-size: 60%" href="../../../../../tags/HTF/">HTF</a></li><li><a style="font-size: 60%" href="../../../../../tags/benchmark/">benchmark</a></li><li><a style="font-size: 60%" href="../../../../../tags/category%20theory/">category theory</a></li><li><a style="font-size: 60%" href="../../../../../tags/criterion/">criterion</a></li><li><a style="font-size: 60%" href="../../../../../tags/data/">data</a></li><li><a style="font-size: 60%" href="../../../../../tags/database/">database</a></li><li><a style="font-size: 60%" href="../../../../../tags/framework/">framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/functor/">functor</a></li><li><a style="font-size: 120%" href="../../../../../tags/haskell/">haskell</a></li><li><a style="font-size: 60%" href="../../../../../tags/infrastructure/">infrastructure</a></li><li><a style="font-size: 60%" href="../../../../../tags/natural%20transformation/">natural transformation</a></li><li><a style="font-size: 60%" href="../../../../../tags/pattern/">pattern</a></li><li><a style="font-size: 60%" href="../../../../../tags/serialization/">serialization</a></li><li><a style="font-size: 60%" href="../../../../../tags/sql/">sql</a></li><li><a style="font-size: 60%" href="../../../../../tags/tasty/">tasty</a></li><li><a style="font-size: 60%" href="../../../../../tags/test/">test</a></li><li><a style="font-size: 60%" href="../../../../../tags/testing-framework/">testing-framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/verification/">verification</a></li></ul></section>
+    </aside>
+
+    <main>
+      <article class="blog-post full">
+  <header>
+    <h1><a href="../../../../../blog/2020/03/26/haskell-testing-benchmarking/">Testing and Benchmarking Software in Haskell</a></h1>
+    <span class="subtitle">Learn to Use Testing and Benchmarking Libraries and Frameworks</span>
+  </header>
+  <section class="post-meta internal-links">
+    
+    <time class="post-date">March 26, 2020</time>
+    <span class="post-tags"><ul><li><a href="../../../../../tags/HTF/">HTF</a></li><li><a href="../../../../../tags/benchmark/">benchmark</a></li><li><a href="../../../../../tags/criterion/">criterion</a></li><li><a href="../../../../../tags/framework/">framework</a></li><li><a href="../../../../../tags/haskell/">haskell</a></li><li><a href="../../../../../tags/tasty/">tasty</a></li><li><a href="../../../../../tags/test/">test</a></li><li><a href="../../../../../tags/testing-framework/">testing-framework</a></li><li><a href="../../../../../tags/verification/">verification</a></li></ul></span>
+  </section>
+  <hr class="pre-content">
+  <section class="post-content">
+<div class="toc"><div class="header">Table of Contents</div>
+<ul>
+<li><a href="#testing"><span class="toc-section-number">1</span> Testing</a>
+<ul>
+<li><a href="#black--white--and-gray-box-tests"><span class="toc-section-number">1.1</span> Black-, White-, and Gray-Box Tests</a></li>
+<li><a href="#unit-tests"><span class="toc-section-number">1.2</span> Unit tests</a></li>
+<li><a href="#integration-tests"><span class="toc-section-number">1.3</span> Integration tests</a></li>
+<li><a href="#system-tests"><span class="toc-section-number">1.4</span> System tests</a></li>
+<li><a href="#acceptance-tests"><span class="toc-section-number">1.5</span> Acceptance tests</a></li>
+</ul></li>
+<li><a href="#systems-design-and-architecture-requirements-and-tests-to-assure-behaviors-and-qualities"><span class="toc-section-number">2</span> Systems Design and Architecture, Requirements, and Tests to Assure Behaviors and Qualities</a>
+<ul>
+<li><a href="#views-and-viewpoints-on-the-system"><span class="toc-section-number">2.1</span> Views and Viewpoints on the System</a></li>
+<li><a href="#requirements"><span class="toc-section-number">2.2</span> Requirements</a></li>
+<li><a href="#testing-1"><span class="toc-section-number">2.3</span> Testing</a></li>
+</ul></li>
+<li><a href="#the-setting"><span class="toc-section-number">3</span> The Setting</a></li>
+<li><a href="#testing-and-quality-assurance"><span class="toc-section-number">4</span> Testing and Quality Assurance</a>
+<ul>
+<li><a href="#fundamental-notions"><span class="toc-section-number">4.1</span> Fundamental Notions</a></li>
+<li><a href="#typical-workflow"><span class="toc-section-number">4.2</span> Typical Workflow</a></li>
+<li><a href="#examples"><span class="toc-section-number">4.3</span> Examples</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 data-number="1" id="testing" data-number="1"><span class="header-section-number">1</span> Testing</h1>
+<p>Software testing is aimed at discovery and assurance of properties of units, components, or the entire system. Testing can be organized in a pipeline fashion of CI/CD as a distinct stage, which constitutes a pipeline in its own right, in which testing stages are organized in sequence or in parallel so as to facilitate the development, integration, deployment, and delivery of software functionalities to the end user execution or run-time environment. Each test comprises at least one test case, which specifies the actions to be taken or inputs and outputs to be processed and matched. Tests should cover functional and qualitative properties of the program, including correctness of the implementation, absence of errors, performance bounds, etc.</p>
+<p>Tests are run in a testing environment, which should ideally match the end-user’s deployment environment.</p>
+<p>If it’s a pet project or a PoC for internal use, testing can be of secondary concern. But if your project is mission-critical, it must be tested. All financial, medical, physical, automotive, or aero-engineering applications, to name a few, must meet comprehensive quality and reliability requirements.</p>
+<p>Haskell and GHC together provide strong type-level guarantees, which in fact is very much compared with other mainstream industry-grade production-ready languages. There have been attempts at increasing Haskell’s guarantees, e.g., with Liquid Haskell or Dependent Haskell, but it’s a different story. GHC like every compiler has its own bugs , so the guarantees are somewhat tainted. There are many facets to quality assurance in software engineering. We’re delving deeper into the type-theoretic guarantees in other articles on my blog, and here we’ll dive into the software testing part of it.</p>
+<p>In this post we’re going to see how we can leverage Haskell’s type-system guarantees to even further improve the quality assurance for our software by harnessing Haskell testing facilities.</p>
+<p>In fact, we can use Haskell’s testing facilities anytime with any non-Haskell project. Say, we develop a C++ program, we can employ  to test it. But we can also embed that C++ program in a Haskell testing environment and run the tests there, all we need to do is to map the types.</p>
+<p>We’ll focus on <strong>dynamic testing</strong>, with test data generated automatically or provided by hand.</p>
+<p>It is important to make clear that software testing is not a formal method of verification. It only enables a heuristic validation. The testing problem is combinatorial in nature (providing all feasible permutations of input and output pairs) and as a decision problem constitutes a superset of the halting problem, which is undecidable.</p>
+<h2 data-number="1.1" id="black--white--and-gray-box-tests" data-number="1.1"><span class="header-section-number">1.1</span> Black-, White-, and Gray-Box Tests</h2>
+<p>Some libraries provide white-box (structural) testing, while others are specialized in black-box (functional, property-based, invariant) testing.</p>
+<p>There is also a variety of software testing approaches or models. More or less common is a hierarchy of “levels” of the tests. These are essentially four steps distinguished by the degree of abstraction or specificity.</p>
+<h2 data-number="1.2" id="unit-tests" data-number="1.2"><span class="header-section-number">1.2</span> Unit tests</h2>
+<p>At the lowest level of abstraction (and the highest level of specificity) in this hierarchy, the smallest coherent pieces of code, such as functions, are called “<strong>units</strong>.” This notion need not be as restrictive: any piece of code can be considered a unit essentially. <strong>Unit tests</strong> are written by the developer in a white-box fashion.</p>
+<p>In unit testing, we want to isolate parts of our software and make sure that they individually work as intended. How they interact and whether they work well together is a different question which we are not concerned with at this level; it is answered at the integration level.</p>
+<h2 data-number="1.3" id="integration-tests" data-number="1.3"><span class="header-section-number">1.3</span> Integration tests</h2>
+<p>When writing software, we compose functions or objects. Our entire modern-day mathematics is a construction derived from a basic set of axioms in a particular logic. All system operations amount to mutation of CPU registers. Composition is everywhere, whether in sequence or concurrently in parallel.</p>
+<p>An integration test is aimed to <em>heuristically</em> ensure compliance of a component’s API with another components’ APIs. Each component or module exposes a set of functions, variables, or classes to everyone else. Suppose our program composes components A and B. An integration test must ensure that both components’ interfaces are consistent. But, in contrast to a unit test, we do not look inside!</p>
+<h2 data-number="1.4" id="system-tests" data-number="1.4"><span class="header-section-number">1.4</span> System tests</h2>
+<p>On a higher level, when all our components are integrated and the integration tests are all passed, we can check whether the entire system works as expected on our particular test cases. The desired input and output pairs must be matched by the actual output of our system.</p>
+<h2 data-number="1.5" id="acceptance-tests" data-number="1.5"><span class="header-section-number">1.5</span> Acceptance tests</h2>
+<p><strong>User-acceptance (beta) test</strong> cases are best developed in collaboration with the end users or domain experts, in which real-world scenarios are played through for the program. This may include any regulatory and contractual constraints that the end-user must comply with.</p>
+<p>The distinction between alpha and beta testing is usually simple: alpha testing is acceptance testing on the developers’ premises or environment, while beta testing is acceptance testing on the end-users’ premises or environment; with <strong>infrastructure as code</strong>, provisioning and accessing environments can be included in the developers’ test pipeline, in which case “beta” testing amounts to the involvement of domain experts on the buy side.</p>
+<p>From cost efficiency perspective it should be apparent that the sequence of tests should follow this hierarchy, i.e., unit <code>-&gt;</code> integration <code>-&gt;</code> system <code>-&gt;</code> user acceptance. It is a good practice to devise a set of acceptance tests prior to beginning the project, in order to use them as the ultimate assurance and guiding line, from which the developers should not deviate. And then they can be refined in the process of continuous delivery.</p>
+<p>Intertwined with each of these four stages, are functional and nonfunctional tests, and performance analysis.</p>
+<h1 data-number="2" id="systems-design-and-architecture-requirements-and-tests-to-assure-behaviors-and-qualities" data-number="2"><span class="header-section-number">2</span> Systems Design and Architecture, Requirements, and Tests to Assure Behaviors and Qualities</h1>
+<p>A system may exist ephemerally, but when we need to deal with it, different actors will have different perspectives on it, and different views (functional, informational, organizational, infrastructural) will represent the different concerns of the stakeholders.</p>
+<p>In systems design, we specify the domain and the data models along with the architecture of our program. In fact, our program is just a method applied to the domain and acting upon the data. So our architecture specifies how the constituent pieces compose the entire system by interaction.</p>
+<p>By means of devising a <strong>systems architecture</strong>, we provide a schematic view for the <strong>design</strong> of the system that describes the <strong>domain models</strong>. One part of the process is the <strong>functional modeling</strong> of our desired system, where a typical software development process that goes bottom-down begins with an eventual functional relationship and tries to decompose it in ever small constituent functions that (preferably exactly) compose to the original top-level function. The flip side is <strong>architectural modeling</strong> of the system. TODO</p>
+<p>Functional requirements specify the desired behavior of a function in terms of a functional relationship between stated inputs and outputs. Recall that in mathematics, a relation <span class="math inline">\(R \subseteq A \times B\)</span> is called a <strong>function</strong> if it is left-total and right-unique (aka “functional”), where <strong>left totality</strong> means that for each element <span class="math inline">\(a\)</span> in the input set <span class="math inline">\(A\)</span> there exists an element <span class="math inline">\(b\)</span> in the output set <span class="math inline">\(B\)</span> such that <span class="math inline">\(aRb\)</span>, and <strong>right uniqueness</strong> means that we can map any element of <span class="math inline">\(A\)</span> to only (i.e., at most) one element of <span class="math inline">\(B\)</span>, or formally, for every choice of elements <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b,c \in B\)</span>, if <span class="math inline">\(aRb\)</span> and <span class="math inline">\(aRc\)</span>, then <span class="math inline">\(b=c\)</span> (in words: for any pair of elements in <span class="math inline">\(B\)</span>, if they are related to the same element in <span class="math inline">\(A\)</span>, then they must coincide, i.e., “we can map any <span class="math inline">\(a \in A\)</span> to only one <span class="math inline">\(b \in B\)</span>”).</p>
+<p>There are many approaches at a concrete realization of these notions. But generally speaking, a <strong>domain model</strong> includes the model of the business processes and functions, whereas the <strong>system model</strong> includes the program logic and the requirements.</p>
+<h2 data-number="2.1" id="views-and-viewpoints-on-the-system" data-number="2.1"><span class="header-section-number">2.1</span> Views and Viewpoints on the System</h2>
+<p>If we partition our system by concerns of stakeholders, we will arrive at what is known as <strong>viewpoints</strong>, amounting to <strong>separation of concerns</strong>, and they determine the <strong>views</strong>, i.e., an interface to (or the representation of) the system that is limited to the viewpoint — those aspects are rendered that are of interest to the particular class of stakeholders. This includes the various structural and architectural,functional, behavioral and procedural perspectives on the system.</p>
+<h2 data-number="2.2" id="requirements" data-number="2.2"><span class="header-section-number">2.2</span> Requirements</h2>
+<p>A <strong>requirement</strong> is the prescription of a condition, capability, or state of the system that must be met or achieved. For our purposes we only need to distinguish between the functional and nonfunctional requirements, which are often conflated with other types of requirements.</p>
+<p><strong>Functional requirements</strong> prescribe individual behaviors, procedures, effects and activities the system must exhibit, as given by a set of input and output pairs. The implementation of functional requirements is laid out in the corresponding <em>system design</em> intertwined with the app architecture. Behavioral business use cases go hand in hand with functional requirements.</p>
+<p><strong>Nonfunctional requirements</strong> prescribe structural, operational, or architectural aspects or characteristics that the system must possess and adhere to, i.e., property constraints; they specify the states, qualities, properties, constraints, and anything technical that is unrelated to behavioral aspects of the system, e.g., costs, reliability, reproducibility, etc., but also performance. The implementation of nonfunctional requirements is laid out in the corresponding (technical and organizational) <em>system architecture</em>.</p>
+<p>Nonfunctional requirements can be categorized in</p>
+<ul>
+<li>qualities of the execution process (run-time): availability, reliability, stability, usability, performance (like latency and throughput), security, correctness (adherence to the algorithms and the spec, numerical stability of the implementation, robustness), maintainability, testability, usability (UX)</li>
+<li>evolutionary qualities: interaction with the ambient environment, maintainability, portability, flexibility (standards compliance), scalability, satisfaction of constraint (cloud cost limits, runtime limits, but also deadlines).</li>
+<li>nontechnical aspects such as legal compliance with laws (privacy) and licensing.</li>
+</ul>
+<p>I prefer to consider <strong>performance requirements</strong> separately, which are validated by benchmarking. For example, in high-frequency trading we always strive for low-latency and high-throughput systems, with important pieces embedded in tiny-memory network interface cards, whereas in not-so-high frequency automated trading we focus more on system correctness and even invest in formal verification. Contrast this with discretionary trading, where the UX tends to outweigh all other concerns — in this situation the end user is much more tolerant to performance-wise imperfections but values the comfort of the GUI, whereas in the HFT domain the GUI is only of value to analysts and managers, who make discretionary decisions.</p>
+<h2 data-number="2.3" id="testing-1" data-number="2.3"><span class="header-section-number">2.3</span> Testing</h2>
+<p>Testing is hard, testing is expensive. There is a hierarchy of testing approaches based on the detail and the depth of the tests. By first testing shallow cases that cover the most fundamental functionality or properties of the unit, integration, or the system, which still need be, we can save the cost from passing on faulty code that would falsify or at least taint any further test results. In the CI/CD, testing can be seen as a “sub-pipeline” essentially.</p>
+<h3 data-number="2.3.1" id="functional-tests" data-number="2.3.1"><span class="header-section-number">2.3.1</span> Functional Tests</h3>
+<p><strong>Functional testing</strong> heuristics are aimed at ensuring behavioral properties of the system. They may refer to any level in the hierarchy: unit, integration, system, or acceptance testing.</p>
+<h4 data-number="2.3.1.1" id="shallow-testing-build-smoke-and-sanity-tests" data-number="2.3.1.1"><span class="header-section-number">2.3.1.1</span> Shallow testing: build, smoke, and sanity tests</h4>
+<ul>
+<li><p><strong>Build and smoke tests</strong>: must cover the most basic functionality of the unit or the system, aimed at ensuring that further more detailed testing down the CI pipeline is feasible, as often different teams run different tests or perhaps different functionality is tested in different environments.</p></li>
+<li><p><strong>Sanity tests</strong>: also a shallow test, which amounts to weeding out corner cases, obviously false input-ouput pairs.</p></li>
+</ul>
+<h4 data-number="2.3.1.2" id="regression-tests" data-number="2.3.1.2"><span class="header-section-number">2.3.1.2</span> Regression Tests</h4>
+<p>Every update or a bug fix may result in unintended consequences that break a feature that used to work correctly prior to the change (feature regression), or may affect the performance detrimentally (performance regression). It has only etymologically the same roots as regression models in statistics (the name stems from “regression to the mean” in the analysis of the average height of men in a study). The regression can be localized to a single unit, a module, or it can affect the product at the integration level. Another typical case is when the regression is due to a running a previous incorrect execution path. Recall that for a program to be correct, each of its execution paths must be correct.</p>
+<p>To mitigate such issues, regression tests are deployed.</p>
+<h4 data-number="2.3.1.3" id="usability-testing" data-number="2.3.1.3"><span class="header-section-number">2.3.1.3</span> Usability testing</h4>
+<h3 data-number="2.3.2" id="nonfunctional-tests" data-number="2.3.2"><span class="header-section-number">2.3.2</span> Nonfunctional Tests</h3>
+<p><strong>Nonfunctional testing</strong> heuristics are aimed at ensuring overall qualities of the system. Similarly, they may appear at each level of the hierarchy.</p>
+<ul>
+<li>docs testing</li>
+<li>load and stress testing</li>
+<li>performance testing</li>
+<li>security testing</li>
+<li>usability testing: qualities pertaining to the product.</li>
+</ul>
+<p>Much can be said about each of these types of tests, and about many more which will remain beyond the scope of this blog post.</p>
+<h1 data-number="3" id="the-setting" data-number="3"><span class="header-section-number">3</span> The Setting</h1>
+<p>Haskell is renowned for its <a href="https://hackage.haskell.org/packages/#cat:Testing">testing facilities</a>.</p>
+<p>There is an ambiguity in the usage of the term “framework,” related to different contexts and scopes of the notion. For our purposes, we will call libraries such as HUnit and QuickCheck, but also Hspec, that provide an idiosyncratic formalism for the expression of tests, a “<strong>testing library</strong>,” whereas test-framewok, HTF, and tasty, but also Hspec, that introduce a unifying interface to more than one testing library, a “<strong>testing framework</strong>.” Apparently, Hspec belongs to both categories, for it comprises other testing libraries and at the same time provides own formalism for expressing tests.</p>
+<p>Some major popular testing libraries (also call themselves “frameworks”, in which case the next group can be termed “meta-frameworks”):</p>
+<ul>
+<li>Doctest: an adaptation of Python’s <a href="TODO">doctest</a> package.</li>
+<li>Hspec (cf. RSpec); a test format in its own right, but also a framework unifying HUnit, QuickCheck, SmallCheck)</li>
+<li>HUnit: modeled after JUnit</li>
+<li>QuickCheck: property-based black-box testing</li>
+<li>SmallCheck: a simplification of QuickCheck</li>
+<li>Hedgehog:</li>
+</ul>
+<p>Some major testing frameworks that provide a unifying layer or interface atop of the testing libraries:</p>
+<ul>
+<li>Hspec:
+<ul>
+<li>hspec-hedgehog</li>
+<li>hspec-laws:</li>
+<li>hspec-smallcheck</li>
+<li>hspec-leancheck</li>
+<li>hspec-slow</li>
+<li>hspec-test-framework (and hspec-test-framework-th)</li>
+<li>hspec-multicheck</li>
+<li>hspec-wai and -wai-json</li>
+<li>hspec-megaparsec, -parsec, -attoparsec</li>
+</ul></li>
+<li>test-framework: comprises HUnit tests and QuickCheck properties in a single interface.
+<ul>
+<li>relatively actively maintained, as of writing this.</li>
+<li>test-generator (aka test-framework-th) was last updated in 2012.</li>
+</ul></li>
+<li>HTF (Haskell Testing Framework): automatically collects individual unit tests (hspec-discover only finds modules)
+<ul>
+<li>unit tests (HUnit)</li>
+<li>QuickCheck properties</li>
+<li>black-box tests</li>
+<li>custom preprocessor gathering test definitions automatically; failure with exact file name and line number.</li>
+</ul></li>
+<li>tasty
+<ul>
+<li>tasty-laws</li>
+<li>tasty-lens</li>
+<li>tasty-th</li>
+<li>tasty-tmux</li>
+<li>tasty-wai</li>
+<li>tasty-travis</li>
+<li>tasty-stats</li>
+<li>tasty-hunit</li>
+<li>tasty-hspec</li>
+<li>tasty-hedgehog and -hedgehog-coverage</li>
+</ul></li>
+</ul>
+<p>Essentially, Hspec and Tasty are the two major frameworks we will be concerned with here.</p>
+<p>Benchmarking:</p>
+<ul>
+<li>Criterion</li>
+</ul>
+<p>We first will investigate unit testing with HUnit and property testing with QuickCheck. After this, we will cover the frameworks that comprise both approaches.</p>
+<h1 data-number="4" id="testing-and-quality-assurance" data-number="4"><span class="header-section-number">4</span> Testing and Quality Assurance</h1>
+<h2 data-number="4.1" id="fundamental-notions" data-number="4.1"><span class="header-section-number">4.1</span> Fundamental Notions</h2>
+<ul>
+<li>Unit test (HUnit, tasty-hunit): see above.</li>
+<li>Golden test (tasty-golden): unit tests whose results are stored in files, and a test is passed if that output file matches a reference file.</li>
+<li>Property test (QuickCheck, SmallCheck, Hedgehog, LeanCheck): specify a property a function must adhere to, and test whether this is the case, in a black-box fashion.</li>
+</ul>
+<p>A framework is aimed at gathering these individual groups of tests in a single uniform test expression that the compiler will evaluate for us, to inform us whether everything’s fine. It is crucial especially when introducing changes to pristine code. Anything could go wrong. Recall that Haskell’s advanced type system makes most bugs travel back in time and emerge at compile-time rather than the runtime. This will save our users users from making unintended experience with our software. We want to make them happy and solve their problems, make their lives easier. Any runtime bug is an encumbrance on a user. It’s critical to reduce runtime bugs. So from the project budgeting perspective, if sufficient funds are available for testing, it’s very reasonable to give a very high priority to testing the runtime experience.</p>
+<h2 data-number="4.2" id="typical-workflow" data-number="4.2"><span class="header-section-number">4.2</span> Typical Workflow</h2>
+<p>So we have a two-step approach to ensuring this high quality of our products and services:</p>
+<ol type="1">
+<li>use Haskell to impose a high level of mandatory consistency, soundness, and correctness of our programs — nothing will compile that doesn’t meet that requirement (this imposes syntactic and logical correctness as expressed by types); and then additionally</li>
+<li>test our programs thoroughly to ensure that we translated our ideas correctly into code — the compiler, GHC, will alert us whenever we specify that we want something different than what actually gets computed as a result (this imposes semantic and translational correctness as expressed by our test specifications).</li>
+</ol>
+<p>The Haskell ecosystem provides top-notch world-class quality assurance and testing facilities. It comes closest to formal verification, without the excessive burden and cost. It is a pragmatic gold standard of great quality of software. And should we indeed need to formally verify critical pieces of code, we’ve set the stage for it already. With Template Haskell, we can even attain automated test generation, including all the boilerplate potentially necessary. Moreover, we can use Haskell’s testing frameworks for other languages and platforms. We can also embed other languages in Haskell code and use it as our glue.</p>
+<h2 data-number="4.3" id="examples" data-number="4.3"><span class="header-section-number">4.3</span> Examples</h2></section>
+</article>
+
+<!-- <div id="disqus-thread"></div> -->
+<!-- <script> -->
+<!--   var disqus_config = function () { -->
+<!--       this.page.identifier = '2020-03-26-haskell-testing-benchmarking'; -->
+<!--   }; -->
+
+<!--   (function () { -->
+<!--       var d = document, s = d.createElement('script'); -->
+<!--       s.src = 'https://demming.disqus.com/embed.js'; -->
+<!--       s.setAttribute('data-timestamp', +new Date()); -->
+<!--       (d.head || d.body).appendChild(s); -->
+<!--   })(); -->
+<!-- </script> -->
+<!-- <noscript> -->
+<!--     To view the --> 
+<!--     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a> -->
+<!--     you need to enable JavaScript in your browser. -->
+<!-- </noscript> -->
+
+    </main>
+
+    <footer>
+      <div class="left"> 
+				Copyright &copy; 2020 <a href="../../../../../about/"> Nick Demming</a>
+      </div>
+			<div class="right" id="hakyllReference"><a href="https://hackage.haskell.org/package/hakyll" target="_blank">Compiled</a> with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll" target="_blank">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </footer>
+
+  </body>
+</html>

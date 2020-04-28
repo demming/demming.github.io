@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="canonical" href="https://demming.github.io/blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    <!-- Open Graph Protocol Metadata for Sharing. Understood across the board: LinkedIn, Twitter, Facebook. -->
+    <meta property="og:url" content="https://demming.github.io/blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/index.html" />
+    <meta property="og:site_name" content="Nick Demming's Blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Functional C++ Juxtaposed with Haskell" />
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="April 23, 2020" />
+    
+    
+    
+    
+    
+
+    <!-- Twitter Card Protocol Metadata for Sharing on Twitter. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://demming.github.io/blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/index.html" />
+    <meta name="twitter:title" content="Functional C++ Juxtaposed with Haskell" />
+    <meta name="twitter:site" content="@_demming_" />
+    <meta name="twitter:creator" content="@_demming_" />
+
+    
+
+    
+
+    <title>Nick Demming :: Functional C++ Juxtaposed with Haskell</title>
+
+    <link rel="manifest" href="../../../../../manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="../../../../../favicon.ico" />
+		<link rel="shortcut icon" href="../../../../../favicon.ico">
+
+    <link rel="icon" sizes="16x16" href="../../../../../favicon-16.png">
+    <link rel="icon" sizes="32x32" href="../../../../../favicon-32.png">
+    <link rel="icon" sizes="48x48" href="../../../../../favicon-48.png">
+    <link rel="icon" sizes="96x96" href="../../../../../favicon-96.png">
+    <link rel="icon" sizes="144x144" href="../../../../../favicon-144.png">
+    <link rel="icon" sizes="192x192" href="../../../../../favicon-192.png">
+    <link rel="icon" sizes="256x256" href="../../../../../favicon-256.png">
+    <link rel="icon" sizes="384x384" href="../../../../../favicon-384.png">
+    <link rel="icon" sizes="512x512" href="../../../../../favicon-512.png">
+
+    <link rel="/apple-touch-icon" sizes="57x57" href="../../../../../apple-touch-favicon-57.png">
+    <link rel="/apple-touch-icon" sizes="60x60" href="../../../../../apple-touch-favicon-60.png">
+    <link rel="/apple-touch-icon" sizes="72x72" href="../../../../../apple-touch-favicon-72.png">
+    <link rel="/apple-touch-icon" sizes="76x76" href="../../../../../apple-touch-favicon-76.png">
+    <link rel="/apple-touch-icon" sizes="114x114" href="../../../../../apple-touch-favicon-114.png">
+    <link rel="/apple-touch-icon" sizes="120x120" href="../../../../../apple-touch-favicon-120.png">
+    <link rel="/apple-touch-icon" sizes="152x152" href="../../../../../apple-touch-favicon-152.png">
+    <link rel="/apple-touch-icon" sizes="167x167" href="../../../../../apple-touch-favicon-167.png">
+    <link rel="/apple-touch-icon" sizes="180x180" href="../../../../../apple-touch-favicon-180.png">
+
+    <link rel="mask-icon" href="../../../../../safari-pinned-tab.svg" color="#ff0000">
+<link rel="mask-icon" href="../../../../../safari-pinned-tab.svg?v=yyQjLdz8jG" color="#5bbad5">
+
+    <meta name="msapplication-TileColor" content="#fefefe" />
+<meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-square70x70logo" content="/favicon-128.png" />
+    <meta name="msapplication-square150x150logo" content="/favicon-270.png" />
+    <meta name="msapplication-TileImage" content="/favicon-270.png" />
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=yyQjLdz8jG">
+    <meta name="msapplication-config" content="none" />
+
+<meta name="theme-color" content="#fefefe">
+
+		<link rel="alternate" type="application/rss+xml" title="Nick Demming's Blog Feed" href="../../../../../rss.xml" />
+		<link rel="alternate" type="application/atom+xml" title="Nick Demming's Blog Feed" href="../../../../../atom.xml" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../css/main.css" />
+
+    <!-- <script type="module" src="/js/conf/conf.js"></script> -->
+    <!-- <script type="module" src="/js/darkmode.js"></script> -->
+    <!-- <script type="module" src="/js/navbar.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/loadScripts.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/0975ece72a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_HTMLorMML">
+    </script>
+
+    <!-- <script type="text/javascript" async -->
+    <!--     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"> -->
+    <!-- </script> -->
+
+    <!-- <script type="application/javascript" async src="/js/bundle.js"></script> -->
+    <script type="application/javascript" defer src="../../../../../js/parcel.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <!-- TODO -->
+      <!-- <div class="left" id="sidebar"> -->
+      <!--   <a id="toggle-sidebar" href="javascript:void(0);"><i class="fa fa-bars"></i></a> -->
+        <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+      <!-- </div> -->
+      <!--   <div class="theme-switch-wrapper"> -->
+      <!--     <label class="theme-switch" for="checkbox"> -->
+      <!--       <input type="checkbox" id="checkbox"/> -->
+      <!--       <div class="slider round"></div> -->
+      <!--     </label> -->
+      <!--     <em>Dark Mode</em> -->
+      <!--   </div> -->
+      <!-- </div> -->
+      <div id="progress-bar-container"><div id="progress-bar-progress"></div></div>
+    </header>
+
+    <aside id="mySidenav">
+      
+      <span id="button-home">
+        <a href="../../../../../" title="Home"><i class="fa fa-home" aria-hidden="true"></i></a>
+      </span>
+      
+
+      <a id="sidebarToggle" href="javascript:void(0)" class="fas toggleButton"></a>
+
+      <section class="about">
+        <a href="../../../../../">
+          <img id="profile-photo" src="../../../../../images/profile-img.jpg" alt="Nick Demming's Profile photo" />
+          <h1 id="name" alt="Nick Demming">Nick Demming</h1>
+          <h2 id="titles">
+            <span id="mathematician" alt="Mathematician"></span><br />
+            <span id="software-architect" alt="Software Architect"></span><br />
+            <span id="data-scientist" alt="Data Scientist"></span>
+          </h2>
+        </a>
+      </section>
+
+      <section class="social-links">
+        <ul>
+          <li><a href="../../../../../rss.xml"><i class="fas fa-rss feed-rss"></i></a></li>
+          <!-- <li><a href="/atom.xml"><i class="fas fa-rss feed-atom"></i></a> </li> -->
+          <li><a href="https://github.com/demming" target="_blank" id="social-link-github"><i class="fa fa-github-square"></i></a></li>
+          <li><a href="https://www.twitter.com/_demming_" target="_blank" id="social-link-twitter"><i class="fa fa-twitter"></i></a>
+          <li><a href="https://www.instagram.com/nick.demming" target="_blank" id="social-link-instagram"><i class="fa fa-instagram"></i></a>
+          <li><a href="https://www.linkedin.com/in/demming" target="_blank" id="social-link-linkedin"><i class="fa fa-linkedin-square"></i></a></li>
+          </li>
+        </ul>
+      </section>
+
+      <nav>
+        <ul>
+          <li><a class="active" href="../../../../../blog/" id="nav-link-blog">blog</a></li>
+          <li><a href="../../../../../blog/archive/" id="nav-link-archive">archive</a></li>
+          <li><a href="../../../../../about/" id="nav-link-about">about</a></li>
+          <li><a href="../../../../../contact/" id="nav-link-contact">contact</a></li>
+          <!-- <li><a  href="/tags/" id="nav-link-tags">tags</a></li> -->
+        </ul>
+      </nav>
+
+      <section class="tag-cloud"><ul><li><a style="font-size: 60%" href="../../../../../tags/HTF/">HTF</a></li><li><a style="font-size: 60%" href="../../../../../tags/benchmark/">benchmark</a></li><li><a style="font-size: 60%" href="../../../../../tags/category%20theory/">category theory</a></li><li><a style="font-size: 60%" href="../../../../../tags/criterion/">criterion</a></li><li><a style="font-size: 60%" href="../../../../../tags/data/">data</a></li><li><a style="font-size: 60%" href="../../../../../tags/database/">database</a></li><li><a style="font-size: 60%" href="../../../../../tags/framework/">framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/functor/">functor</a></li><li><a style="font-size: 120%" href="../../../../../tags/haskell/">haskell</a></li><li><a style="font-size: 60%" href="../../../../../tags/infrastructure/">infrastructure</a></li><li><a style="font-size: 60%" href="../../../../../tags/natural%20transformation/">natural transformation</a></li><li><a style="font-size: 60%" href="../../../../../tags/pattern/">pattern</a></li><li><a style="font-size: 60%" href="../../../../../tags/serialization/">serialization</a></li><li><a style="font-size: 60%" href="../../../../../tags/sql/">sql</a></li><li><a style="font-size: 60%" href="../../../../../tags/tasty/">tasty</a></li><li><a style="font-size: 60%" href="../../../../../tags/test/">test</a></li><li><a style="font-size: 60%" href="../../../../../tags/testing-framework/">testing-framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/verification/">verification</a></li></ul></section>
+    </aside>
+
+    <main>
+      <article class="blog-post full">
+  <header>
+    <h1><a href="../../../../../blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/">Functional C++ Juxtaposed with Haskell</a></h1>
+    <span class="subtitle">Cohabitation via Foreign-Function Interfaces and Inter-Process communication, Architecture, and Algorithms in C++ and Haskell</span>
+  </header>
+  <section class="post-meta internal-links">
+    
+    <time class="post-date">April 23, 2020</time>
+    <span class="post-tags"><ul></ul></span>
+  </section>
+  <hr class="pre-content">
+  <section class="post-content">
+<div class="toc"><div class="header">Table of Contents</div>
+<ul>
+<li><a href="#a-note-on-java"><span class="toc-section-number">1</span> A Note on Java</a></li>
+<li><a href="#functional-paradigms"><span class="toc-section-number">2</span> Functional Paradigms</a></li>
+<li><a href="#function-types"><span class="toc-section-number">3</span> Function Types</a></li>
+<li><a href="#type-inference-generics-and-templates"><span class="toc-section-number">4</span> Type Inference, Generics, and Templates</a></li>
+<li><a href="#evaluation-strategies-referential-transparency-immutable-data-purity-and-side-effects"><span class="toc-section-number">5</span> Evaluation Strategies, Referential Transparency, Immutable Data, Purity, and Side-Effects</a>
+<ul>
+<li><a href="#referential-transparency"><span class="toc-section-number">5.1</span> Referential Transparency</a></li>
+<li><a href="#purity"><span class="toc-section-number">5.2</span> Purity</a></li>
+</ul></li>
+<li><a href="#when-should-i-use-which"><span class="toc-section-number">6</span> When Should I Use Which?</a></li>
+</ul>
+</div>
+<p>There have been several attempts at reconciliation of the procedural (think Assembly or C), object-oriented (think C++ or Java) and the functional (think Haskell or Erlang) paradigms. Most prominent of them has arguably been Scala. I believe Scala is a very complex language but enjoys the benefit of the JVM ecosystem, which Eta and Frege also tried to achieve but were hit by JVM’s downside of garbage collection.  C++ is also a very complex language but provides the benefit of greater performance and direct memory control, without any dynamic garbage collection, reducing the memory footprint, so we can run our programs on microcontrollers with tiny memory such as network interface cards (NICs) so as to reduce latency in automated trading.</p>
+<p>In this post we will focus on developing a first approach to functional programming in C++ and contrast the modern syntax, using the C++17 and C++20 standards.</p>
+<h1 data-number="1" id="a-note-on-java" data-number="1"><span class="header-section-number">1</span> A Note on Java</h1>
+<p>As for Java, it has undergone significant improvements, beginning with the introduction of Java 8, also embedding some functional-programming concepts. But Java is poised to remain a retrograde (in a good sense) language, always a few years if not decades behind its younger descendants such as Kotlin and Scala in the facilities it offers on the syntactic level.</p>
+<p><em>Roughly</em>, <code>Haskell =&gt; Scala -&gt; Kotlin -&gt; Java</code>, where he arrows denote the flow of language and library features, on the JVM essentially originating in the Scala ecosystem acting as the melting pot of the FP and OOP fusion, with droplets trickling through into Kotlin, and only then filtered into Java the language; and Haskell’s ecosystem can be seen as the implementation origin of most if not all FP concepts (Lisp and Erlang are actually far more significant than most developers realize). We could also juxtapose C++ besides Haskell in that flow diagram as the originator of OOP concepts.</p>
+<p>This is only intended as a mental picture, without any claim for ultimate correctness. In reality, everyone language community borrows something presumably good from another, in fact some things just work much better with one compiler than another, e.g., Haskell’s concepts are above and beyond more performant than their Scala implementations.</p>
+<p>With the ascent of GraalVM and polyglot projects, the JVM ecosystem has entered its fruitful period of rejuvenation, bringing about significant results. Suffice it to mention Vert.x as the epitome of the progress already achieved.</p>
+<p>Thanks to <a href="TODO"><code>inline-java</code></a> there is a wonderful compatibility layer between Haskell and Java (and the JVM). I’ll introduce you to it at a later time. Let’s now return to C++ and Haskell.</p>
+<h1 data-number="2" id="functional-paradigms" data-number="2"><span class="header-section-number">2</span> Functional Paradigms</h1>
+<p>In his book <a href="TODO">“Category Theory for Programmers”</a>, <em>Bartosz Milewski</em> already used C++ to introduce developers to category theory and Haskell. I highly recommend his book to the interested, but also its slight <a href="TODO">modification</a> that includes the corresponding Scala code. The approach I’m taking here will be different. We will focus on applications of category theory as approximated and implemented in Haskell libraries, only the most important parts of it that are relevant to the problems of software architecture that we will face, and start with practical Haskell, and see how we could write the same with the modern C++ libraries.</p>
+<p>First off, we will only need to deal with the most basic FP concepts such as functor, applicative functor, monad, and lazy (or infinite) streams. If you need a recap, you’ll find a lot under the <a href="../../../../../tags/haskell/">tag “Haskell”</a> on my blog.</p>
+<h1 data-number="3" id="function-types" data-number="3"><span class="header-section-number">3</span> Function Types</h1>
+<p>In Haskell and PureScript, we define a function simply as <code>f :: a -&gt; b</code>, in papers, in Idris and Agda we use single colons for the type inhabitant relation, i.e., <code>f : a -&gt; b</code>. In TypeScript, we declare a function type as <code>function f (a: a, b: b): c</code>. In Python, it’s <code>def f(a: a, b: b) -&gt; c</code> with type annotations. And in Scala, it’s <code>def f(a: A, b: B): C</code>. All pretty clear and concise. But in C and its derivatives such as C++ and Java, the type is specified ahead of the variable name, i.e., <code>C f(A a, B b);</code> and there is no distinction between a type name and a variable name, wheres in Haskell the names live on different levels. But starting C++11, functions can also be declared more succinctly as <code>auto f(A a, B b) -&gt; C;</code> where the so-called “trailing type” <code>C</code> requires the “leading type” <code>auto</code>.[cppRudiments] In C#, it’s <code>Func&lt;A, B, C&gt; f</code>.</p>
+<p>Let’s round this up by contrasting anonymous functions, lambda expression, or lambda abstractions, or even “<a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/">delegates</a>” in C#. Suppose <code>f</code> is given as above.</p>
+<ul>
+<li><code>\a b -&gt; f a b</code> in Haskell and PureScript.</li>
+<li><code>(a, b) =&gt; { f(a, b); }</code> in JavaScript starting with ECMAScript 6, in TypeScript, and in Scala (capturing nontrivial and depends on <code>strict</code>).</li>
+<li><code>lambda a b: f(a, b)</code> in Python (note the capture of outer-scope vars in Python 2).</li>
+<li><code>[&amp;](auto a, auto b) { f(a, b) }</code> in C++11 (with explicit outer-scope capture specification).</li>
+<li><code>(a, b) =&gt; f(a, b)</code> in C# (outer-scope capture), but C# is far from making FP easy, but given F# the lack of push is apparent.</li>
+</ul>
+<h1 data-number="4" id="type-inference-generics-and-templates" data-number="4"><span class="header-section-number">4</span> Type Inference, Generics, and Templates</h1>
+<p>Haskell, Agda and Idris shine when it comes to automated type inference, more so under their vastly advanced type systems.</p>
+<p>Haskell also provides both generics and templates, as C++ does. And C++11 introduced automated type inference which can be invoked with the <code>auto</code> type specification.</p>
+<h1 data-number="5" id="evaluation-strategies-referential-transparency-immutable-data-purity-and-side-effects" data-number="5"><span class="header-section-number">5</span> Evaluation Strategies, Referential Transparency, Immutable Data, Purity, and Side-Effects</h1>
+<p>Given an expression, it must be evaluated in order to obtain the value that is represents. With lazy evaluation, an expression is reduced to its normal form by-need and only as far as needed at a computational step. In fact, its lazy-by-default evaluation sets Haskell apart among the vast variety of languages. However, it makes reasoning about space complexity harder in general. On the other hand, it enables powerful structural reductions, where the compiler simply omits many otherwise necessarily executed computational steps, and leaves only an expression that is much much easier to compute and evaluate. This is huge!</p>
+<h2 data-number="5.1" id="referential-transparency" data-number="5.1"><span class="header-section-number">5.1</span> Referential Transparency</h2>
+<p>An expression is said to be <strong>referentially transparent</strong> if it is amenable to substitution by its value or its (weak-head) normal form, anytime and everywhere, without introducing any change to the result of the program. In other words, we have just a rewrite system.</p>
+<p>As noted above, this gives us a perfect foundation for software verification, refactoring, optimization, memoization, and parallelization. It also enables lazy evaluation in the first place.</p>
+<p>For a better understanding, a <strong>referent</strong> of an expression is the semantic object that it represents, a meaning, a value. And referential transparency of an expression <code>x</code> therefore means that whenever we replace one subexpression <code>y</code> for a referent with another expression <code>z</code> for the same referent, the meaning that <code>x</code> represents will not change. For example, in process of reduction to the WHNF, we can simply take the expression at every step and substitute it for the original <code>y</code>. Here’s a catamorphism example for lists in Haskell:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">foldr</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> b</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">foldr</span> _ b []     <span class="ot">=</span> b</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">foldr</span> f b (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="fu">foldr</span> f (x <span class="ot">`f`</span> b) xs</span></code></pre></div>
+<p>So for <code>f = (:) :: a -&gt; [a] -&gt; [a]</code>, where <code>b ~ [a]</code>,</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">foldr</span> f   [<span class="dv">0</span>] [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>] <span class="op">==</span> <span class="fu">foldr</span> f (<span class="dv">1</span> <span class="ot">`f`</span> [<span class="dv">0</span>]) [<span class="dv">2</span>,<span class="dv">3</span>] <span class="op">==</span> <span class="fu">foldr</span> f (<span class="dv">2</span> <span class="ot">`f`</span> (<span class="dv">1</span> <span class="ot">`f`</span> [<span class="dv">0</span>])) [<span class="dv">3</span>] <span class="op">==</span> <span class="fu">foldr</span> f (<span class="dv">3</span> <span class="ot">`f`</span> (<span class="dv">2</span> <span class="ot">`f`</span> (<span class="dv">1</span> <span class="ot">`f`</span> [<span class="dv">0</span>]))) [] <span class="op">==</span> <span class="dv">3</span> <span class="ot">`f`</span> (<span class="dv">2</span> <span class="ot">`f`</span> (<span class="dv">1</span> <span class="ot">`f`</span> [<span class="dv">0</span>]))</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">foldr</span> (<span class="op">:</span>) [<span class="dv">0</span>] [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>] <span class="op">==</span> <span class="fu">foldr</span> (<span class="op">:</span>)   (<span class="dv">1</span><span class="op">:</span>[<span class="dv">0</span>]) [<span class="dv">2</span>,<span class="dv">3</span>] <span class="op">==</span> <span class="fu">foldr</span> (<span class="op">:</span>) (<span class="dv">2</span><span class="op">:</span><span class="dv">1</span><span class="op">:</span>[<span class="dv">0</span>]) [<span class="dv">3</span>]         <span class="op">==</span> <span class="fu">foldr</span> (<span class="op">:</span>) (<span class="dv">3</span><span class="op">:</span><span class="dv">2</span><span class="op">:</span><span class="dv">1</span><span class="op">:</span>[<span class="dv">0</span>]) []               <span class="op">==</span> [<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>]</span></code></pre></div>
+<h2 data-number="5.2" id="purity" data-number="5.2"><span class="header-section-number">5.2</span> Purity</h2>
+<p>Formally, a (not necessarily in mathematical sense proper) function is said to be <strong>pure</strong> if the function evaluates to the same result for every combination of arguments, under all states of the world, and thereby does not produce any side-effects.</p>
+<h3 data-number="5.2.1" id="same-result" data-number="5.2.1"><span class="header-section-number">5.2.1</span> Same result</h3>
+<p>Let’s dissect this definition. So first of all, under all states of the world, for every set of argument values, the function must evaluate to the same result. In symbols, suppose <code>x : a</code> represents the collection of arguments to our function <code>f : a -&gt; b</code>, but it also depends on the state of the world, <span class="math inline">\(\omega \in \Omega\)</span>. We could also say that this function is said to be measurable if we endow <span class="math inline">\(\Omega\)</span> and the set representing our type <code>b</code> with <span class="math inline">\(\sigma\)</span>-algebras, or just the exponential object <span class="math inline">\(b^a\)</span>, and consider this <code>f</code> as a random process or random field, but this would lead us astray if it already hasn’t.</p>
+<p>So let’s just stay with <code>f : a -&gt; b</code> and state that, regardless of the state of the world, which is beyond the reach of <code>f</code> and includes all static variables, global (i.e., non-local) variables which can but need not be controlled by the caller of <code>f</code>, any mutable reference arguments, and even streaming data from however-random IO devices such as the file system or simply the keyboard.</p>
+<h3 data-number="5.2.2" id="no-side-effects" data-number="5.2.2"><span class="header-section-number">5.2.2</span> No side-effects</h3>
+<h3 data-number="5.2.3" id="explanation" data-number="5.2.3"><span class="header-section-number">5.2.3</span> Explanation</h3>
+<p>Purity is not limited to Haskell. C++ functions can also be pure. All we need to do is avoid mutable state and mutable data.</p>
+<p>Purity essentially amounts to absence of state mutation and to immutable data.</p>
+<p>Purity means that a function produces no side-effects; this is a guarantee of predictable behavior. Essential purity means that a function may semantically produce side effects but syntactically this is represented by a side-effects modeling type, such as <code>IO a</code> or <code>Writer w a</code>. The function does nothing until its monadic value gets evaluated. Until then it “lazily” defines what it is.</p>
+<p>In Haskell, all functions are pure or essentially pure and there’s only one interface to the <code>RealWorld</code> — via <code>IO</code>. In C++ in contrast functions are impure or essentially impure.</p>
+<p>Here’s a pure function in C++, with <code>using std::atomic;</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">auto</span> f() -&gt; <span class="dt">void</span> {</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="at">static</span> atomic&lt;uint32&gt; x = <span class="dv">0</span>;   <span class="co">// </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  x = x + <span class="dv">1</span>;                     <span class="co">// Or just x += 1, or x++.</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>}</span></code></pre></div>
+<p>Impurity means that a function can change a global state, and this is not signified in its type signature. Essential impurity means that we can define a function to be “pure,” i.e., avoid any side-effects, but the language and its type system do not give us such a guarantee. For example,</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1"></a><span class="dt">void</span> f(<span class="dt">int</span>, <span class="at">const</span> <span class="dt">int</span> (&amp;)[<span class="dv">2</span>] = {}) {}</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="dt">void</span> g() {</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">int</span> x = <span class="dv">17</span>;</span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="kw">auto</span> g1 = [](<span class="kw">auto</span> a)  { x += a; f(x); };  <span class="co">// Calls #1, does capture x.</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="kw">auto</span> g2 = [=](<span class="kw">auto</span> a) { f(x); };          <span class="co">// Does not capture x in C++14, captures x in C++17.</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>}</span></code></pre></div>
+<p>But how would we know that <code>f</code> would not modify its argument <code>x</code>? In Haskell we know for sure, while in C++ we can’t without looking carefully at <code>f</code> and the name scopes. What if <code>x</code> also is a dependent variable, determined by some impure computation and all states altered are intertwined? This downside of impure languages makes reasoning very hard and regular debugging almost necessary. Static code analyzers and linters can help a bit. The greater the benefit of functional concepts introduced to C++.</p>
+<p>Here’s another <a href="https://en.cppreference.com/w/cpp/language/lambda">example</a>, in C++14,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1"></a><span class="dt">int</span> x = <span class="dv">4</span>;</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">auto</span> y = [&amp;r = x, x = x + <span class="dv">1</span>]() -&gt; <span class="dt">int</span> {</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    r += <span class="dv">2</span>;</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">return</span> x * x;</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  }(); <span class="co">// updates ::x to 6 and initializes y to 25.</span></span></code></pre></div>
+<p>When you have a mental picture of memory registers that you access and the program remains simple enough to quickly retrace every impure state modification, it might be fine. But the larger the project grows, and the more people are involved on a team, and the more features get introduced, the greater the risk of irreparable damage done by benign changes. This is where continuous integration and quality assurance come into play. But all these efforts can be subsumed by simply using a more advanced type system like Haskell’s. Regardless, C++ has its unmatched benefits.</p>
+<p>The issues highlighted above can be summarized as the lacking of referential transparency.</p>
+<h1 data-number="6" id="when-should-i-use-which" data-number="6"><span class="header-section-number">6</span> When Should I Use Which?</h1>
+<p>This question is good and simple to answer: it depends on your project requirements and the team cost–benefit trade-off. By project requirements I mean whether you need easy integration, high performance, rapid delivery, low maintenance, but also the deadlines and the budget. By the cost–benefit trade-off I refer to skills and experience of your team.</p>
+<p>For example, if you know that your target platform depends on the JVM ecosystem, it’s smart to implement your business logic in a JVM-native language while using the JDK libraries. With polyglot and GraalVM there are huge boons available now. If you know that you need to deal with mostly high-performance code without regard to its runtime environment and your team knows how to manage the memory, go for C++ (or perhaps Rust if it’s not too avant-garde for you).</p>
+<p>In essence, whenever you feel you need more control of your memory and don’t trust the garbage collector of the runtime platform, go for C++.</p>
+<p>In practice, when writing Haskell, you sit and ponder about what you want to accomplish, perhaps even sketch some hopefully commuting diagrams with pen and paper, and then simply write it down in Haskell, and the compiler tells you whether this makes sense, curiously you’re usually mostly correct. In contrast, when writing C++, you imagine the procedures that hopefully meticulously describe the evolution of the state of your system, and prescribe the actions in each step, provoking you to rush into the battle so to say, the compiler helps you with the syntax and some metaprogramming typos but when it comes down to the system architecture, it will remain silent — in contrast with Haskell’s compiler. In this sense these are really two different worlds. In C++ and other imperative languages you have to leverage your testing skills, trying <em>heuristically</em> to ensure compliance with the specification, whereas in Haskell you simply encode the specification as types and let the compiler ensure that you preserve conformance with the spec, and only then do you add tests to ensure that your model implementation corresponds to your model logic. The state of the mind is different. With C++ you’re focused on managing an inherently imperative or procedural memory model, whereas with Haskell you manage a functional architecture.</p>
+<p>Writing Haskell is akin to coding against a spec, essentially a form of test-driven development. Maybe this is what makes it uneasy to start with for many developers not used to testing but those who are used to testing seem to take up Haskell in a whim. A good approach to starting a new Haskell project is just to begin with the architecture; once you know what the inputs and the outputs of your project are and how you’re going to process the data, start writing down the individual functions with their types and leaving the function body <code>undefined</code>. Once the project skeleton is set up, it’s time to start filling the gaps, one by one, any way you feel most comfortable with. When done, only then is it time to look around what you have and refactor pieces of your code in any abstract profunctors and what not that you still understand. This will also help the compiler understand your actual intentions. You don’t have to do everything at once, just run a quick sanity and coherence check; and after a first swoop, it’s time for testing with HSpec, HUnit, and QuickCheck — choose any framework that you like (see <a href="..">my post on testing in Haskell</a>). When your test suite is complete, take a second swoop at refactoring and make sure to run tests after each refactoring, if you have an automated build pipeline (CI/CD), it’s a breeze to implement. That way, you have all your essential business logic encoded in types, the test suite guarantees certain invariants, and you are free to roam in the category-theoretic realm of abstract nonsense and perhaps express some clunky piece of code that is hard to read for others on your team into something agreed upon — but you should first mutually agree on the maximal level of abstraction and discuss the individual notions that you decide to choose. Make also sure to establish a benchmarking suite. With Stack or directly with Cabal it is fairly straightforward.  It’s not hard at all, just don’t start with the very abstract ideas, and rather consider them as an optimization step. In my experience, working with Haskell occurs to some 90% on the type level, not the term level as with almost every other programming languages.</p>
+<p>Haskell is perfect for software architecture, quality assurance, prototyping and high-performance parallel computations. My approach is to implement everything in Haskell first, so as to have a great prototype; then I perform tests and run benchmarks, and if I see no other way to improve performance and it is crucial, I just turn to IPC with C++ and write some API bindings for Haskell. This has long been popular with “Python as a glue” approach. By the way, Numba is phenomenal (Julia’s JIT is awesome too).</p>
+<p>In short, there are different situations in which one language and its ecosystem or another one fits best the bill.</p></section>
+</article>
+
+<!-- <div id="disqus-thread"></div> -->
+<!-- <script> -->
+<!--   var disqus_config = function () { -->
+<!--       this.page.identifier = '2020-04-23-functional-cpp-haskell-object-oriented-paradigm'; -->
+<!--   }; -->
+
+<!--   (function () { -->
+<!--       var d = document, s = d.createElement('script'); -->
+<!--       s.src = 'https://demming.disqus.com/embed.js'; -->
+<!--       s.setAttribute('data-timestamp', +new Date()); -->
+<!--       (d.head || d.body).appendChild(s); -->
+<!--   })(); -->
+<!-- </script> -->
+<!-- <noscript> -->
+<!--     To view the --> 
+<!--     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a> -->
+<!--     you need to enable JavaScript in your browser. -->
+<!-- </noscript> -->
+
+    </main>
+
+    <footer>
+      <div class="left"> 
+				Copyright &copy; 2020 <a href="../../../../../about/"> Nick Demming</a>
+      </div>
+			<div class="right" id="hakyllReference"><a href="https://hackage.haskell.org/package/hakyll" target="_blank">Compiled</a> with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll" target="_blank">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </footer>
+
+  </body>
+</html>

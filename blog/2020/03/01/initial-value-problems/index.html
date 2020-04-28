@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="canonical" href="https://demming.github.io/blog/2020/03/01/initial-value-problems/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    <!-- Open Graph Protocol Metadata for Sharing. Understood across the board: LinkedIn, Twitter, Facebook. -->
+    <meta property="og:url" content="https://demming.github.io/blog/2020/03/01/initial-value-problems/index.html" />
+    <meta property="og:site_name" content="Nick Demming's Blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Numerical Methods with Haskell and Python" />
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="March  1, 2020" />
+    
+    
+    
+    
+    
+
+    <!-- Twitter Card Protocol Metadata for Sharing on Twitter. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://demming.github.io/blog/2020/03/01/initial-value-problems/index.html" />
+    <meta name="twitter:title" content="Numerical Methods with Haskell and Python" />
+    <meta name="twitter:site" content="@_demming_" />
+    <meta name="twitter:creator" content="@_demming_" />
+
+    
+
+    
+
+    <title>Nick Demming :: Numerical Methods with Haskell and Python</title>
+
+    <link rel="manifest" href="../../../../../manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="../../../../../favicon.ico" />
+		<link rel="shortcut icon" href="../../../../../favicon.ico">
+
+    <link rel="icon" sizes="16x16" href="../../../../../favicon-16.png">
+    <link rel="icon" sizes="32x32" href="../../../../../favicon-32.png">
+    <link rel="icon" sizes="48x48" href="../../../../../favicon-48.png">
+    <link rel="icon" sizes="96x96" href="../../../../../favicon-96.png">
+    <link rel="icon" sizes="144x144" href="../../../../../favicon-144.png">
+    <link rel="icon" sizes="192x192" href="../../../../../favicon-192.png">
+    <link rel="icon" sizes="256x256" href="../../../../../favicon-256.png">
+    <link rel="icon" sizes="384x384" href="../../../../../favicon-384.png">
+    <link rel="icon" sizes="512x512" href="../../../../../favicon-512.png">
+
+    <link rel="/apple-touch-icon" sizes="57x57" href="../../../../../apple-touch-favicon-57.png">
+    <link rel="/apple-touch-icon" sizes="60x60" href="../../../../../apple-touch-favicon-60.png">
+    <link rel="/apple-touch-icon" sizes="72x72" href="../../../../../apple-touch-favicon-72.png">
+    <link rel="/apple-touch-icon" sizes="76x76" href="../../../../../apple-touch-favicon-76.png">
+    <link rel="/apple-touch-icon" sizes="114x114" href="../../../../../apple-touch-favicon-114.png">
+    <link rel="/apple-touch-icon" sizes="120x120" href="../../../../../apple-touch-favicon-120.png">
+    <link rel="/apple-touch-icon" sizes="152x152" href="../../../../../apple-touch-favicon-152.png">
+    <link rel="/apple-touch-icon" sizes="167x167" href="../../../../../apple-touch-favicon-167.png">
+    <link rel="/apple-touch-icon" sizes="180x180" href="../../../../../apple-touch-favicon-180.png">
+
+    <link rel="mask-icon" href="../../../../../safari-pinned-tab.svg" color="#ff0000">
+<link rel="mask-icon" href="../../../../../safari-pinned-tab.svg?v=yyQjLdz8jG" color="#5bbad5">
+
+    <meta name="msapplication-TileColor" content="#fefefe" />
+<meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-square70x70logo" content="/favicon-128.png" />
+    <meta name="msapplication-square150x150logo" content="/favicon-270.png" />
+    <meta name="msapplication-TileImage" content="/favicon-270.png" />
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=yyQjLdz8jG">
+    <meta name="msapplication-config" content="none" />
+
+<meta name="theme-color" content="#fefefe">
+
+		<link rel="alternate" type="application/rss+xml" title="Nick Demming's Blog Feed" href="../../../../../rss.xml" />
+		<link rel="alternate" type="application/atom+xml" title="Nick Demming's Blog Feed" href="../../../../../atom.xml" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../css/main.css" />
+
+    <!-- <script type="module" src="/js/conf/conf.js"></script> -->
+    <!-- <script type="module" src="/js/darkmode.js"></script> -->
+    <!-- <script type="module" src="/js/navbar.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/loadScripts.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/0975ece72a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_HTMLorMML">
+    </script>
+
+    <!-- <script type="text/javascript" async -->
+    <!--     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"> -->
+    <!-- </script> -->
+
+    <!-- <script type="application/javascript" async src="/js/bundle.js"></script> -->
+    <script type="application/javascript" defer src="../../../../../js/parcel.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <!-- TODO -->
+      <!-- <div class="left" id="sidebar"> -->
+      <!--   <a id="toggle-sidebar" href="javascript:void(0);"><i class="fa fa-bars"></i></a> -->
+        <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+      <!-- </div> -->
+      <!--   <div class="theme-switch-wrapper"> -->
+      <!--     <label class="theme-switch" for="checkbox"> -->
+      <!--       <input type="checkbox" id="checkbox"/> -->
+      <!--       <div class="slider round"></div> -->
+      <!--     </label> -->
+      <!--     <em>Dark Mode</em> -->
+      <!--   </div> -->
+      <!-- </div> -->
+      <div id="progress-bar-container"><div id="progress-bar-progress"></div></div>
+    </header>
+
+    <aside id="mySidenav">
+      
+      <span id="button-home">
+        <a href="../../../../../" title="Home"><i class="fa fa-home" aria-hidden="true"></i></a>
+      </span>
+      
+
+      <a id="sidebarToggle" href="javascript:void(0)" class="fas toggleButton"></a>
+
+      <section class="about">
+        <a href="../../../../../">
+          <img id="profile-photo" src="../../../../../images/profile-img.jpg" alt="Nick Demming's Profile photo" />
+          <h1 id="name" alt="Nick Demming">Nick Demming</h1>
+          <h2 id="titles">
+            <span id="mathematician" alt="Mathematician"></span><br />
+            <span id="software-architect" alt="Software Architect"></span><br />
+            <span id="data-scientist" alt="Data Scientist"></span>
+          </h2>
+        </a>
+      </section>
+
+      <section class="social-links">
+        <ul>
+          <li><a href="../../../../../rss.xml"><i class="fas fa-rss feed-rss"></i></a></li>
+          <!-- <li><a href="/atom.xml"><i class="fas fa-rss feed-atom"></i></a> </li> -->
+          <li><a href="https://github.com/demming" target="_blank" id="social-link-github"><i class="fa fa-github-square"></i></a></li>
+          <li><a href="https://www.twitter.com/_demming_" target="_blank" id="social-link-twitter"><i class="fa fa-twitter"></i></a>
+          <li><a href="https://www.instagram.com/nick.demming" target="_blank" id="social-link-instagram"><i class="fa fa-instagram"></i></a>
+          <li><a href="https://www.linkedin.com/in/demming" target="_blank" id="social-link-linkedin"><i class="fa fa-linkedin-square"></i></a></li>
+          </li>
+        </ul>
+      </section>
+
+      <nav>
+        <ul>
+          <li><a class="active" href="../../../../../blog/" id="nav-link-blog">blog</a></li>
+          <li><a href="../../../../../blog/archive/" id="nav-link-archive">archive</a></li>
+          <li><a href="../../../../../about/" id="nav-link-about">about</a></li>
+          <li><a href="../../../../../contact/" id="nav-link-contact">contact</a></li>
+          <!-- <li><a  href="/tags/" id="nav-link-tags">tags</a></li> -->
+        </ul>
+      </nav>
+
+      <section class="tag-cloud"><ul><li><a style="font-size: 60%" href="../../../../../tags/HTF/">HTF</a></li><li><a style="font-size: 60%" href="../../../../../tags/benchmark/">benchmark</a></li><li><a style="font-size: 60%" href="../../../../../tags/category%20theory/">category theory</a></li><li><a style="font-size: 60%" href="../../../../../tags/criterion/">criterion</a></li><li><a style="font-size: 60%" href="../../../../../tags/data/">data</a></li><li><a style="font-size: 60%" href="../../../../../tags/database/">database</a></li><li><a style="font-size: 60%" href="../../../../../tags/framework/">framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/functor/">functor</a></li><li><a style="font-size: 120%" href="../../../../../tags/haskell/">haskell</a></li><li><a style="font-size: 60%" href="../../../../../tags/infrastructure/">infrastructure</a></li><li><a style="font-size: 60%" href="../../../../../tags/natural%20transformation/">natural transformation</a></li><li><a style="font-size: 60%" href="../../../../../tags/pattern/">pattern</a></li><li><a style="font-size: 60%" href="../../../../../tags/serialization/">serialization</a></li><li><a style="font-size: 60%" href="../../../../../tags/sql/">sql</a></li><li><a style="font-size: 60%" href="../../../../../tags/tasty/">tasty</a></li><li><a style="font-size: 60%" href="../../../../../tags/test/">test</a></li><li><a style="font-size: 60%" href="../../../../../tags/testing-framework/">testing-framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/verification/">verification</a></li></ul></section>
+    </aside>
+
+    <main>
+      <article class="blog-post full">
+  <header>
+    <h1><a href="../../../../../blog/2020/03/01/initial-value-problems/">Numerical Methods with Haskell and Python</a></h1>
+    
+  </header>
+  <section class="post-meta internal-links">
+    
+    <time class="post-date">March  1, 2020</time>
+    <span class="post-tags"><ul></ul></span>
+  </section>
+  <hr class="pre-content">
+  <section class="post-content">
+<div class="toc"><div class="header">Table of Contents</div>
+<ul>
+<li><a href="#differential-equations"><span class="toc-section-number">1</span> Differential Equations</a></li>
+<li><a href="#initial-value-problems"><span class="toc-section-number">2</span> Initial-value problems</a></li>
+<li><a href="#boundary-value-problems"><span class="toc-section-number">3</span> Boundary-value problems</a></li>
+<li><a href="#integral-equations"><span class="toc-section-number">4</span> Integral Equations</a></li>
+<li><a href="#stochastic-differential-equations"><span class="toc-section-number">5</span> Stochastic Differential Equations</a></li>
+<li><a href="#applications-of-differential-equations"><span class="toc-section-number">6</span> Applications of Differential Equations</a></li>
+</ul>
+</div>
+<h1 data-number="1" id="differential-equations" data-number="1"><span class="header-section-number">1</span> Differential Equations</h1>
+<p>A general note on differential equations. There are three classical approaches to differential equations:</p>
+<ol type="1">
+<li>geometric or qualitative for the study of long-term behavior of a system modeled by such an equation (mathematical physics),</li>
+<li>analytic of quantitative for the solution of the equation and estimation of the solutions (functional analysis),</li>
+<li>numerical for evaluation, approximation, and interpolation of solutions (numerical analysis).</li>
+</ol>
+<p>In practice, only a handful of differential equations admit an analytic solution, i.e., an exact closed-form solution, i.e., expressible in terms of simple functions. Thus, for actual computations with differential equations we need numerical methods. For the study of long-term behavior of the solutions, differential geometry provides us with an extraordinarily rich set of tools, which are usually used for the purpose of dimensionality reduction of the problem. All three are intertwined. <a href="...">Partial differential equations</a> (PDE) are much harder. We will constrain ourselves first to the deterministic <a href="...">ordinary differential equations</a> (ODE), as opposed to <a href="...">stochastic differential equations</a> (SDE, SPDE). More on this later.</p>
+<p>We first consider only the simplest case of continuous real-valued solutions <span class="math inline">\(x : \mathbb{T} \to \mathbb{R}\)</span> defined on compact intervals <span class="math inline">\(\mathbb{T} := [a,b]\)</span> of the real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>An exact solution is the solution without rounding errors, otherwise it is called an approximate solution. Each initial value gives rise to another solution. The vector field <span class="math inline">\(f\)</span> defines the flow in the phase space of the problem.</p>
+<h1 data-number="2" id="initial-value-problems" data-number="2"><span class="header-section-number">2</span> Initial-value problems</h1>
+<p>As a side-note, an IVP is just an ODE with an initial-value condition such as <span class="math inline">\(x(a) = x_0\)</span> for a number <span class="math inline">\(x_0 \in \mathbb{R}\)</span>. The reason for considering such a constraint is that for the problem to be <a href="...">well-posed in the sense of Hadamard</a>, it must admit a unique solution that continuously depends on the data. And the “data” is everything that is “given” as the input to the problem. In its simplest general form, an IVP is stated as <span class="math display">\[\dot{x}(t) = f\big(t, x(t)\big), \quad x(a) = x_0\]</span> for <span class="math inline">\(t \in \mathbb{T}\)</span> and some <span class="math inline">\(x_0 \in X\)</span>, where <span class="math inline">\(\mathbb{T} := [a,b]\)</span> with <span class="math inline">\(a &lt; b\)</span> and <span class="math inline">\(a,b \in \mathbb{R}\)</span>, often <span class="math inline">\(a=0\)</span> and <span class="math inline">\(b=T\)</span>, for some <span class="math inline">\(T \in \mathbb{R}\)</span>, and where <span class="math inline">\(f : \mathbb{T} \times X \to \mathbb{R}\)</span> is “<em>suitably smooth</em>” and <span class="math inline">\(X \subseteq \mathbb{R}^\mathbb{T}\)</span> is a vector space of functions <span class="math inline">\(x : \mathbb{T} \to \mathbb{R}\)</span>. The notion of “suitable smoothness” refers here to the existence and uniqueness theorems guaranteeing continuous depends of the solution on the data, e.g., <a href="...">Picard–Lindelöf</a> theorems. We simply assume that <span class="math inline">\(f\)</span> is <em>uniformly Lipschitz</em>, which means that, there exists a number <span class="math inline">\(L &gt; 0\)</span> such that for all <span class="math inline">\(t \in \mathbb{T}\)</span> and for all <span class="math inline">\(x,y \in X\)</span>, <span class="math display">\[\left| f(t,x) - f(t,y) \right| \le L \lVert x - y\rVert,\]</span> where the norm on the right-hand side is understood.</p>
+<p>There are also weaker and stronger conditions. We don’t need to be concerned with these details right now, though.</p>
+<h1 data-number="3" id="boundary-value-problems" data-number="3"><span class="header-section-number">3</span> Boundary-value problems</h1>
+<p>The distinctive characteristic of an initial-value condition is that it is taken at some point of the domain of the solution that is considered “initial”, i.e., such that all other points in the domain are ordered in sequence after it. A <a href="...">directed set</a> would suffice to capture this notion, and each interval of <span class="math inline">\(\mathbb{R}\)</span> is a directed set.</p>
+<p>A boundary-value condition differs in that the values constraining the problem so as to enable the existence of a unique solution, are prescribed on the boundary of the domain of solutions, which in our simplified case are the two boundary points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> of an interval <span class="math inline">\([a,b]\)</span>, with real <span class="math inline">\(a &lt; b\)</span>.</p>
+<p>This is a more general case. Indeed, we can specify various boundary-value conditions. </p>
+<p>In the case of PDEs the conditions are specified as directional derivatives with respect to a normal vector. In fact, in <span class="math inline">\(\mathbb{R}^d\)</span>, a normal space at a point <span class="math inline">\(p\)</span> is the orthogonal complement of a tangent space at <span class="math inline">\(p\)</span>, which leads to a minimization problem. More on this later.</p>
+<h1 data-number="4" id="integral-equations" data-number="4"><span class="header-section-number">4</span> Integral Equations</h1>
+<p>Each IVP <span class="math inline">\(\dot{x}(t) = f\big(t,x(t)\big)\)</span> with <span class="math inline">\(x(a) = x_0\)</span> can be written in form of an integral equation <span class="math display">\[x(t) = x_0 + \int_a^b f\big(t,x(t)\big) dt.\]</span></p>
+<p>Both equations are equivalent, i.e., admit the same solution.</p>
+<h1 data-number="5" id="stochastic-differential-equations" data-number="5"><span class="header-section-number">5</span> Stochastic Differential Equations</h1>
+<p>This flavor of differential equations involves a stochastic component. Indeed, a differential equation as stated above is determined completely by the vector field <span class="math inline">\(f\)</span>. The vector field <span class="math inline">\(f\)</span> gives rise to a differential geometric quantity known as the vector flow of the equation, which describes in dependence on the initial data <span class="math inline">\(x_0\)</span> the behavior of the solution. </p>
+<p>Any component of this constellation can be randomized. The equation can be given a stochastic additive term, the vector flow can be made stochastic, and so on. In other words, just make any of the components to the IVP dependent on an <span class="math inline">\(\omega \in \Omega\)</span>, where <span class="math inline">\((\Omega, \mathfrak{A}, \mathsf{P})\)</span> is a probability space, and the differential equation becomes essentially a stochastic differential equation.</p>
+<p>So far this is only an heuristic manipulation of syntax. To make sense, such equations have different theories in which they can be given semantics. Two major compatible approaches are the Ito and the Stratanovich calculi, the former more widespread in mathematical finance, while the latter more widespread in (mathematical) physics.</p>
+<p>We will tough this topic sometime later. This requires an introduction to stochastic calculus. A wonderful blog-style exposition is given by … Gowers TODO. Have a look if you’re curious.</p>
+<p>SDEs are semantically correctly stated in the integral form but are often written heuristically in the differential form. Consider for instance the Ito diffusion process that models … TODO geometric Brownian motion used often in some popular formulations of theories in mathematical finance. </p>
+<p>SDEs are used to model real-world phenomena where the influence of certain factors remains unknown, cannot be captured in detail, and is assumed to be “random”, whatever this word may mean. The idea is that the random influence is considered to be “noise” and due to lack of information on the precise evolution of such behavior, we simply average out the fluctuations, i.e., we take them into account but, depending on the admissible probability model, we average them out (by integrating against the model measure). This is a good approach in general, justified whenever we have no access to more detailed information or the details observable would make the problem too complex to solve in reasonable time (intractable). Much more on this later.</p>
+<h1 data-number="6" id="applications-of-differential-equations" data-number="6"><span class="header-section-number">6</span> Applications of Differential Equations</h1>
+<p>The theory of differential equations is widely applied throughout all fields of science. They are used to model real-world phenomena in terms of the rates of change of the quantities of interest in a given scientific problem. Such quantities are modeled as the so-called “features” in machine learning.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Given a set of data points from a series of observations, a scientist tries to establish equational relations between the studied quantities that are deemed to explain their rates of change, where the quantities may depend on each other and even reflexively on themselves, maybe at different points in time.</p>
+<p>In a next step, the researcher needs to verify the model. Does it conform to the data? In-sample and out-of-sample data. In machine learning, a family of models is given, and the task of choosing the model is reduced to automatically fitting the data. In conventional frequentist statistics, a model is a family of probability distributions or maybe some more general measures, depending on a parameter <span class="math inline">\(\vartheta\)</span> is given, and the task is to determine the specific distribution, i.e., the specific value, range of values of the parameter or a statistic, such that the result best fits the data. In Bayesian statistics, we are given a prior distribution and … TODO, the task is then to optimize such that … TODO. In fact, the maximum likelihood estimator amounts to an optimization problem by definition.</p>
+<p>In many cases of Bayesian statistics, for instance, the computation of the integral in the denominator that is used to marginalize the joint density, is a hard problem. One therefore uses alternative methods, such as the Monte Carlo sampling methods, which amount to simulations of the distribution. And even though we can compute such integrals efficiently numerically, the problem becomes intractable as soon as we have to do this for too large a set of points! So simulation may be in fact our only hope in such a case.</p>
+<p>In general, simulations are a very significant tool serving as an indicator for the consistency of the assumptions. If the simulated behavior fits well with the observed, the model may be right. We will never really know, unless the system at hand is contrived. But in the scope of our findings and our human mind, this may be just enough. Certain implicit assumptions should only be made explicit by noting that this resulting model and all predictions based upon it, depend on the observed behavior, while the phenomenon of interest may exhibit different behavior under different ambient conditions, on which it intrinsically depends. In other words, there is only so much that we can observe, assert, and analyze; and there is usually no continuity to be expected, i.e., tiny shifts may make the results contrary to the prediction. A good expert will know how to deal with such limitations of predictions. This is why we need numerical, analytical, and stochastic estimates.</p>
+<p>This is studied in terms of so-called hidden or latent variables in the model. A well-known model is the hidden Markov model. TODO</p>
+<p>Now, my plan is to link this all together in an exposition that is aimed to elucidate the applications of pure mathematics by means of applied mathematics to real-world problems, such as</p>
+<ul>
+<li>the modeling of real-estate markets,</li>
+<li>the modeling of financial securities,</li>
+<li>the modeling of biological systems,</li>
+</ul>
+<p>We will even write a few trading algorithms. Algotrading ahoy!</p>
+<p>As I’m also interested in natural language processing (NLP), we will develop chatbots with language models based on differential equations.</p>
+<p>But first of all, this should be fun!</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>The term “feature” stems from the literature on pattern recognition in images: features of an object pictured in an image.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></section>
+</article>
+
+<!-- <div id="disqus-thread"></div> -->
+<!-- <script> -->
+<!--   var disqus_config = function () { -->
+<!--       this.page.identifier = '2020-03-01-initial-value-problems'; -->
+<!--   }; -->
+
+<!--   (function () { -->
+<!--       var d = document, s = d.createElement('script'); -->
+<!--       s.src = 'https://demming.disqus.com/embed.js'; -->
+<!--       s.setAttribute('data-timestamp', +new Date()); -->
+<!--       (d.head || d.body).appendChild(s); -->
+<!--   })(); -->
+<!-- </script> -->
+<!-- <noscript> -->
+<!--     To view the --> 
+<!--     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a> -->
+<!--     you need to enable JavaScript in your browser. -->
+<!-- </noscript> -->
+
+    </main>
+
+    <footer>
+      <div class="left"> 
+				Copyright &copy; 2020 <a href="../../../../../about/"> Nick Demming</a>
+      </div>
+			<div class="right" id="hakyllReference"><a href="https://hackage.haskell.org/package/hakyll" target="_blank">Compiled</a> with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll" target="_blank">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </footer>
+
+  </body>
+</html>

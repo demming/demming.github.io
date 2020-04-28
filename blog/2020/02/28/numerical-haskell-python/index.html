@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="canonical" href="https://demming.github.io/blog/2020/02/28/numerical-haskell-python/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    <!-- Open Graph Protocol Metadata for Sharing. Understood across the board: LinkedIn, Twitter, Facebook. -->
+    <meta property="og:url" content="https://demming.github.io/blog/2020/02/28/numerical-haskell-python/index.html" />
+    <meta property="og:site_name" content="Nick Demming's Blog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Numerical Methods with Haskell and Python" />
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="February 28, 2020" />
+    
+    
+    
+    
+    
+
+    <!-- Twitter Card Protocol Metadata for Sharing on Twitter. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://demming.github.io/blog/2020/02/28/numerical-haskell-python/index.html" />
+    <meta name="twitter:title" content="Numerical Methods with Haskell and Python" />
+    <meta name="twitter:site" content="@_demming_" />
+    <meta name="twitter:creator" content="@_demming_" />
+
+    
+
+    
+
+    <title>Nick Demming :: Numerical Methods with Haskell and Python</title>
+
+    <link rel="manifest" href="../../../../../manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="../../../../../favicon.ico" />
+		<link rel="shortcut icon" href="../../../../../favicon.ico">
+
+    <link rel="icon" sizes="16x16" href="../../../../../favicon-16.png">
+    <link rel="icon" sizes="32x32" href="../../../../../favicon-32.png">
+    <link rel="icon" sizes="48x48" href="../../../../../favicon-48.png">
+    <link rel="icon" sizes="96x96" href="../../../../../favicon-96.png">
+    <link rel="icon" sizes="144x144" href="../../../../../favicon-144.png">
+    <link rel="icon" sizes="192x192" href="../../../../../favicon-192.png">
+    <link rel="icon" sizes="256x256" href="../../../../../favicon-256.png">
+    <link rel="icon" sizes="384x384" href="../../../../../favicon-384.png">
+    <link rel="icon" sizes="512x512" href="../../../../../favicon-512.png">
+
+    <link rel="/apple-touch-icon" sizes="57x57" href="../../../../../apple-touch-favicon-57.png">
+    <link rel="/apple-touch-icon" sizes="60x60" href="../../../../../apple-touch-favicon-60.png">
+    <link rel="/apple-touch-icon" sizes="72x72" href="../../../../../apple-touch-favicon-72.png">
+    <link rel="/apple-touch-icon" sizes="76x76" href="../../../../../apple-touch-favicon-76.png">
+    <link rel="/apple-touch-icon" sizes="114x114" href="../../../../../apple-touch-favicon-114.png">
+    <link rel="/apple-touch-icon" sizes="120x120" href="../../../../../apple-touch-favicon-120.png">
+    <link rel="/apple-touch-icon" sizes="152x152" href="../../../../../apple-touch-favicon-152.png">
+    <link rel="/apple-touch-icon" sizes="167x167" href="../../../../../apple-touch-favicon-167.png">
+    <link rel="/apple-touch-icon" sizes="180x180" href="../../../../../apple-touch-favicon-180.png">
+
+    <link rel="mask-icon" href="../../../../../safari-pinned-tab.svg" color="#ff0000">
+<link rel="mask-icon" href="../../../../../safari-pinned-tab.svg?v=yyQjLdz8jG" color="#5bbad5">
+
+    <meta name="msapplication-TileColor" content="#fefefe" />
+<meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-square70x70logo" content="/favicon-128.png" />
+    <meta name="msapplication-square150x150logo" content="/favicon-270.png" />
+    <meta name="msapplication-TileImage" content="/favicon-270.png" />
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=yyQjLdz8jG">
+    <meta name="msapplication-config" content="none" />
+
+<meta name="theme-color" content="#fefefe">
+
+		<link rel="alternate" type="application/rss+xml" title="Nick Demming's Blog Feed" href="../../../../../rss.xml" />
+		<link rel="alternate" type="application/atom+xml" title="Nick Demming's Blog Feed" href="../../../../../atom.xml" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../css/main.css" />
+
+    <!-- <script type="module" src="/js/conf/conf.js"></script> -->
+    <!-- <script type="module" src="/js/darkmode.js"></script> -->
+    <!-- <script type="module" src="/js/navbar.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/loadScripts.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/0975ece72a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_HTMLorMML">
+    </script>
+
+    <!-- <script type="text/javascript" async -->
+    <!--     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.slim.min.js"> -->
+    <!-- </script> -->
+
+    <!-- <script type="application/javascript" async src="/js/bundle.js"></script> -->
+    <script type="application/javascript" defer src="../../../../../js/parcel.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <!-- TODO -->
+      <!-- <div class="left" id="sidebar"> -->
+      <!--   <a id="toggle-sidebar" href="javascript:void(0);"><i class="fa fa-bars"></i></a> -->
+        <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+      <!-- </div> -->
+      <!--   <div class="theme-switch-wrapper"> -->
+      <!--     <label class="theme-switch" for="checkbox"> -->
+      <!--       <input type="checkbox" id="checkbox"/> -->
+      <!--       <div class="slider round"></div> -->
+      <!--     </label> -->
+      <!--     <em>Dark Mode</em> -->
+      <!--   </div> -->
+      <!-- </div> -->
+      <div id="progress-bar-container"><div id="progress-bar-progress"></div></div>
+    </header>
+
+    <aside id="mySidenav">
+      
+      <span id="button-home">
+        <a href="../../../../../" title="Home"><i class="fa fa-home" aria-hidden="true"></i></a>
+      </span>
+      
+
+      <a id="sidebarToggle" href="javascript:void(0)" class="fas toggleButton"></a>
+
+      <section class="about">
+        <a href="../../../../../">
+          <img id="profile-photo" src="../../../../../images/profile-img.jpg" alt="Nick Demming's Profile photo" />
+          <h1 id="name" alt="Nick Demming">Nick Demming</h1>
+          <h2 id="titles">
+            <span id="mathematician" alt="Mathematician"></span><br />
+            <span id="software-architect" alt="Software Architect"></span><br />
+            <span id="data-scientist" alt="Data Scientist"></span>
+          </h2>
+        </a>
+      </section>
+
+      <section class="social-links">
+        <ul>
+          <li><a href="../../../../../rss.xml"><i class="fas fa-rss feed-rss"></i></a></li>
+          <!-- <li><a href="/atom.xml"><i class="fas fa-rss feed-atom"></i></a> </li> -->
+          <li><a href="https://github.com/demming" target="_blank" id="social-link-github"><i class="fa fa-github-square"></i></a></li>
+          <li><a href="https://www.twitter.com/_demming_" target="_blank" id="social-link-twitter"><i class="fa fa-twitter"></i></a>
+          <li><a href="https://www.instagram.com/nick.demming" target="_blank" id="social-link-instagram"><i class="fa fa-instagram"></i></a>
+          <li><a href="https://www.linkedin.com/in/demming" target="_blank" id="social-link-linkedin"><i class="fa fa-linkedin-square"></i></a></li>
+          </li>
+        </ul>
+      </section>
+
+      <nav>
+        <ul>
+          <li><a class="active" href="../../../../../blog/" id="nav-link-blog">blog</a></li>
+          <li><a href="../../../../../blog/archive/" id="nav-link-archive">archive</a></li>
+          <li><a href="../../../../../about/" id="nav-link-about">about</a></li>
+          <li><a href="../../../../../contact/" id="nav-link-contact">contact</a></li>
+          <!-- <li><a  href="/tags/" id="nav-link-tags">tags</a></li> -->
+        </ul>
+      </nav>
+
+      <section class="tag-cloud"><ul><li><a style="font-size: 60%" href="../../../../../tags/HTF/">HTF</a></li><li><a style="font-size: 60%" href="../../../../../tags/benchmark/">benchmark</a></li><li><a style="font-size: 60%" href="../../../../../tags/category%20theory/">category theory</a></li><li><a style="font-size: 60%" href="../../../../../tags/criterion/">criterion</a></li><li><a style="font-size: 60%" href="../../../../../tags/data/">data</a></li><li><a style="font-size: 60%" href="../../../../../tags/database/">database</a></li><li><a style="font-size: 60%" href="../../../../../tags/framework/">framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/functor/">functor</a></li><li><a style="font-size: 120%" href="../../../../../tags/haskell/">haskell</a></li><li><a style="font-size: 60%" href="../../../../../tags/infrastructure/">infrastructure</a></li><li><a style="font-size: 60%" href="../../../../../tags/natural%20transformation/">natural transformation</a></li><li><a style="font-size: 60%" href="../../../../../tags/pattern/">pattern</a></li><li><a style="font-size: 60%" href="../../../../../tags/serialization/">serialization</a></li><li><a style="font-size: 60%" href="../../../../../tags/sql/">sql</a></li><li><a style="font-size: 60%" href="../../../../../tags/tasty/">tasty</a></li><li><a style="font-size: 60%" href="../../../../../tags/test/">test</a></li><li><a style="font-size: 60%" href="../../../../../tags/testing-framework/">testing-framework</a></li><li><a style="font-size: 60%" href="../../../../../tags/verification/">verification</a></li></ul></section>
+    </aside>
+
+    <main>
+      <article class="blog-post full">
+  <header>
+    <h1><a href="../../../../../blog/2020/02/28/numerical-haskell-python/">Numerical Methods with Haskell and Python</a></h1>
+    
+  </header>
+  <section class="post-meta internal-links">
+    
+    <time class="post-date">February 28, 2020</time>
+    <span class="post-tags"><ul></ul></span>
+  </section>
+  <hr class="pre-content">
+  <section class="post-content">
+<div class="toc"><div class="header">Table of Contents</div>
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#plan-for-this-series"><span class="toc-section-number">2</span> Plan for This Series</a></li>
+</ul>
+</div>
+<h1 data-number="1" id="introduction" data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>This blog post will initiate a series of tutorial posts on formulations of numerical methods of linear algebra and analysis, and perhaps stochastics, in Haskell in comparison with Python. In the process, we will also analyze the algorithms and run benchmarks to evaluate the</p>
+<ul>
+<li><p>performance overhead introduced by these high-level programming languages, as compared with the standard libraries,</p></li>
+<li><p>performance overhead of embedding third-party numerical libraries via the FFI, subprocess calls, and bindings — with calls directly to the original numerical libraries such as LAPACK as our benchmark.</p></li>
+<li><p>ease of expression of the algorithms in terms of the number of lines of code (LOC) and the mental burden, particularly in Haskell;</p>
+<p>in this regard a short note: most algorithms as formulated in books are best suited for being expressed in imperative languages such as FORTRAN, C, or Python; their translation into a purely functional language is what constituted the mental burden; once you’re used to the functional paradigm, it becomes easier; the functional paradigm fits best within a functional or modular software architecture.</p></li>
+</ul>
+<p>Due to the complexity of this approach, I will adopt the LEAN/Agile style of publishing here, incrementally extending the posts. If all goes well, I might <strong>publish this as a book</strong> on numerical Haskell subsequently, which I was pondering on for a while now. Of course, with the usual early-bird <strong>discounts</strong>, so stay tuned!</p>
+<p>I plan to introduce an interface for comments and maybe integrate it with the most popular discussion boards such as Reddit by monitoring them for references to my domain name.</p>
+<p>Moreover, a conventional blog post is usually intended to bring across the major ideas in a more or less colloquial way. In fact, it is hard to write informally about formal topics. I will try to manage a good balance between the scope of exposition and depth of formal information, without unnecessarily overburdening the reader with sometimes indeed important details, whose explanation might require an extra series of posts. So I’ll just have to gloss over them but will try to remark on their importance and point to a reference material for the interested reader. Many things therein would remain subjective. Feel free to point out any incomprehensible pieces. I will try to adopt a Medium-like marker tool to reference and comment on passages, or simply cross-post over there if it is permitted by their ToC (I haven’t consulted it just yet).</p>
+<p>And as a last side-note, since I speak three languages daily, I might just mix up some idioms or other stylistic idiosyncrasies. Don’t hesitate to point it out, I’m eager to improve the clarity of expression. I know how it can “brush one against the …” (German: …), unless you’re used to it.</p>
+<h1 data-number="2" id="plan-for-this-series" data-number="2"><span class="header-section-number">2</span> Plan for This Series</h1>
+<p><strong>Numerical linear algebra</strong> is the working horse of virtually all numerical methods. As most problems are reduced to a linear algebra problem. Which may seem boring to an uninitiated, efficient methods of solution of the problems of linear algebra in fact are crucial to the overall efficiency of almost all numerical methods. In fact, simple post-iteration schemes can improve the quality of a solution dramatically. Similarly, the low-quality but simple explicit Euler method can be modified into the implicit Euler method that yields a dramatically better quality of the solution, by having to solve a system of linear equations in every iteration step; so if we manage to solve this linear system efficiently, we may be able to justify the use of this more complex method of significantly greater quality!</p>
+<p>In fact, it may get a bit tedious and boring to be introduced to it directly, lacking relevant motivation. So we will sparingly mix it in in pieces and justify its overarching importance to our modern world.</p>
+<p>We could start outright with partial differential equations, but this may seem overwhelming.</p>
+<p>Our starting point is thus the <strong>numerical solution of initial-value and boundary-value problems</strong>. We will show that <strong>they reduce to standard problems of numerical linear algebra and nonlinear optimization</strong>.</p>
+<p>We will conclude this series with <strong>deep learning methods applied to ODE models</strong>.</p>
+<hr />
+<p>As a general note valid for all my posts here, even trying hard to stay correct, but as is usual in life, mistakes are hideous, they emerge at the least expected spots. Correctness of my words is important to me. So I will greatly appreciate if you send me your corrections. Simply pointing out a potential mistake is already greatly appreciated!</p></section>
+</article>
+
+<!-- <div id="disqus-thread"></div> -->
+<!-- <script> -->
+<!--   var disqus_config = function () { -->
+<!--       this.page.identifier = '2020-02-28-numerical-haskell-python'; -->
+<!--   }; -->
+
+<!--   (function () { -->
+<!--       var d = document, s = d.createElement('script'); -->
+<!--       s.src = 'https://demming.disqus.com/embed.js'; -->
+<!--       s.setAttribute('data-timestamp', +new Date()); -->
+<!--       (d.head || d.body).appendChild(s); -->
+<!--   })(); -->
+<!-- </script> -->
+<!-- <noscript> -->
+<!--     To view the --> 
+<!--     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a> -->
+<!--     you need to enable JavaScript in your browser. -->
+<!-- </noscript> -->
+
+    </main>
+
+    <footer>
+      <div class="left"> 
+				Copyright &copy; 2020 <a href="../../../../../about/"> Nick Demming</a>
+      </div>
+			<div class="right" id="hakyllReference"><a href="https://hackage.haskell.org/package/hakyll" target="_blank">Compiled</a> with <span class="redHeart">♥</span> by <a href="http://jaspervdj.be/hakyll" target="_blank">Hakyll</a></div>
+      <!-- <i class="fas fa-heart redHeart"></i> -->
+    </footer>
+
+  </body>
+</html>
