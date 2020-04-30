@@ -7,8 +7,16 @@
         <description><![CDATA[Musings on mathematics, finance and algotrading, Haskell, numerical analysis, data science, machine learning, and more. Stay tuned!]]></description>
         <atom:link href="https://demming.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Thu, 23 Apr 2020 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Thu, 30 Apr 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>The Software Testing Fallacy</title>
+    <link>https://demming.github.io/blog/2020/04/30/software-testing-fallacy-halting-problem-undecidable/index.html</link>
+    <description><![CDATA[A quick leap from the undecidable halting problem through denotational semantics and straight to the caveats of software testing.]]></description>
+    <pubDate>Thu, 30 Apr 2020 00:00:00 UT</pubDate>
+    <guid>https://demming.github.io/blog/2020/04/30/software-testing-fallacy-halting-problem-undecidable/index.html</guid>
+    <dc:creator>Nick Demming</dc:creator>
+</item>
+<item>
     <title>Functional C++ Juxtaposed with Haskell</title>
     <link>https://demming.github.io/blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/index.html</link>
     <description><![CDATA[<article class="blog-post full">
@@ -832,9 +840,10 @@ The <em>dual notion</em> is that of a <strong>forgetful functor</strong> <span c
 <ul>
 <li>qualities of the execution process (run-time): availability, reliability, stability, usability, performance (like latency and throughput), security, correctness (adherence to the algorithms and the spec, numerical stability of the implementation, robustness), maintainability, testability, usability (UX)</li>
 <li>evolutionary qualities: interaction with the ambient environment, maintainability, portability, flexibility (standards compliance), scalability, satisfaction of constraint (cloud cost limits, runtime limits, but also deadlines).</li>
-<li>nontechnical aspects such as legal compliance with laws (privacy) and licensing.</li>
+<li>nontechnical aspects such as (legal) compliance with laws (privacy) and licensing, or meeting the budget constraints on a cloud service.</li>
 </ul>
-<p>I prefer to consider <strong>performance requirements</strong> separately, which are validated by benchmarking. For example, in high-frequency trading we always strive for low-latency and high-throughput systems, with important pieces embedded in tiny-memory network interface cards, whereas in not-so-high frequency automated trading we focus more on system correctness and even invest in formal verification. Contrast this with discretionary trading, where the UX tends to outweigh all other concerns — in this situation the end user is much more tolerant to performance-wise imperfections but values the comfort of the GUI, whereas in the HFT domain the GUI is only of value to analysts and managers, who make discretionary decisions.</p>
+<p>All these aspects are noted individually, but in reality they all belong together. They become distinguished when we consider different <em>viewpoints</em>, as described above.</p>
+<p>I prefer to consider <strong>performance requirements</strong> separately, which are validated by benchmarking. For example, in high-frequency trading<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> we always strive for low-latency and high-throughput systems, with important pieces embedded in tiny-memory network interface cards, whereas in not-so-high-frequency automated trading we focus more on system correctness and may want to invest more in formal verification. Contrast this with discretionary trading, where the UX tends to outweigh all other concerns — in this situation an average end-user will usually values the comfort of the GUI over top-grade performance, whereas in the HFT domain the GUI is only of value to analysts and managers, who make discretionary decisions, and the performance concern lies at the heart of the HFT business model.</p>
 <h2 data-number="2.3" id="testing-1" data-number="2.3"><span class="header-section-number">2.3</span> Testing</h2>
 <p>Testing is hard, testing is expensive. There is a hierarchy of testing approaches based on the detail and the depth of the tests. By first testing shallow cases that cover the most fundamental functionality or properties of the unit, integration, or the system, which still need be, we can save the cost from passing on faulty code that would falsify or at least taint any further test results. In the CI/CD, testing can be seen as a “sub-pipeline” essentially.</p>
 <h3 data-number="2.3.1" id="functional-tests" data-number="2.3.1"><span class="header-section-number">2.3.1</span> Functional Tests</h3>
@@ -931,7 +940,13 @@ The <em>dual notion</em> is that of a <strong>forgetful functor</strong> <span c
 <li>test our programs thoroughly to ensure that we translated our ideas correctly into code — the compiler, GHC, will alert us whenever we specify that we want something different than what actually gets computed as a result (this imposes semantic and translational correctness as expressed by our test specifications).</li>
 </ol>
 <p>The Haskell ecosystem provides top-notch world-class quality assurance and testing facilities. It comes closest to formal verification, without the excessive burden and cost. It is a pragmatic gold standard of great quality of software. And should we indeed need to formally verify critical pieces of code, we’ve set the stage for it already. With Template Haskell, we can even attain automated test generation, including all the boilerplate potentially necessary. Moreover, we can use Haskell’s testing frameworks for other languages and platforms. We can also embed other languages in Haskell code and use it as our glue.</p>
-<h2 data-number="4.3" id="examples" data-number="4.3"><span class="header-section-number">4.3</span> Examples</h2></section>
+<h2 data-number="4.3" id="examples" data-number="4.3"><span class="header-section-number">4.3</span> Examples</h2>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Since Michael Lewis’ book “Flashboys” at latest, the term “high-frequency trading” founds its way into mainstream vocabulary, albeit in a very slanted meaning, affected by a host of logical fallacies, most prominent of which is the hasty generalization from the misconduct of a few actors to the entire industry, and at the same time promoting the then-incepted IEX (“Inverstors’ Exchange”). This smells like too much marketing for a new competitor. But that’s long been a regular practice. Still, even an average buy-side retail trader should learn about HFT but from other sources. If interested, ask me for a couple suggestions.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></section>
 </article>
 
 <!-- <div id="disqus-thread"></div> -->
@@ -987,9 +1002,9 @@ The <em>dual notion</em> is that of a <strong>forgetful functor</strong> <span c
 <p>There are basically four different approaches to dealing with databases in Haskell:</p>
 <ol type="1">
 <li><p>use the existing drivers provided as backends and create a layer atop that imposes Haskell types on the level of Haskell code — this is the approach of serialization, marshalling, or ORM taken by Persistent and <a href="https://hackage.haskell.org/package/esqueleto">Esqueleto</a> (more later), and many others listed below;</p></li>
-<li><p>use the existing drivers via foreign-function interfaces (FFIs) by introducing a thin wrapper around them, and run direct textual queries, hoping for consistency — this is what <a href="TODO"><code>sqlite-simple</code></a> and <a href="TODO"><code>postgres-simple</code></a> among others do;</p></li>
+<li><p>use the existing drivers via foreign-function interfaces (FFIs) by introducing a thin wrapper around them, and run direct textual queries, hoping for consistency — this is what <a href="https://hackage.haskell.org/package/sqlite-simple"><code>sqlite-simple</code></a> and <a href="https://hackage.haskell.org/package/postgresql-simple"><code>postgresql-simple</code></a> among others do (“mid-level client libraries”);</p></li>
 <li><p>run third-party database drivers as subprocesses — this is very crude but may turn out to be necessary in some situations;</p></li>
-<li><p>rewrite the existing driver directly in Haskell, which enables us to introduce category-theoretic abstractions that can simplify code and improve performance — this is what <a href="TODO">Nikita Volkov</a>’s <a href="TODO"><code>hasql</code></a> library for Postgres does, and in Rust there’s a similar story with <a href="TODO">…</a>.</p></li>
+<li><p>rewrite the existing driver directly in Haskell, which enables us to introduce category-theoretic abstractions that can simplify code and improve performance — this is what <a href="https://github.com/nikita-volkov">Nikita Volkov</a>’s <a href="https://github.com/nikita-volkov/hasql"><code>hasql</code></a> library for Postgres does.</p></li>
 </ol>
 <p>Some other persistence and ORM-like libraries:</p>
 <ul>

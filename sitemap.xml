@@ -32,13 +32,13 @@
   </url>
   <url>
     <loc>https://demming.github.io/blog/2020/03/26/haskell-persistent-sql-database/</loc>
-    <lastmod>2020-04-28T10:39:57Z</lastmod>
+    <lastmod>2020-04-30T12:42:29Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/blog/2020/03/26/haskell-testing-benchmarking/</loc>
-    <lastmod>2020-04-28T09:53:17Z</lastmod>
+    <lastmod>2020-04-28T15:11:39Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -57,6 +57,12 @@
   <url>
     <loc>https://demming.github.io/blog/2020/04/23/functional-cpp-haskell-object-oriented-paradigm/</loc>
     <lastmod>2020-04-28T10:02:34Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://demming.github.io/blog/2020/04/30/software-testing-fallacy-halting-problem-undecidable/</loc>
+    <lastmod>2020-04-30T12:27:20Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -104,121 +110,121 @@
   </url>
   <url>
     <loc>https://demming.github.io/seminars/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/blog/archive/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/HTF/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/benchmark/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/category theory/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/criterion/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/data/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/database/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/framework/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/functor/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/haskell/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/infrastructure/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/natural transformation/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/pattern/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/serialization/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/sql/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/tasty/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/test/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/testing-framework/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://demming.github.io/tags/verification/</loc>
-    <lastmod>2020-04-28T10:41:59Z</lastmod>
+    <lastmod>2020-04-30T12:42:42Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

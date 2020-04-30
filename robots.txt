@@ -1,5 +1,6 @@
 Sitemap: https://demming.github.io/sitemap.xml
 User-agent: *
 Disallow: /Frontend
+Disallow: /Backend
 Disallow: /css
 Disallow: /js
